@@ -206,6 +206,77 @@ const Settings = () => {
             </CardHeader>
           </Card>
 
+          {/* Background Image Settings */}
+          <Card className="bg-card/90 backdrop-blur-md border-primary/20 shadow-xl">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-xl">
+                <ImageIcon className="w-5 h-5 text-primary" />
+                Custom Background
+              </CardTitle>
+              <CardDescription>Upload a custom background image for all pages (synced across both spaces)</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              {/* Current background preview */}
+              {backgroundImage && (
+                <div className="relative rounded-lg overflow-hidden border-2 border-primary/20 h-40">
+                  <img 
+                    src={backgroundImage} 
+                    alt="Current background" 
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-4">
+                    <p className="text-white text-sm font-medium">Current Background</p>
+                  </div>
+                </div>
+              )}
+
+              {/* Hidden file input */}
+              <input
+                ref={bgFileInputRef}
+                type="file"
+                onChange={handleBackgroundUpload}
+                className="hidden"
+                accept="image/*"
+              />
+
+              <div className="flex gap-3">
+                <Button
+                  onClick={() => bgFileInputRef.current?.click()}
+                  disabled={isUploadingBg}
+                  className="flex-1"
+                  data-testid="upload-background-button"
+                >
+                  {isUploadingBg ? (
+                    <>
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                      Uploading...
+                    </>
+                  ) : (
+                    <>
+                      <Upload className="w-4 h-4 mr-2" />
+                      Upload Background
+                    </>
+                  )}
+                </Button>
+
+                {backgroundImage && (
+                  <Button
+                    onClick={removeBackground}
+                    variant="outline"
+                    data-testid="remove-background-button"
+                  >
+                    <X className="w-4 h-4 mr-2" />
+                    Remove
+                  </Button>
+                )}
+              </div>
+
+              <p className="text-xs text-muted-foreground">
+                Recommended: Images with 1920x1080 resolution or higher. Max size: 5MB
+              </p>
+            </CardContent>
+          </Card>
+
           {/* Theme Settings */}
           <Card className="bg-card/90 backdrop-blur-md border-primary/20 shadow-xl">
             <CardHeader>
