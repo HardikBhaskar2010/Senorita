@@ -172,6 +172,8 @@ const QuickNotification = () => {
     }
   };
 
+  const totalNotifications = notifications.length + unreadChatCount;
+
   const sendThinkingOfYou = async () => {
     try {
       await supabase.from('quick_notifications').insert({
