@@ -505,6 +505,290 @@ If you'd like to create something similar for your relationship, feel free to fo
 
 ---
 
+## 🚧 CURRENT IMPLEMENTATION PLAN (v7.0 - UI/UX Enhancement)
+
+### 📋 Overview
+Comprehensive UI/UX overhaul to make Love OS absolutely stunning with Three.js integration, enhanced animations, and new features.
+
+### Phase 1: Setup & Dependencies ✅
+```bash
+cd /app/frontend
+yarn add three @react-three/fiber @react-three/drei
+```
+
+**Dependencies to Install:**
+- `three` - Core Three.js library
+- `@react-three/fiber` - React renderer for Three.js
+- `@react-three/drei` - Useful helpers for @react-three/fiber
+
+### Phase 2: Create Milestones Page 🎯
+**Status:** NOT STARTED
+**Priority:** HIGH
+
+**Tasks:**
+- [ ] Create `/app/frontend/src/pages/Milestones.tsx`
+- [ ] Add route to App.tsx: `/milestones`
+- [ ] Features to implement:
+  - Timeline view with images
+  - Add new milestone modal
+  - Edit existing milestones
+  - Delete milestones with confirmation
+  - Category filters (first times, memories, achievements, trips, special moments)
+  - Search functionality
+  - Sort by date
+  - Image upload support
+  - Beautiful card-based layout
+  - Framer Motion animations
+  - Three.js floating particles background
+
+### Phase 3: Chat File Upload 📎
+**Status:** NOT STARTED
+**Priority:** HIGH
+
+**Tasks:**
+- [ ] Add file upload button to Chat page UI
+- [ ] Create file upload handler
+- [ ] Support all file types:
+  - Images (.jpg, .png, .gif, .webp)
+  - Videos (.mp4, .mov, .avi)
+  - Documents (.pdf, .doc, .docx, .txt)
+  - Archives (.zip, .rar)
+  - Audio (.mp3, .wav, .ogg)
+- [ ] Create file preview components:
+  - Image preview modal
+  - Video player
+  - Document viewer/download
+  - Audio player
+- [ ] Update Supabase storage bucket `chat-media`
+- [ ] Add file metadata to messages table
+- [ ] File size validation (max 10MB)
+- [ ] Update message type to include 'file'
+
+**Database Changes Needed:**
+```sql
+ALTER TABLE messages ADD COLUMN file_url TEXT;
+ALTER TABLE messages ADD COLUMN file_name TEXT;
+ALTER TABLE messages ADD COLUMN file_type TEXT;
+ALTER TABLE messages ADD COLUMN file_size INTEGER;
+```
+
+### Phase 4: Fix Chat Notifications 🔔
+**Status:** NOT STARTED
+**Priority:** HIGH
+
+**Issue:** In-app notification bell not showing chat messages (only shows quick notifications, virtual hugs/kisses work)
+
+**Tasks:**
+- [ ] Update QuickNotification component to include chat messages
+- [ ] Add real-time subscription for new chat messages
+- [ ] Show notification badge with unread chat count
+- [ ] Add notification dropdown with recent chat previews
+- [ ] Link notifications to chat page
+- [ ] Mark as read when user opens chat
+- [ ] Add sound/visual alert for new messages
+
+**Files to Modify:**
+- `/app/frontend/src/components/QuickNotification.tsx`
+- Possibly create new table `chat_notifications` or extend `quick_notifications`
+
+### Phase 5: Three.js Integration 🎨
+**Status:** NOT STARTED
+**Priority:** MEDIUM
+
+**Tasks:**
+- [ ] Create reusable Three.js background components:
+  - `FloatingParticles.tsx` - Particle systems
+  - `GeometricBackground.tsx` - Animated geometric patterns
+  - `Rotating3DHearts.tsx` - 3D heart models
+  - `WaveBackground.tsx` - Flowing wave animations
+  
+- [ ] Add 3D backgrounds to pages:
+  - Login page - Floating hearts
+  - Dashboards - Subtle particles
+  - Chat - Gentle wave animation
+  - Letters - Floating envelopes
+  - Gallery - Photo frame 3D effect
+  - Milestones - Timeline with 3D depth
+  
+- [ ] Interactive 3D elements:
+  - 3D cards that rotate on hover
+  - Parallax scrolling effects
+  - 3D button press animations
+
+### Phase 6: UI/UX Enhancement - All Pages 💎
+**Status:** NOT STARTED
+**Priority:** HIGH
+
+**Design Principles:**
+- Modern & Minimalist - Clean layouts, whitespace
+- Playful & Romantic - Fun animations, lovely colors
+- Premium & Luxurious - Glassmorphism, depth, shadows
+
+**Pages to Enhance:**
+
+#### 6.1 Dashboard (Cookie & Senorita)
+- [ ] Redesign grid layout with better spacing
+- [ ] Add glassmorphism cards
+- [ ] Enhance hover effects with 3D transforms
+- [ ] Add smooth stagger animations
+- [ ] Better color gradients
+- [ ] Floating 3D particles background
+
+#### 6.2 Chat Page
+- [ ] Redesign message bubbles with depth
+- [ ] Add send animation (flying message effect)
+- [ ] Enhanced typing indicator with dots animation
+- [ ] Better reactions display (animated emojis)
+- [ ] Add file upload zone with drag-n-drop
+- [ ] Wave background with Three.js
+
+#### 6.3 Milestones Page (NEW)
+- [ ] Create from scratch with stunning design
+- [ ] Timeline with connecting lines
+- [ ] Card animations on scroll
+- [ ] Category filter chips
+- [ ] Add milestone modal with beautiful form
+- [ ] Image upload with preview
+
+#### 6.4 Letters Page
+- [ ] Redesign letter cards with 3D depth
+- [ ] Add letter opening animation
+- [ ] Better reading modal
+- [ ] Floating envelope 3D models
+- [ ] Enhanced text editor with formatting
+
+#### 6.5 Gallery Page
+- [ ] Masonry layout or grid with better spacing
+- [ ] Image hover effects (zoom, overlay)
+- [ ] Lightbox with swipe gestures
+- [ ] Add photo modal with better UI
+- [ ] 3D photo frame effects
+
+#### 6.6 Mood Page
+- [ ] Better mood emoji selection grid
+- [ ] Enhanced mood cards
+- [ ] Timeline view with animations
+- [ ] Add mood stats/charts
+- [ ] Particle effects matching mood
+
+#### 6.7 Questions Page
+- [ ] Redesign question cards
+- [ ] Better answer display
+- [ ] Add question categories
+- [ ] Enhanced animations
+- [ ] 3D question mark background
+
+#### 6.8 Settings Page
+- [ ] Organize into sections
+- [ ] Better form styling
+- [ ] Add profile customization
+- [ ] Theme preview cards
+- [ ] Smooth transitions
+
+**Common Enhancements Across All Pages:**
+- [ ] Custom scrollbar styling
+- [ ] Page transition animations
+- [ ] Loading states with skeleton screens
+- [ ] Error states with illustrations
+- [ ] Empty states with call-to-action
+- [ ] Toast notifications with icons
+- [ ] Consistent color scheme
+- [ ] Responsive design improvements
+- [ ] Accessibility improvements
+- [ ] Performance optimization
+
+### Phase 7: Enhanced CSS & Styling 🎨
+**Status:** NOT STARTED
+**Priority:** MEDIUM
+
+**Tasks:**
+- [ ] Create custom CSS animations in `App.css`
+- [ ] Add glassmorphism utility classes
+- [ ] Create gradient background classes
+- [ ] Add hover effect utilities
+- [ ] Create 3D transform utilities
+- [ ] Add custom shadows
+- [ ] Typography enhancements
+- [ ] Color palette refinement
+
+**New CSS Classes to Create:**
+```css
+.glass-card { backdrop-filter, blur }
+.gradient-primary { beautiful gradients }
+.hover-3d { transform on hover }
+.shadow-premium { luxury shadows }
+.animate-float { floating animation }
+.animate-pulse-slow { slow pulse }
+```
+
+### Phase 8: Supabase Migration File 📊
+**Status:** NOT STARTED
+**Priority:** MEDIUM
+
+**Create:** `/app/migration-v7.sql`
+
+**Updates Needed:**
+```sql
+-- Add file support to messages table
+ALTER TABLE messages ADD COLUMN IF NOT EXISTS file_url TEXT;
+ALTER TABLE messages ADD COLUMN IF NOT EXISTS file_name TEXT;
+ALTER TABLE messages ADD COLUMN IF NOT EXISTS file_type TEXT;
+ALTER TABLE messages ADD COLUMN IF NOT EXISTS file_size INTEGER;
+
+-- Extend quick_notifications to support chat notifications
+ALTER TABLE quick_notifications ADD COLUMN IF NOT EXISTS notification_type TEXT DEFAULT 'thinking';
+ALTER TABLE quick_notifications ADD COLUMN IF NOT EXISTS related_id UUID;
+
+-- Add indexes for better performance
+CREATE INDEX IF NOT EXISTS idx_messages_created_at ON messages(created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_milestones_date ON milestones(milestone_date DESC);
+```
+
+### Phase 9: Testing & Polish ✨
+**Status:** NOT STARTED
+**Priority:** MEDIUM
+
+**Tasks:**
+- [ ] Test all new features
+- [ ] Test on mobile devices
+- [ ] Test responsiveness
+- [ ] Performance testing (Three.js impact)
+- [ ] Cross-browser testing
+- [ ] Real-time sync testing
+- [ ] File upload testing (various types)
+- [ ] Notification testing
+- [ ] Final UI polish
+- [ ] Bug fixes
+
+### 📝 Implementation Notes
+
+**Order of Implementation:**
+1. Install dependencies (Phase 1)
+2. Create Milestones page (Phase 2) - Missing page
+3. Add chat file upload (Phase 3) - Core feature
+4. Fix chat notifications (Phase 4) - Bug fix
+5. Integrate Three.js (Phase 5) - Enhancement
+6. Enhance all page UIs (Phase 6) - Major work
+7. Add enhanced CSS (Phase 7) - Polish
+8. Create migration (Phase 8) - Database
+9. Test everything (Phase 9) - Final
+
+**Estimated Time:** 4-6 hours of focused work
+
+**Critical Files to Modify:**
+- `/app/frontend/src/App.tsx` - Add /milestones route
+- `/app/frontend/src/pages/Milestones.tsx` - CREATE NEW
+- `/app/frontend/src/pages/Chat.tsx` - Add file upload
+- `/app/frontend/src/components/QuickNotification.tsx` - Fix notifications
+- All page files for UI enhancement
+- `/app/frontend/src/App.css` - Enhanced styling
+- `/app/migration-v7.sql` - CREATE NEW
+
+**If Interrupted:**
+Check this section to see what's been completed (marked with ✅) and continue from there.
+
+---
+
 ## 📝 License
 
 **Personal Use Only** - Built with ❤️ for Cookie & Senorita
