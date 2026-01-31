@@ -29,11 +29,69 @@ const appearanceOptions: { value: AppearanceMode; label: string; icon: React.Ele
 
 const Settings = () => {
   const navigate = useNavigate();
-  const { currentSpace, displayName, partnerName } = useSpace();
+  const { toast } = useToast();
+  const { currentSpace, displayName, partnerName, user } = useSpace();
   const { colorTheme, setColorTheme, appearanceMode, setAppearanceMode } = useTheme();
+  
+  // Password change state
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [isChangingPassword, setIsChangingPassword] = useState(false);
 
   const goBack = () => {
     navigate(currentSpace === 'cookie' ? '/cookie' : '/senorita');
+  };
+
+  const handlePasswordChange = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!newPassword || !oldPassword || !confirmPassword) {
+      toast({
+        title: "Error",
+        description: "Please fill in all password fields",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    if (newPassword !== confirmPassword) {
+      toast({
+        title: "Error",
+        description: "New passwords don't match",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    if (newPassword.length < 3) {
+      toast({
+        title: "Error",
+        description: "Password must be at least 3 characters",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    setIsChangingPassword(true);
+    try {
+      await changePassword(user?.username || '', oldPassword, newPassword);
+      toast({
+        title: "Success! 🎉",
+        description: "Your password has been changed successfully",
+      });
+      setOldPassword("");
+      setNewPassword("");
+      setConfirmPassword("");
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to change password",
+        variant: "destructive",
+      });
+    } finally {
+      setIsChangingPassword(false);
+    }
   };
 
   return (
