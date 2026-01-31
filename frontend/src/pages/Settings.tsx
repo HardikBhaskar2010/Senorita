@@ -254,6 +254,75 @@ const Settings = () => {
               </p>
             </CardContent>
           </Card>
+
+          {/* Password Change */}
+          <Card className="bg-card/90 backdrop-blur-md border-primary/20 shadow-xl">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-xl">
+                <Lock className="w-5 h-5 text-primary" />
+                Change Password
+              </CardTitle>
+              <CardDescription>Update your password to keep your space secure</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <form onSubmit={handlePasswordChange} className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="old-password">Current Password</Label>
+                  <Input
+                    id="old-password"
+                    type="password"
+                    value={oldPassword}
+                    onChange={(e) => setOldPassword(e.target.value)}
+                    placeholder="Enter current password"
+                    disabled={isChangingPassword}
+                    data-testid="old-password-input"
+                  />
+                </div>
+                
+                <div className="space-y-2">
+                  <Label htmlFor="new-password">New Password</Label>
+                  <Input
+                    id="new-password"
+                    type="password"
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    placeholder="Enter new password"
+                    disabled={isChangingPassword}
+                    data-testid="new-password-input"
+                  />
+                </div>
+                
+                <div className="space-y-2">
+                  <Label htmlFor="confirm-password">Confirm New Password</Label>
+                  <Input
+                    id="confirm-password"
+                    type="password"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    placeholder="Confirm new password"
+                    disabled={isChangingPassword}
+                    data-testid="confirm-password-input"
+                  />
+                </div>
+                
+                <Button
+                  type="submit"
+                  className="w-full"
+                  disabled={isChangingPassword}
+                  data-testid="change-password-button"
+                >
+                  {isChangingPassword ? (
+                    <>
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                      Changing Password...
+                    </>
+                  ) : (
+                    'Change Password'
+                  )}
+                </Button>
+              </form>
+            </CardContent>
+          </Card>
         </motion.div>
       </div>
     </div>
