@@ -117,33 +117,113 @@ const SenoritaDashboard = () => {
             </div>
           </motion.div>
 
-          {/* Left Column */}
-          <div className="space-y-6">
+          {/* Special Features - Full Width */}
+          <motion.div 
+            className="md:col-span-2"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+          >
+            <VirtualHugKiss />
+          </motion.div>
+
+          {/* Row 1: Countdown & Daily Affirmation */}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.4 }}
+          >
+            <CountdownTimer />
+          </motion.div>
+          
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.4 }}
+          >
+            <DailyAffirmation />
+          </motion.div>
+
+          {/* Row 2: Letters & Photo Gallery */}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.5 }}
+          >
             <Link to="/letters" className="block hover-elevate active-elevate-2 transition-transform">
               <LoveLetters />
             </Link>
-            <Link to="/questions" className="block hover-elevate active-elevate-2 transition-transform">
-              <DailyQuestion />
-            </Link>
-          </div>
-
-          {/* Right Column */}
-          <div className="space-y-6">
+          </motion.div>
+          
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.5 }}
+          >
             <Link to="/gallery" className="block hover-elevate active-elevate-2 transition-transform">
               <PhotoGallery />
             </Link>
+          </motion.div>
+
+          {/* Row 3: Mood & Daily Question */}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.6 }}
+          >
             <Link to="/mood" className="block hover-elevate active-elevate-2 transition-transform">
               <MoodSharing />
             </Link>
-          </div>
+          </motion.div>
+          
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.6 }}
+          >
+            <Link to="/questions" className="block hover-elevate active-elevate-2 transition-transform">
+              <DailyQuestion />
+            </Link>
+          </motion.div>
+
+          {/* Row 4: Memory Timeline & Shared Calendar */}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.7 }}
+          >
+            <MemoryTimeline />
+          </motion.div>
+          
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.7 }}
+          >
+            <SharedCalendar />
+          </motion.div>
+
+          {/* Row 5: Love Language Results - Full Width */}
+          <motion.div 
+            className="md:col-span-2"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.8 }}
+          >
+            <LoveLanguageResults />
+          </motion.div>
         </div>
+
+        {/* Floating Components */}
+        <QuickNotification />
+        <ChatBubble />
 
         {/* Footer */}
         <motion.footer 
           className="text-center py-10 mt-10"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.8 }}
+          transition={{ delay: 0.9 }}
         >
           <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-card/80 backdrop-blur-sm border border-pink-500/20 shadow-sm">
             <Sparkles className="w-4 h-4 text-pink-500" />
