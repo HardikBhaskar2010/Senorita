@@ -1,4 +1,4 @@
-# 💕 Love OS
+# 💕 Love OS - For My Beloved Senorita
 
 <div align="center">
 
