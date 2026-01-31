@@ -477,6 +477,47 @@ const Chat = () => {
                     {message.message_type === 'kiss' && (
                       <div className="text-center text-4xl mb-2">😘</div>
                     )}
+                    {message.message_type === 'file' && (
+                      <div className="space-y-2">
+                        {message.file_type === 'image' && message.file_url ? (
+                          <a
+                            href={message.file_url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            <img
+                              src={message.file_url}
+                              alt={message.file_name || 'Image'}
+                              className="max-w-full h-auto rounded-lg max-h-64 object-cover"
+                            />
+                          </a>
+                        ) : message.file_type === 'video' && message.file_url ? (
+                          <video
+                            src={message.file_url}
+                            controls
+                            className="max-w-full h-auto rounded-lg max-h-64"
+                          />
+                        ) : (
+                          <a
+                            href={message.file_url || '#'}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center gap-2 p-3 bg-white/10 rounded-lg hover:bg-white/20 transition-colors"
+                          >
+                            {getFileIcon(message.file_type)}
+                            <div className="flex-1">
+                              <p className="font-semibold text-sm">
+                                {message.file_name || 'File'}
+                              </p>
+                              <p className="text-xs opacity-70">
+                                {formatFileSize(message.file_size)}
+                              </p>
+                            </div>
+                            <Download className="w-4 h-4" />
+                          </a>
+                        )}
+                      </div>
+                    )}
                     <p className="whitespace-pre-wrap break-words">{message.content}</p>
 
                     {/* Reactions */}
