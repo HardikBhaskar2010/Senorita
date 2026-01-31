@@ -151,6 +151,9 @@ React Router      - Client-Side Routing
 Tanstack Query    - Data Fetching & Caching
 Radix UI          - Accessible Component Primitives
 Shadcn UI         - Beautiful Component Library
+Three.js (R18)    - 3D Graphics & Animations
+React Three Fiber - React Renderer for Three.js
+React Three Drei  - Three.js Helpers
 ```
 
 ### Backend & Database
