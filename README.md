@@ -29,6 +29,23 @@ All content syncs in real-time across both spaces via Supabase subscriptions.
 
 ---
 
+## 🔥 Recent Fixes & Improvements (v7.2)
+
+### ✅ Chat System Enhancements
+All issues fixed and working perfectly:
+
+1. **React Error #31 Fixed** - Partner no longer sees errors when receiving messages
+2. **Fixed Header & Footer** - Sticky positioning in chat for better UX
+3. **Reply to Messages** - Reply to specific messages with context preview
+4. **Custom Background Images** - Upload and sync backgrounds across all pages
+5. **Image Preview Modal** - View images without opening new tabs
+
+**📋 Migration Required:** Run `/app/fix-chat-improvements.sql` in Supabase SQL Editor to enable these features.
+
+[View Full Documentation](#-feature-documentation)
+
+---
+
 ## 🎯 Features
 
 ### 🆕 **NEW: Calendar Day - Today Mode** (v7.1)
