@@ -21,6 +21,8 @@ export interface LoginCredentials {
 // Login user
 export async function login(credentials: LoginCredentials): Promise<User> {
   try {
+    console.log('Attempting login for:', credentials.username);
+    
     // Fetch user from Supabase
     const { data: user, error } = await supabase
       .from('users')
@@ -28,12 +30,22 @@ export async function login(credentials: LoginCredentials): Promise<User> {
       .eq('username', credentials.username)
       .single();
 
-    if (error || !user) {
+    console.log('Supabase response:', { user: user ? 'found' : 'not found', error });
+
+    if (error) {
+      console.error('Supabase error:', error);
+      throw new Error(`Database error: ${error.message}`);
+    }
+
+    if (!user) {
       throw new Error('Invalid username or password');
     }
 
     // Verify password
+    console.log('Verifying password...');
     const isValid = await bcrypt.compare(credentials.password, user.password_hash);
+    console.log('Password valid:', isValid);
+    
     if (!isValid) {
       throw new Error('Invalid username or password');
     }
@@ -45,8 +57,10 @@ export async function login(credentials: LoginCredentials): Promise<User> {
     localStorage.setItem('user', JSON.stringify(userWithoutPassword));
     localStorage.setItem('selectedSpace', user.username === 'Cookie' ? 'cookie' : 'senorita');
     
+    console.log('Login successful');
     return userWithoutPassword as User;
   } catch (error: any) {
+    console.error('Login error:', error);
     throw new Error(error.message || 'Login failed');
   }
 }
