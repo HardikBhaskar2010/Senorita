@@ -1,5 +1,6 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { getCurrentUser, logout as authLogout, User } from '@/lib/auth';
 
 export type SpaceType = 'cookie' | 'senorita' | null;
 
@@ -9,6 +10,7 @@ interface SpaceContextType {
   logout: () => void;
   displayName: string;
   partnerName: string;
+  user: User | null;
 }
 
 const SpaceContext = createContext<SpaceContextType | undefined>(undefined);
@@ -16,9 +18,15 @@ const SpaceContext = createContext<SpaceContextType | undefined>(undefined);
 export const SpaceProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const navigate = useNavigate();
   const location = useLocation();
+  const [user, setUser] = useState<User | null>(getCurrentUser());
   
-  // Initialize space from localStorage or URL
+  // Initialize space from user or localStorage
   const getInitialSpace = (): SpaceType => {
+    const currentUser = getCurrentUser();
+    if (currentUser) {
+      return currentUser.username === 'Cookie' ? 'cookie' : 'senorita';
+    }
+    
     const savedSpace = localStorage.getItem('selectedSpace') as SpaceType;
     if (savedSpace && (savedSpace === 'cookie' || savedSpace === 'senorita')) {
       return savedSpace;
@@ -33,6 +41,27 @@ export const SpaceProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   };
 
   const [currentSpace, setCurrentSpaceState] = useState<SpaceType>(getInitialSpace);
+
+  // Check authentication on mount and route changes
+  useEffect(() => {
+    const currentUser = getCurrentUser();
+    setUser(currentUser);
+    
+    // If no user and trying to access protected routes, redirect to login
+    const protectedRoutes = ['/cookie', '/senorita', '/letters', '/gallery', '/questions', '/mood', '/chat', '/settings'];
+    const isProtectedRoute = protectedRoutes.some(route => location.pathname.startsWith(route));
+    
+    if (!currentUser && isProtectedRoute) {
+      navigate('/');
+      return;
+    }
+    
+    // Update space based on user
+    if (currentUser) {
+      const userSpace = currentUser.username === 'Cookie' ? 'cookie' : 'senorita';
+      setCurrentSpaceState(userSpace);
+    }
+  }, [location.pathname, navigate]);
 
   // Sync space with URL changes
   useEffect(() => {
@@ -58,6 +87,8 @@ export const SpaceProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   };
 
   const logout = () => {
+    authLogout();
+    setUser(null);
     setCurrentSpace(null);
     navigate('/');
   };
@@ -73,6 +104,7 @@ export const SpaceProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         logout,
         displayName,
         partnerName,
+        user,
       }}
     >
       {children}
