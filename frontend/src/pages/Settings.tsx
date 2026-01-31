@@ -11,6 +11,7 @@ import { useSpace } from "@/contexts/SpaceContext";
 import { useTheme, ColorTheme, AppearanceMode } from "@/contexts/ThemeContext";
 import { changePassword } from "@/lib/auth";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/lib/supabase";
 
 const colorOptions: { value: ColorTheme; label: string; color: string }[] = [
   { value: 'pink', label: 'Pink Romance', color: '#ec4899' },
