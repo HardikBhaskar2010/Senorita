@@ -2,13 +2,13 @@
 
 <div align="center">
 
-![Love OS](https://img.shields.io/badge/Love%20OS-v5.0-ff69b4?style=for-the-badge&logo=heart&logoColor=white)
+![Love OS](https://img.shields.io/badge/Love%20OS-v6.0-ff69b4?style=for-the-badge&logo=heart&logoColor=white)
 ![Status](https://img.shields.io/badge/Status-Production%20Ready-success?style=for-the-badge)
 ![License](https://img.shields.io/badge/License-Personal-blue?style=for-the-badge)
 
 **A personalized digital sanctuary for couples to share love, memories, and daily moments**
 
-[Features](#-features) • [Tech Stack](#%EF%B8%8F-tech-stack) • [Quick Start](#-quick-start) • [Project Structure](#-project-structure)
+[Features](#-features) • [Tech Stack](#%EF%B8%8F-tech-stack) • [Quick Start](#-quick-start) • [Migration Guide](#-migration-guide) • [Project Structure](#-project-structure)
 
 </div>
 
@@ -16,11 +16,11 @@
 
 ## 📖 About
 
-**Love OS** is a beautiful, real-time relationship application designed for couples to express their feelings, share moods, write love letters, and create lasting memories together. Built with modern web technologies and connected to Supabase for seamless data synchronization.
+**Love OS** is a beautiful, real-time relationship application designed exclusively for Cookie 🍪 and Senorita 💃. Built with modern web technologies and connected to Supabase for seamless data synchronization, authentication, and real-time features.
 
 ### ✨ Core Concept
 
-Two dedicated personalized spaces with no traditional authentication:
+Two dedicated personalized spaces with secure password authentication:
 - 🍪 **Cookie's Command Center** - Blue-themed boyfriend space
 - 💃 **Senorita's Sanctuary** - Pink-themed girlfriend space
 
@@ -29,6 +29,64 @@ All content syncs in real-time across both spaces via Supabase subscriptions.
 ---
 
 ## 🎯 Features
+
+### 🔐 **NEW: Secure Authentication**
+- Password-protected login for both users
+- Custom password storage in Supabase
+- Password change functionality in settings
+- Session management
+
+### 💬 **NEW: Real-Time Chat System**
+- Instant messaging between Cookie and Senorita
+- **Typing indicators** - See when your partner is typing
+- **Read receipts** - Know when messages are read (✓ sent, ✓✓ read)
+- **Message reactions** - React with emojis (❤️ 😍 😊 👍 🔥)
+- **Virtual Hug & Kiss** - Send special animated messages
+- Beautiful chat bubble design with color customization
+- Real-time synchronization via Supabase
+
+### 🤗 **NEW: Virtual Love Actions**
+- **Send Virtual Hugs** - Instant warm hug animations
+- **Send Virtual Kisses** - Sweet kiss notifications
+- Real-time delivery with beautiful animations
+- Partner receives instant notifications
+
+### ✨ **NEW: Daily Love Affirmations**
+- Random romantic affirmations
+- Multiple categories (love, appreciation, encouragement, romantic, cute)
+- Refresh button for new affirmations
+- 15+ beautiful pre-loaded affirmations
+
+### ⏰ **NEW: Countdown Timers**
+- Count down to special dates and anniversaries
+- Live updating timer (days, hours, minutes, seconds)
+- Custom icons and descriptions for each event
+- Auto-switches to next event when one passes
+
+### 📅 **NEW: Shared Calendar**
+- Plan dates and events together
+- View upcoming events on dashboard
+- Color-coded categories (date, reminder, appointment, special)
+- Location tracking for events
+
+### ⭐ **NEW: Memory Timeline**
+- Create and view relationship milestones
+- Categories: first times, memories, achievements, trips, special moments
+- Add photos to memories
+- Chronological display of your journey together
+
+### 💭 **NEW: Quick "Thinking of You" Notifications**
+- Floating notification bell with unread count
+- Send instant "thinking of you" messages
+- Real-time notification panel
+- Mark notifications as seen
+- Beautiful notification animations
+
+### 💖 **NEW: Love Language Results**
+- Display love language quiz results
+- Shows primary love language for both partners
+- 5 love languages: Words of Affirmation, Quality Time, Receiving Gifts, Acts of Service, Physical Touch
+- Helps understand each other better
 
 ### 💌 Love Letters
 - Write and send heartfelt letters to each other
@@ -67,7 +125,7 @@ All content syncs in real-time across both spaces via Supabase subscriptions.
 - Instant updates across both spaces
 - Push notifications for new content
 - Powered by Supabase Realtime
-- Live mood and letter updates
+- Live updates for chat, moods, letters, and more
 
 ---
 
