@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useSpace } from "@/contexts/SpaceContext";
 import { useCouple } from "@/contexts/CoupleContext";
+import { useTheme } from "@/contexts/ThemeContext";
 import FloatingHearts from "@/components/FloatingHearts";
 import HeroSection from "@/components/HeroSection";
 import DaysCounter from "@/components/DaysCounter";
@@ -26,6 +27,7 @@ const SenoritaDashboard = () => {
   const navigate = useNavigate();
   const { currentSpace, logout, displayName, partnerName } = useSpace();
   const { anniversaryDate, relationshipStart } = useCouple();
+  const { backgroundImage } = useTheme();
   
   // Only redirect if space is explicitly set to something else (not null/loading)
   useEffect(() => {
