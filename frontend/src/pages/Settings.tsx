@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { motion } from "framer-motion";
-import { Settings as SettingsIcon, ArrowLeft, Palette, Sun, Moon, Monitor, Heart, Sparkles, Check, Lock, Loader2 } from "lucide-react";
+import { Settings as SettingsIcon, ArrowLeft, Palette, Sun, Moon, Monitor, Heart, Sparkles, Check, Lock, Loader2, Image as ImageIcon, Upload, X } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -31,13 +31,17 @@ const Settings = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const { currentSpace, displayName, partnerName, user } = useSpace();
-  const { colorTheme, setColorTheme, appearanceMode, setAppearanceMode } = useTheme();
+  const { colorTheme, setColorTheme, appearanceMode, setAppearanceMode, backgroundImage, setBackgroundImage } = useTheme();
   
   // Password change state
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isChangingPassword, setIsChangingPassword] = useState(false);
+  
+  // Background image state
+  const [isUploadingBg, setIsUploadingBg] = useState(false);
+  const bgFileInputRef = useRef<HTMLInputElement>(null);
 
   const goBack = () => {
     navigate(currentSpace === 'cookie' ? '/cookie' : '/senorita');
