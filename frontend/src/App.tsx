@@ -7,7 +7,7 @@ import { ThemeProvider } from "./contexts/ThemeContext";
 import { SpaceProvider } from "./contexts/SpaceContext";
 import { CoupleProvider } from "./contexts/CoupleContext";
 import ErrorBoundary from "./components/ErrorBoundary";
-import SpaceSelection from "./pages/SpaceSelection";
+import Login from "./pages/Login";
 import CookieDashboard from "./pages/CookieDashboard";
 import SenoritaDashboard from "./pages/SenoritaDashboard";
 import NotFound from "./pages/NotFound";
@@ -16,6 +16,7 @@ import Gallery from "./pages/Gallery";
 import Questions from "./pages/Questions";
 import MoodEnhanced from "./pages/MoodEnhanced";
 import Settings from "./pages/Settings";
+import Chat from "./pages/Chat";
 
 const queryClient = new QueryClient({
   defaultOptions: {
