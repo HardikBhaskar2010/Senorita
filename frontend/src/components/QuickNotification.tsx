@@ -30,11 +30,14 @@ interface ChatNotification {
 const QuickNotification = () => {
   const { displayName, partnerName } = useSpace();
   const { toast } = useToast();
+  const navigate = useNavigate();
   const [notifications, setNotifications] = useState<Notification[]>([]);
+  const [unreadChatCount, setUnreadChatCount] = useState(0);
   const [showNotifications, setShowNotifications] = useState(false);
 
   useEffect(() => {
     fetchNotifications();
+    fetchUnreadChatCount();
 
     // Subscribe to new notifications
     const subscription = supabase
@@ -61,8 +64,43 @@ const QuickNotification = () => {
       )
       .subscribe();
 
+    // Subscribe to new chat messages
+    const chatSubscription = supabase
+      .channel('chat-notifications')
+      .on(
+        'postgres_changes',
+        {
+          event: 'INSERT',
+          schema: 'public',
+          table: 'messages',
+          filter: `to_user=eq.${displayName}`,
+        },
+        (payload) => {
+          const newMsg = payload.new as any;
+          
+          // Don't show notification for special messages (hug/kiss) as they have their own notification
+          if (newMsg.message_type !== 'hug' && newMsg.message_type !== 'kiss') {
+            setUnreadChatCount((prev) => prev + 1);
+            
+            // Show toast
+            toast({
+              title: `💬 New message from ${newMsg.from_user}`,
+              description: newMsg.message_type === 'file' 
+                ? `📎 Sent a file` 
+                : newMsg.content.substring(0, 50) + (newMsg.content.length > 50 ? '...' : ''),
+              action: {
+                label: 'View',
+                onClick: () => navigate('/chat'),
+              },
+            });
+          }
+        }
+      )
+      .subscribe();
+
     return () => {
       subscription.unsubscribe();
+      chatSubscription.unsubscribe();
     };
   }, [displayName]);
 
@@ -84,6 +122,21 @@ const QuickNotification = () => {
       }
     } catch (error) {
       console.error('Error fetching notifications:', error);
+    }
+  };
+
+  const fetchUnreadChatCount = async () => {
+    try {
+      const { count, error } = await supabase
+        .from('messages')
+        .select('*', { count: 'exact', head: true })
+        .eq('to_user', displayName)
+        .eq('is_read', false);
+
+      if (error) throw error;
+      setUnreadChatCount(count || 0);
+    } catch (error) {
+      console.error('Error fetching unread chat count:', error);
     }
   };
 
