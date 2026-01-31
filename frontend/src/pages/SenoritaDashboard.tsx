@@ -55,20 +55,49 @@ const SenoritaDashboard = () => {
   const displayRelationshipStart = relationshipStart || new Date(2024, 1, 14); // Feb 14th
   const partnerNames = ['Cookie', 'Senorita'];
 
+  // Animation variants for stagger effect
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.2
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 30, scale: 0.95 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: {
+        type: "spring",
+        stiffness: 100,
+        damping: 15
+      }
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background relative overflow-x-hidden">
       <FloatingHearts />
       
       <HeroSection />
       
-      <main className="relative z-10 px-4 py-8 max-w-6xl mx-auto -mt-16">
-        <div className="grid gap-6 md:grid-cols-2">
-          {/* Full width - Days Counter */}
+      <main className="relative z-10 px-4 py-8 max-w-7xl mx-auto -mt-16">
+        <motion.div 
+          className="grid gap-6 md:gap-8 md:grid-cols-2 lg:grid-cols-3"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          {/* Days Counter - Full Width */}
           <motion.div 
-            className="md:col-span-2"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
+            className="md:col-span-2 lg:col-span-3"
+            variants={itemVariants}
           >
             <DaysCounter 
               anniversaryDate={displayAnniversary} 
@@ -77,143 +106,154 @@ const SenoritaDashboard = () => {
             />
           </motion.div>
 
-          {/* Senorita's Dashboard Header */}
+          {/* Senorita's Dashboard Header - Full Width */}
           <motion.div 
-            className="md:col-span-2"
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.2 }}
+            className="md:col-span-2 lg:col-span-3"
+            variants={itemVariants}
           >
-            <div className="p-8 bg-gradient-to-br from-pink-500/20 via-rose-500/10 to-background rounded-3xl border border-pink-500/20 shadow-lg relative group overflow-hidden">
-              <div className="absolute -right-10 -top-10 w-40 h-40 bg-pink-500/10 rounded-full blur-3xl group-hover:bg-pink-500/20 transition-colors" />
-              <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity z-20">
+            <div className="p-8 md:p-10 bg-gradient-to-br from-pink-500/20 via-rose-500/15 to-transparent rounded-3xl border border-pink-500/30 shadow-2xl shadow-pink-500/10 relative group overflow-hidden backdrop-blur-sm">
+              {/* Animated background orbs */}
+              <div className="absolute -right-20 -top-20 w-64 h-64 bg-pink-500/20 rounded-full blur-3xl animate-pulse-slow" />
+              <div className="absolute -left-10 -bottom-10 w-48 h-48 bg-rose-500/15 rounded-full blur-3xl animate-pulse-slow animation-delay-1000" />
+              
+              {/* Action buttons */}
+              <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300 z-20">
                 <Link to="/settings">
-                  <Button variant="ghost" size="icon" data-testid="settings-button">
+                  <Button variant="ghost" size="icon" className="hover:bg-pink-500/20 transition-all hover:scale-110" data-testid="settings-button">
                     <Settings className="w-4 h-4 text-pink-500" />
                   </Button>
                 </Link>
-                <Button variant="ghost" size="icon" onClick={logout} data-testid="logout-button">
-                  <LogOut className="w-4 h-4 text-pink-500" />
+                <Button variant="ghost" size="icon" onClick={logout} className="hover:bg-red-500/20 transition-all hover:scale-110" data-testid="logout-button">
+                  <LogOut className="w-4 h-4 text-red-400" />
                 </Button>
               </div>
 
-              <div className="relative z-10 flex flex-col md:flex-row items-center gap-6 text-left">
-                <div className="p-4 bg-pink-500/20 rounded-2xl">
-                  <Sparkles className="w-12 h-12 text-pink-500" />
-                </div>
-                <div className="flex-1 space-y-2">
-                  <h2 className="text-3xl font-bold text-pink-500">Senorita's Sanctuary 🌸</h2>
+              <div className="relative z-10 flex flex-col md:flex-row items-center gap-6 text-center md:text-left">
+                <motion.div 
+                  className="p-5 bg-gradient-to-br from-pink-500/30 to-rose-500/20 rounded-2xl shadow-lg"
+                  whileHover={{ scale: 1.1, rotate: -5 }}
+                  transition={{ type: "spring", stiffness: 300 }}
+                >
+                  <Sparkles className="w-14 h-14 text-pink-500" />
+                </motion.div>
+                <div className="flex-1 space-y-3">
+                  <motion.h2 
+                    className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-pink-500 via-rose-400 to-pink-500 bg-clip-text text-transparent"
+                    animate={{ backgroundPosition: ['0%', '100%', '0%'] }}
+                    transition={{ duration: 5, repeat: Infinity }}
+                  >
+                    Senorita's Sanctuary 🌸
+                  </motion.h2>
                   <h3 className="text-xl font-medium text-pink-400">Hello, Beautiful {displayName}.</h3>
-                  <p className="text-muted-foreground">{partnerName}'s world revolves around you. Explore the love he's left for you here.</p>
-                  <div className="flex gap-4 pt-2">
-                    <div className="px-3 py-1 bg-pink-500/10 rounded-full text-xs font-semibold text-pink-500 border border-pink-500/20">
-                      Mood: Adored
-                    </div>
-                    <div className="px-3 py-1 bg-pink-500/10 rounded-full text-xs font-semibold text-pink-500 border border-pink-500/20">
-                      Daily Dose of Love: Ready
-                    </div>
+                  <p className="text-muted-foreground text-base leading-relaxed">
+                    {partnerName}'s world revolves around you. Explore the love he's left for you here.
+                  </p>
+                  <div className="flex flex-wrap gap-3 pt-2 justify-center md:justify-start">
+                    <motion.div 
+                      className="px-4 py-2 bg-pink-500/15 rounded-full text-xs font-semibold text-pink-500 border border-pink-500/30 shadow-sm"
+                      whileHover={{ scale: 1.05 }}
+                    >
+                      💖 Mood: Adored
+                    </motion.div>
+                    <motion.div 
+                      className="px-4 py-2 bg-pink-500/15 rounded-full text-xs font-semibold text-pink-500 border border-pink-500/30 shadow-sm"
+                      whileHover={{ scale: 1.05 }}
+                    >
+                      ✨ Daily Dose of Love: Ready
+                    </motion.div>
                   </div>
                 </div>
               </div>
             </div>
           </motion.div>
 
-          {/* Special Features - Full Width */}
+          {/* Calendar Day - Featured (2 columns on desktop) */}
           <motion.div 
             className="md:col-span-2"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
+            variants={itemVariants}
           >
+            <CalendarDay />
+          </motion.div>
+
+          {/* Virtual Hug Kiss */}
+          <motion.div variants={itemVariants}>
             <VirtualHugKiss />
           </motion.div>
 
-          {/* Row 1: Countdown & Daily Affirmation */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.4 }}
-          >
-            <CountdownTimer />
+          {/* Countdown Timer */}
+          <motion.div variants={itemVariants}>
+            <div className="h-full">
+              <CountdownTimer />
+            </div>
           </motion.div>
           
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.4 }}
-          >
-            <DailyAffirmation />
+          {/* Daily Affirmation */}
+          <motion.div variants={itemVariants}>
+            <div className="h-full">
+              <DailyAffirmation />
+            </div>
           </motion.div>
 
-          {/* Row 2: Letters & Photo Gallery */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.5 }}
-          >
-            <Link to="/letters" className="block hover-elevate active-elevate-2 transition-transform">
-              <LoveLetters />
+          {/* Love Letters */}
+          <motion.div variants={itemVariants}>
+            <Link to="/letters" className="block h-full group">
+              <div className="h-full transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-pink-500/20">
+                <LoveLetters />
+              </div>
             </Link>
           </motion.div>
           
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.5 }}
-          >
-            <Link to="/gallery" className="block hover-elevate active-elevate-2 transition-transform">
-              <PhotoGallery />
+          {/* Photo Gallery */}
+          <motion.div variants={itemVariants}>
+            <Link to="/gallery" className="block h-full group">
+              <div className="h-full transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-pink-500/20">
+                <PhotoGallery />
+              </div>
             </Link>
           </motion.div>
 
-          {/* Row 3: Mood & Daily Question */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.6 }}
-          >
-            <Link to="/mood" className="block hover-elevate active-elevate-2 transition-transform">
-              <MoodSharing />
+          {/* Mood Sharing */}
+          <motion.div variants={itemVariants}>
+            <Link to="/mood" className="block h-full group">
+              <div className="h-full transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-pink-500/20">
+                <MoodSharing />
+              </div>
             </Link>
           </motion.div>
           
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.6 }}
-          >
-            <Link to="/questions" className="block hover-elevate active-elevate-2 transition-transform">
-              <DailyQuestion />
+          {/* Daily Question */}
+          <motion.div variants={itemVariants}>
+            <Link to="/questions" className="block h-full group">
+              <div className="h-full transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-pink-500/20">
+                <DailyQuestion />
+              </div>
             </Link>
           </motion.div>
 
-          {/* Row 4: Memory Timeline & Shared Calendar */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.7 }}
-          >
-            <MemoryTimeline />
+          {/* Memory Timeline */}
+          <motion.div variants={itemVariants}>
+            <Link to="/milestones" className="block h-full group">
+              <div className="h-full transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-pink-500/20">
+                <MemoryTimeline />
+              </div>
+            </Link>
           </motion.div>
           
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.7 }}
-          >
-            <SharedCalendar />
+          {/* Shared Calendar */}
+          <motion.div variants={itemVariants}>
+            <div className="h-full">
+              <SharedCalendar />
+            </div>
           </motion.div>
 
-          {/* Row 5: Love Language Results - Full Width */}
+          {/* Love Language Results - Full Width */}
           <motion.div 
-            className="md:col-span-2"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.8 }}
+            className="md:col-span-2 lg:col-span-3"
+            variants={itemVariants}
           >
             <LoveLanguageResults />
           </motion.div>
-        </div>
+        </motion.div>
 
         {/* Floating Components */}
         <QuickNotification />
@@ -221,22 +261,26 @@ const SenoritaDashboard = () => {
 
         {/* Footer */}
         <motion.footer 
-          className="text-center py-10 mt-10"
+          className="text-center py-12 mt-12"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.9 }}
+          transition={{ delay: 1.2 }}
         >
-          <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-card/80 backdrop-blur-sm border border-pink-500/20 shadow-sm">
-            <Sparkles className="w-4 h-4 text-pink-500" />
-            <p className="text-muted-foreground flex items-center gap-2">
-              Made with <Heart className="w-4 h-4 text-pink-500 fill-current animate-pulse-heart" /> for us
+          <motion.div 
+            className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-gradient-to-r from-pink-500/10 via-rose-500/10 to-pink-500/10 backdrop-blur-md border border-pink-500/20 shadow-xl"
+            whileHover={{ scale: 1.05 }}
+            transition={{ type: "spring", stiffness: 300 }}
+          >
+            <Sparkles className="w-5 h-5 text-pink-500 animate-pulse" />
+            <p className="text-muted-foreground flex items-center gap-2 text-sm md:text-base">
+              Made with <Heart className="w-5 h-5 text-pink-500 fill-current animate-pulse-heart" /> for us
             </p>
-            <Sparkles className="w-4 h-4 text-pink-500" />
-          </div>
+            <Sparkles className="w-5 h-5 text-rose-500 animate-pulse" />
+          </motion.div>
           
           <motion.p 
-            className="text-xs text-muted-foreground/60 mt-4"
-            animate={{ opacity: [0.5, 1, 0.5] }}
+            className="text-xs md:text-sm text-muted-foreground/60 mt-6 font-medium"
+            animate={{ opacity: [0.4, 1, 0.4] }}
             transition={{ duration: 4, repeat: Infinity }}
           >
             Cookie 💕 Senorita • Forever & Always
