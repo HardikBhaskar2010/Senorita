@@ -228,9 +228,9 @@ const QuickNotification = () => {
               <div className="p-4 border-b border-border/50 flex items-center justify-between">
                 <h3 className="font-semibold flex items-center gap-2">
                   <Heart className="w-4 h-4 text-primary fill-current" />
-                  Love Notifications
+                  Notifications
                 </h3>
-                {notifications.length > 0 && (
+                {(notifications.length > 0 || unreadChatCount > 0) && (
                   <Button
                     variant="ghost"
                     size="sm"
@@ -243,7 +243,33 @@ const QuickNotification = () => {
               </div>
 
               <div className="max-h-80 overflow-y-auto p-2 space-y-2">
-                {notifications.length === 0 ? (
+                {/* Unread chat messages link */}
+                {unreadChatCount > 0 && (
+                  <motion.div
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    className="bg-blue-500/10 rounded-lg p-3 cursor-pointer hover:bg-blue-500/20 transition-colors"
+                    onClick={() => {
+                      navigate('/chat');
+                      setShowNotifications(false);
+                    }}
+                  >
+                    <div className="flex items-center gap-2">
+                      <MessageCircle className="w-5 h-5 text-blue-500" />
+                      <div className="flex-1">
+                        <p className="text-sm font-semibold">
+                          {unreadChatCount} unread message{unreadChatCount > 1 ? 's' : ''}
+                        </p>
+                        <p className="text-xs text-muted-foreground">
+                          Click to view chat
+                        </p>
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+
+                {/* Regular notifications */}
+                {notifications.length === 0 && unreadChatCount === 0 ? (
                   <div className="p-4 text-center text-muted-foreground text-sm">
                     No new notifications
                   </div>
