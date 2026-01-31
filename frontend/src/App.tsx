@@ -39,13 +39,14 @@ const App = () => (
             <SpaceProvider>
               <CoupleProvider>
                 <Routes>
-                  <Route path="/" element={<SpaceSelection />} />
+                  <Route path="/" element={<Login />} />
                   <Route path="/cookie" element={<CookieDashboard />} />
                   <Route path="/senorita" element={<SenoritaDashboard />} />
                   <Route path="/letters" element={<Letters />} />
                   <Route path="/gallery" element={<Gallery />} />
                   <Route path="/questions" element={<Questions />} />
                   <Route path="/mood" element={<MoodEnhanced />} />
+                  <Route path="/chat" element={<Chat />} />
                   <Route path="/settings" element={<Settings />} />
                   {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                   <Route path="*" element={<NotFound />} />
