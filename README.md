@@ -2,7 +2,7 @@
 
 <div align="center"> 
 
-![Love OS](https://img.shields.io/badge/Love%20OS-v7.1-ff69b4?style=for-the-badge&logo=heart&logoColor=white)
+![Love OS](https://img.shields.io/badge/Love%20OS-v7.2-ff69b4?style=for-the-badge&logo=heart&logoColor=white)
 ![Status](https://img.shields.io/badge/Status-Production%20Ready-success?style=for-the-badge)
 ![License](https://img.shields.io/badge/License-Personal-blue?style=for-the-badge)
 ![Last Updated](https://img.shields.io/badge/Updated-Feb%202025-orange?style=for-the-badge)
@@ -45,12 +45,16 @@ All content syncs in real-time across both spaces via Supabase subscriptions.
 - Password change functionality in settings
 - Session management
 
-### 💬 **NEW: Real-Time Chat System**
+### 💬 **ENHANCED: Real-Time Chat System**
 - Instant messaging between Cookie and Senorita
 - **Typing indicators** - See when your partner is typing
 - **Read receipts** - Know when messages are read (✓ sent, ✓✓ read)
 - **Message reactions** - React with emojis (❤️ 😍 😊 👍 🔥)
 - **Virtual Hug & Kiss** - Send special animated messages
+- **🆕 Reply to Messages** - Reply to specific messages with context preview
+- **🆕 Image Preview Modal** - View images in a modal instead of new tabs
+- **🆕 Fixed Header/Footer** - Sticky header and footer for better UX
+- **🆕 File Upload Support** - Share images, videos, documents, and more
 - Beautiful chat bubble design with color customization
 - Real-time synchronization via Supabase
 
@@ -127,6 +131,8 @@ All content syncs in real-time across both spaces via Supabase subscriptions.
 ### 🎨 Theme Customization
 - **6 Color Themes**: Pink, Purple, Blue, Green, Orange, Red
 - **Appearance Modes**: Light, Dark, **System (Default)**
+- **🆕 Custom Background Image**: Upload and sync custom backgrounds across all pages
+- **🆕 Real-time Background Sync**: Changes sync instantly between Cookie and Senorita
 - Personalized settings for each space
 - Preferences persist across sessions
 
@@ -236,6 +242,11 @@ Create a storage bucket in Supabase Dashboard:
 3. Set to **Public**
 4. Configure policies for upload/download
 
+**⚠️ Important:** This bucket is used for:
+- Chat file uploads (images, videos, documents)
+- Custom background images
+- Maximum file size: 10MB for chat files, 5MB for backgrounds
+
 ### 5. Start Development Server
 
 ```bash
@@ -325,19 +336,31 @@ If you're upgrading from the previous version, follow these steps:
 - ✅ Photo gallery with cloud storage
 - ✅ Daily questions system
 - ✅ Theme switching (6 colors + dark/light/system modes)
+- ✅ Custom background images with real-time sync
 - ✅ Settings persistence
 - ✅ Real-time synchronization across spaces
 - ✅ Toast notifications for user actions
 - ✅ Three.js 3D backgrounds (React 18 compatible)
+- ✅ Enhanced chat with reply functionality
+- ✅ Fixed header and footer in chat
+- ✅ Image preview modal
 
-**Latest Updates (v7.1 - Feb 2025):**
-- 🆕 Calendar Day component with "Today Mode"
-- 🆕 Complete dashboard redesign with enhanced UX
-- 🆕 Staggered animations with spring physics
-- 🆕 Improved responsive grid layout (3-column desktop)
-- 🆕 Better glassmorphism and gradient effects
-- 🆕 Fixed Vercel deployment (Three.js compatibility)
-- 🆕 Enhanced hover effects and transitions
+**Latest Updates (v7.2 - Feb 2025):**
+- 🆕 **Reply to Messages** - Reply to specific messages with context
+- 🆕 **Custom Background Images** - Upload and sync backgrounds globally
+- 🆕 **Image Preview Modal** - View images without opening new tabs
+- 🆕 **Fixed Chat Header/Footer** - Sticky positioning for better UX
+- 🆕 **Fixed React Error #31** - Resolved rendering issues in chat
+- 🆕 **Enhanced Chat UI** - Improved message display and interactions
+
+**Previous Updates (v7.1 - Feb 2025):**
+- Calendar Day component with "Today Mode"
+- Complete dashboard redesign with enhanced UX
+- Staggered animations with spring physics
+- Improved responsive grid layout (3-column desktop)
+- Better glassmorphism and gradient effects
+- Fixed Vercel deployment (Three.js compatibility)
+- Enhanced hover effects and transitions
 
 ---
 
@@ -387,6 +410,24 @@ If you're upgrading from the previous version, follow these steps:
 
 ## 🗃️ Database Schema
 
+### Latest Migration (v7.2)
+
+**File:** `/app/fix-chat-improvements.sql`
+
+Run this migration in Supabase SQL Editor to enable:
+- Reply functionality in chat
+- Custom background image support
+- Chat settings for synced preferences
+
+```bash
+# View migration file
+cat /app/fix-chat-improvements.sql
+```
+
+Copy the entire content and run in Supabase SQL Editor.
+
+---
+
 ### Simplified Tables (No Authentication Required)
 
 #### **letters**
@@ -428,6 +469,37 @@ questions:
 answers:
   - id, question_id, user_name, answer_text, created_at
 ```
+
+#### **messages** (Enhanced in v7.2)
+```sql
+- id                    UUID PRIMARY KEY
+- from_user             TEXT ('Cookie' | 'Senorita')
+- to_user               TEXT ('Cookie' | 'Senorita')
+- content               TEXT
+- message_type          TEXT ('text' | 'image' | 'hug' | 'kiss' | 'file')
+- is_read               BOOLEAN
+- read_at               TIMESTAMPTZ
+- file_url              TEXT (v7.0+)
+- file_name             TEXT (v7.0+)
+- file_type             TEXT (v7.0+)
+- file_size             INTEGER (v7.0+)
+- reply_to_message_id   UUID (v7.2+) 🆕
+- reply_to_content      TEXT (v7.2+) 🆕
+- reply_to_user         TEXT (v7.2+) 🆕
+- created_at            TIMESTAMPTZ
+```
+
+#### **chat_settings** (New in v7.2)
+```sql
+- id                UUID PRIMARY KEY
+- setting_key       TEXT UNIQUE
+- setting_value     TEXT
+- updated_by        TEXT
+- updated_at        TIMESTAMPTZ
+```
+
+Currently stores:
+- `shared_background_url` - Custom background image URL (synced)
 
 ---
 
@@ -560,12 +632,107 @@ If you'd like to create something similar for your relationship, feel free to fo
 
 ---
 
-## 🚧 IMPLEMENTATION STATUS (v7.1 - UI/UX Enhancement)
+## 🚧 IMPLEMENTATION STATUS (v7.2 - Chat Enhancements)
 
 ### 📋 Overview
-Comprehensive UI/UX overhaul completed with Calendar Day feature, dashboard redesign, and Vercel deployment fix.
+Major chat system improvements with reply functionality, custom backgrounds, fixed UI issues, and enhanced user experience.
 
-### ✅ COMPLETED PHASES
+### ✅ COMPLETED PHASES (v7.2)
+
+#### Phase 1: Chat Error Fixes ✅
+**Status:** ✅ COMPLETED
+**Issue:** React Error #31 causing partner to see error when receiving messages
+
+**Solution Implemented:**
+- Added safe content rendering function `renderMessageContent()`
+- Handles all data types (string, number, object, null, undefined)
+- Prevents React from trying to render objects directly
+- All message types now work without errors
+
+**Result:** Chat messages display correctly for both users without any errors.
+
+---
+
+#### Phase 2: Fixed Header & Footer ✅
+**Status:** ✅ COMPLETED
+**Issue:** Header and footer were scrolling with messages, making it hard to access input
+
+**Solution Implemented:**
+- Header: `position: fixed` at top with proper z-index
+- Footer: `position: fixed` at bottom with proper z-index
+- Messages container: Added padding to account for fixed elements
+- Enhanced backdrop blur for modern look
+
+**Result:** Header and footer stay in place while messages scroll smoothly.
+
+---
+
+#### Phase 3: Reply Functionality ✅
+**Status:** ✅ COMPLETED
+**Priority:** HIGH
+
+**Features Implemented:**
+- ✅ Reply button (↩️ icon) on each message
+- ✅ Reply preview showing original message
+- ✅ Reply context displayed in message bubble
+- ✅ Cancel reply option
+- ✅ Works with all message types (text, files, special)
+- ✅ Real-time sync via Supabase
+
+**Database Changes:**
+- Added `reply_to_message_id` column
+- Added `reply_to_content` column  
+- Added `reply_to_user` column
+- Foreign key constraint for message references
+
+---
+
+#### Phase 4: Custom Background Images ✅
+**Status:** ✅ COMPLETED
+**Priority:** HIGH
+
+**Features Implemented:**
+- ✅ Upload background in Settings page
+- ✅ Preview current background
+- ✅ Remove background option
+- ✅ Real-time sync between Cookie and Senorita
+- ✅ Applied globally (Dashboard, Chat, all pages)
+- ✅ Works on mobile and desktop
+- ✅ File validation (max 5MB, images only)
+- ✅ Stored in Supabase storage
+
+**Database Changes:**
+- Created `chat_settings` table for shared settings
+- RLS policies for read/update access
+- Realtime subscriptions enabled
+- Indexes for performance
+
+**Implementation:**
+- ThemeContext updated with background state
+- Settings page: upload UI with preview
+- All pages: background applied with overlay
+- Real-time subscription for instant sync
+
+---
+
+#### Phase 5: Image Preview Modal ✅
+**Status:** ✅ COMPLETED
+
+**Features Implemented:**
+- ✅ Click image to open modal preview
+- ✅ Large, centered image display
+- ✅ Close button and click outside to close
+- ✅ No more new tabs opening
+- ✅ Better user experience
+
+**Files Modified:**
+- Chat.tsx: Added Dialog component for image preview
+- Click handler on images
+- Modal with full-size image display
+
+---
+
+### ✅ COMPLETED PHASES (v7.1)
 
 #### Phase 1: Vercel Deployment Fix ✅
 **Status:** ✅ COMPLETED
@@ -679,15 +846,52 @@ three@0.160.0
 
 ### 🎯 FINAL STATUS
 
-**All Objectives Completed:**
+**All Objectives Completed (v7.2):**
+1. ✅ Fixed React Error #31 in chat
+2. ✅ Fixed header and footer positioning
+3. ✅ Added reply functionality to messages
+4. ✅ Implemented custom background images
+5. ✅ Added image preview modal
+6. ✅ Real-time sync for all features
+
+**Previous Objectives (v7.1):**
 1. ✅ Fixed Vercel deployment error
 2. ✅ Created Calendar Day component
 3. ✅ Redesigned both dashboards with lovely design
 4. ✅ Enhanced animations and visual effects
 5. ✅ Updated README with all changes
 
-**Version:** v7.1 (Feb 2025)
+**Version:** v7.2 (Feb 2025)
 **Status:** Production Ready 🚀
+
+**Migration Required:** Run `/app/fix-chat-improvements.sql` in Supabase SQL Editor
+
+---
+
+## 📖 Feature Documentation
+
+### Using Reply Feature
+1. Navigate to Chat page
+2. Hover over any message
+3. Click the Reply icon (↩️) below the message
+4. Type your response in the input field
+5. Original message preview appears above input
+6. Click Send or X to cancel
+
+### Using Custom Background
+1. Go to Settings page
+2. Scroll to "Custom Background" section
+3. Click "Upload Background" button
+4. Select an image (max 5MB, recommended: 1920x1080 or higher)
+5. Background uploads and syncs automatically
+6. Partner sees the same background in real-time
+7. Click "Remove" button to reset to default
+
+### Viewing Image Previews
+1. In Chat, click any image in a message
+2. Modal opens with full-size image
+3. Click X button or outside modal to close
+4. No new tabs will open
 
 ---
 
