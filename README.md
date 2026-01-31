@@ -167,7 +167,7 @@ Supervisor        - Process Management
 
 ### Prerequisites
 - Node.js 18+ and Yarn
-- Supabase Account
+- Supabase Account with active project
 - Access to the repository
 
 ### 1. Clone & Install
@@ -186,25 +186,45 @@ VITE_SUPABASE_URL=https://your-project.supabase.co
 VITE_SUPABASE_ANON_KEY=your-anon-key-here
 ```
 
-### 3. Database Setup
+### 3. Database Setup - IMPORTANT MIGRATION STEP
 
-Run the SQL schema in your Supabase SQL Editor:
+**Run the migration SQL file in your Supabase SQL Editor:**
 
 ```bash
-# Execute the schema file
-cat /app/supabase-clean-install.sql
+# View the migration file
+cat /app/supabase-migration.sql
 ```
 
-This creates:
-- ✅ Letters table
-- ✅ Moods & mood_reactions tables
-- ✅ Photos table
-- ✅ Questions & answers tables
-- ✅ Storage bucket for photos
-- ✅ Real-time subscriptions
-- ✅ Row Level Security policies (open access)
+This migration adds:
+- ✅ **Users table** with password authentication (Cookie & Senorita pre-configured)
+- ✅ **Messages table** for real-time chat
+- ✅ **Message reactions** for emoji responses
+- ✅ **Typing status** for live typing indicators
+- ✅ **Special dates** for countdown timers
+- ✅ **Calendar events** for shared planning
+- ✅ **Milestones** for memory timeline
+- ✅ **Quick notifications** for instant alerts
+- ✅ **Love language results** table
+- ✅ **Daily affirmations** with pre-loaded content
+- ✅ **Chat themes** for customization
+- ✅ **Real-time subscriptions** for all new tables
+- ✅ **RLS policies** (open access for couple)
 
-### 4. Start Development Server
+**Default Passwords:**
+- Cookie: `1234`
+- Senorita: `abcd`
+
+**⚠️ Change these passwords immediately after first login via Settings page!**
+
+### 4. Storage Bucket Setup
+
+Create a storage bucket in Supabase Dashboard:
+1. Go to **Storage** in Supabase Dashboard
+2. Create new bucket named: `chat-media`
+3. Set to **Public**
+4. Configure policies for upload/download
+
+### 5. Start Development Server
 
 ```bash
 # Start frontend (Port 3000)
@@ -214,11 +234,59 @@ sudo supervisorctl restart frontend
 sudo supervisorctl status
 ```
 
-### 5. Access the Application
+### 6. Access the Application
 
-- **Landing Page**: `http://localhost:3000/`
-- **Cookie's Space**: `http://localhost:3000/cookie`
-- **Senorita's Space**: `http://localhost:3000/senorita`
+- **Login Page**: `http://localhost:3000/`
+- **Cookie's Space**: `http://localhost:3000/cookie` (after login)
+- **Senorita's Space**: `http://localhost:3000/senorita` (after login)
+- **Chat**: `http://localhost:3000/chat`
+
+---
+
+## 🔄 Migration Guide
+
+### Upgrading from v5.0 to v6.0
+
+If you're upgrading from the previous version, follow these steps:
+
+1. **Backup Your Data** (recommended)
+   ```sql
+   -- Backup existing tables if needed
+   ```
+
+2. **Run Migration SQL**
+   - Open `/app/supabase-migration.sql`
+   - Copy entire content
+   - Paste into Supabase SQL Editor
+   - Execute
+
+3. **Create Storage Bucket**
+   - Name: `chat-media`
+   - Public access: Yes
+
+4. **Update Frontend Code**
+   - Pull latest code from repository
+   - Run `yarn install` in `/app/frontend`
+   - Restart frontend service
+
+5. **Test New Features**
+   - Login with default passwords
+   - Change passwords in Settings
+   - Test chat functionality
+   - Verify all special features work
+
+### What's New in v6.0
+
+- 🔐 **Authentication System** - Secure login with passwords
+- 💬 **Real-Time Chat** - Full-featured messaging with typing indicators, read receipts, reactions
+- 🤗 **Virtual Love Actions** - Send hugs and kisses with animations  
+- ✨ **Daily Affirmations** - Random romantic messages
+- ⏰ **Countdown Timers** - Count down to special dates
+- 📅 **Shared Calendar** - Plan events together
+- ⭐ **Memory Timeline** - Track relationship milestones
+- 💭 **Quick Notifications** - "Thinking of you" instant messages
+- 💖 **Love Language Display** - Show compatibility results
+- 🔒 **Password Change** - Update passwords in settings
 
 ---
 
