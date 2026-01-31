@@ -31,7 +31,15 @@ All content syncs in real-time across both spaces via Supabase subscriptions.
 
 ## 🎯 Features
 
-### 🔐 **NEW: Secure Authentication**
+### 🆕 **NEW: Calendar Day - Today Mode** (v7.1)
+- **Today's Date Display** - Big, cute, emotional date with relationship day counter
+- **Today's Events** - View all events and moments happening today
+- **Quick Add** - Instantly add notes, calls, meetups, or study sessions
+- **Empty State Poetry** - Beautiful message when nothing is planned: "Nothing planned today… just us 🫶"
+- **Journal × Calendar Vibe** - Focus on presence, not productivity
+- **Real-time Sync** - All events update instantly across both spaces
+
+### 🔐 **Secure Authentication**
 - Password-protected login for both users
 - Custom password storage in Supabase
 - Password change functionality in settings
