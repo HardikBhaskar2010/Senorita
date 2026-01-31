@@ -168,6 +168,17 @@ const Login = () => {
                     'Sign In'
                   )}
                 </Button>
+
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="w-full"
+                  onClick={() => setShowSkipDialog(true)}
+                  data-testid="skip-button"
+                >
+                  <TestTube className="w-4 h-4 mr-2" />
+                  Skip for Testing
+                </Button>
               </form>
 
               <div className="mt-6 text-center space-y-2">
