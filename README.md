@@ -316,6 +316,8 @@ If you're upgrading from the previous version, follow these steps:
 
 **What's Working:**
 - ✅ Beautiful UI with smooth animations
+- ✅ Completely redesigned dashboards with modern aesthetics
+- ✅ Calendar Day - today-focused planning with emotional touch
 - ✅ Space selection and navigation
 - ✅ Direct URL access (bookmarkable & shareable)
 - ✅ Love Letters with Supabase integration
@@ -326,13 +328,16 @@ If you're upgrading from the previous version, follow these steps:
 - ✅ Settings persistence
 - ✅ Real-time synchronization across spaces
 - ✅ Toast notifications for user actions
+- ✅ Three.js 3D backgrounds (React 18 compatible)
 
-**Latest Updates (v5.0):**
-- 🆕 Letters dashboard now connected to real Supabase data (no hardcoded examples)
-- 🆕 System theme set as default (auto-adapts to device preference)
-- 🆕 Cleaned up unused files and documentation
-- 🆕 Professional README with comprehensive documentation
-- 🆕 Real-time sync working perfectly across all features
+**Latest Updates (v7.1 - Feb 2025):**
+- 🆕 Calendar Day component with "Today Mode"
+- 🆕 Complete dashboard redesign with enhanced UX
+- 🆕 Staggered animations with spring physics
+- 🆕 Improved responsive grid layout (3-column desktop)
+- 🆕 Better glassmorphism and gradient effects
+- 🆕 Fixed Vercel deployment (Three.js compatibility)
+- 🆕 Enhanced hover effects and transitions
 
 ---
 
