@@ -63,8 +63,11 @@ const Chat = () => {
   const [isTyping, setIsTyping] = useState(false);
   const [partnerIsTyping, setPartnerIsTyping] = useState(false);
   const [isSending, setIsSending] = useState(false);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const typingTimeoutRef = useRef<NodeJS.Timeout>();
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Scroll to bottom
   const scrollToBottom = () => {
