@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Bell, Heart, X } from 'lucide-react';
+import { Bell, Heart, X, MessageCircle } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useSpace } from '@/contexts/SpaceContext';
 import { supabase } from '@/lib/supabase';
 import { useToast } from '@/hooks/use-toast';
+import { useNavigate } from 'react-router-dom';
 
 interface Notification {
   id: string;
@@ -14,6 +15,15 @@ interface Notification {
   notification_type: string;
   message: string;
   is_seen: boolean;
+  created_at: string;
+  related_id?: string;
+}
+
+interface ChatNotification {
+  id: string;
+  from_user: string;
+  content: string;
+  message_type: string;
   created_at: string;
 }
 
