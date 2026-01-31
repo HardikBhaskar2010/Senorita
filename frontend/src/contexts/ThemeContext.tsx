@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { supabase } from '@/lib/supabase';
 
 export type ColorTheme = 'pink' | 'purple' | 'blue' | 'green' | 'orange' | 'red';
 export type AppearanceMode = 'light' | 'dark' | 'system';
@@ -9,6 +10,8 @@ interface ThemeContextType {
   setColorTheme: (theme: ColorTheme) => void;
   setAppearanceMode: (mode: AppearanceMode) => void;
   isDark: boolean;
+  backgroundImage: string;
+  setBackgroundImage: (url: string) => Promise<void>;
 }
 
 const colorThemes: Record<ColorTheme, { light: Record<string, string>; dark: Record<string, string> }> = {
@@ -124,6 +127,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   });
 
   const [isDark, setIsDark] = useState(false);
+  const [backgroundImage, setBackgroundImageState] = useState<string>('');
 
   // Handle system preference changes
   useEffect(() => {
@@ -177,6 +181,67 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     localStorage.setItem('loveos-appearance-mode', mode);
   };
 
+  // Fetch background image from Supabase
+  useEffect(() => {
+    const fetchBackground = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('chat_settings')
+          .select('setting_value')
+          .eq('setting_key', 'shared_background_url')
+          .single();
+
+        if (!error && data) {
+          setBackgroundImageState(data.setting_value || '');
+        }
+      } catch (err) {
+        console.error('Error fetching background:', err);
+      }
+    };
+
+    fetchBackground();
+
+    // Subscribe to background changes
+    const subscription = supabase
+      .channel('background-channel')
+      .on(
+        'postgres_changes',
+        {
+          event: 'UPDATE',
+          schema: 'public',
+          table: 'chat_settings',
+          filter: 'setting_key=eq.shared_background_url',
+        },
+        (payload) => {
+          setBackgroundImageState((payload.new as any).setting_value || '');
+        }
+      )
+      .subscribe();
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, []);
+
+  // Update background image in Supabase
+  const setBackgroundImage = async (url: string) => {
+    try {
+      const { error } = await supabase
+        .from('chat_settings')
+        .update({ 
+          setting_value: url,
+          updated_at: new Date().toISOString(),
+        })
+        .eq('setting_key', 'shared_background_url');
+
+      if (error) throw error;
+      setBackgroundImageState(url);
+    } catch (err) {
+      console.error('Error updating background:', err);
+      throw err;
+    }
+  };
+
   return (
     <ThemeContext.Provider
       value={{
@@ -185,6 +250,8 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         setColorTheme,
         setAppearanceMode,
         isDark,
+        backgroundImage,
+        setBackgroundImage,
       }}
     >
       {children}
