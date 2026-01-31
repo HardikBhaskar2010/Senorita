@@ -1,6 +1,6 @@
 # 💕 Love OS - For My Beloved Senorita
 
-<div align="center">
+<div align="center"> 
 
 ![Love OS](https://img.shields.io/badge/Love%20OS-v6.1-ff69b4?style=for-the-badge&logo=heart&logoColor=white)
 ![Status](https://img.shields.io/badge/Status-Production%20Ready-success?style=for-the-badge)
