@@ -60,6 +60,32 @@ const Login = () => {
     }
   };
 
+  const handleSkipToDashboard = (dashboard: 'cookie' | 'senorita') => {
+    // Store mock user data for testing
+    const mockUser = {
+      id: dashboard === 'cookie' ? '11111111-1111-1111-1111-111111111111' : '22222222-2222-2222-2222-222222222222',
+      username: dashboard === 'cookie' ? 'Cookie' : 'Senorita',
+      display_name: dashboard === 'cookie' ? 'Cookie' : 'Senorita',
+      role: dashboard === 'cookie' ? 'boyfriend' : 'girlfriend',
+      partner_id: dashboard === 'cookie' ? '22222222-2222-2222-2222-222222222222' : '11111111-1111-1111-1111-111111111111',
+      anniversary_date: '2024-05-14',
+      relationship_start: '2024-02-14',
+      profile_color: dashboard === 'cookie' ? '#3b82f6' : '#ec4899',
+      avatar_url: null,
+    };
+
+    localStorage.setItem('user', JSON.stringify(mockUser));
+    localStorage.setItem('selectedSpace', dashboard);
+
+    toast({
+      title: 'Testing Mode 🧪',
+      description: `Skipped to ${dashboard === 'cookie' ? "Cookie's" : "Senorita's"} dashboard`,
+    });
+
+    setShowSkipDialog(false);
+    navigate(`/${dashboard}`);
+  };
+
   return (
     <div className="min-h-screen bg-background relative overflow-hidden flex items-center justify-center p-4">
       <FloatingHearts />
