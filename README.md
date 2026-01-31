@@ -512,6 +512,37 @@ REACT_APP_BACKEND_URL=http://your-backend-url/api
 - ✅ Test all features end-to-end
 - ✅ Set up custom domain (optional)
 
+### Vercel Deployment (Fixed in v7.1)
+
+**Issue Fixed:** The app now uses React 18 compatible Three.js libraries to avoid peer dependency conflicts.
+
+**package.json versions:**
+```json
+{
+  "react": "^18.3.1",
+  "react-dom": "^18.3.1",
+  "three": "^0.160.0",
+  "@react-three/fiber": "^8.15.19",
+  "@react-three/drei": "^9.96.0"
+}
+```
+
+**Build Command:**
+```bash
+cd frontend && yarn install && yarn build
+```
+
+**Output Directory:**
+```
+frontend/dist
+```
+
+**Environment Variables (Vercel):**
+```env
+VITE_SUPABASE_URL=https://your-project.supabase.co
+VITE_SUPABASE_ANON_KEY=your-anon-key-here
+```
+
 ### Supabase Configuration
 1. Create new project on [Supabase](https://supabase.com)
 2. Run SQL schema in SQL Editor
