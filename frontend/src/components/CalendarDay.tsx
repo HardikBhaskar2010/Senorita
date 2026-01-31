@@ -54,25 +54,31 @@ const CalendarDay = () => {
 
   const fetchTodayEvents = async () => {
     try {
-      const todayStart = format(today, 'yyyy-MM-dd');
+      const todayStart = new Date();
+      todayStart.setHours(0, 0, 0, 0);
+      const todayEnd = new Date();
+      todayEnd.setHours(23, 59, 59, 999);
       
       const { data, error } = await supabase
         .from('calendar_events')
         .select('*')
-        .gte('event_date', todayStart)
-        .lte('event_date', todayStart)
-        .order('event_time', { ascending: true });
+        .gte('event_date', todayStart.toISOString())
+        .lte('event_date', todayEnd.toISOString())
+        .order('event_date', { ascending: true });
 
       if (error) throw error;
 
-      const events: TodayEvent[] = (data || []).map((event: any) => ({
-        id: event.id,
-        title: event.title,
-        description: event.description,
-        time: event.event_time,
-        category: event.category || 'reminder',
-        icon: getCategoryIcon(event.category || 'reminder')
-      }));
+      const events: TodayEvent[] = (data || []).map((event: any) => {
+        const eventDate = new Date(event.event_date);
+        return {
+          id: event.id,
+          title: event.title,
+          description: event.description,
+          time: format(eventDate, 'HH:mm'),
+          category: event.category || 'reminder',
+          icon: getCategoryIcon(event.category || 'reminder')
+        };
+      });
 
       setTodayEvents(events);
     } catch (error) {
