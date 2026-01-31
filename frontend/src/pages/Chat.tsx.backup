@@ -4,24 +4,23 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   ArrowLeft,
   Send,
+  Smile,
   Heart,
   Check,
   CheckCheck,
   Image as ImageIcon,
+  Settings,
   MoreVertical,
   Paperclip,
   X,
   FileText,
   Download,
   Loader2,
-  Reply,
-  XCircle,
 } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useSpace } from '@/contexts/SpaceContext';
-import { useTheme } from '@/contexts/ThemeContext';
 import { supabase } from '@/lib/supabase';
 import { useToast } from '@/hooks/use-toast';
 import FloatingHearts from '@/components/FloatingHearts';
@@ -31,12 +30,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog';
 
 interface Message {
   id: string;
@@ -52,9 +45,6 @@ interface Message {
   file_name?: string | null;
   file_type?: string | null;
   file_size?: number | null;
-  reply_to_message_id?: string | null;
-  reply_to_content?: string | null;
-  reply_to_user?: string | null;
 }
 
 interface MessageReaction {
@@ -68,7 +58,6 @@ const Chat = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const { currentSpace, displayName, partnerName } = useSpace();
-  const { backgroundImage } = useTheme();
   const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState('');
   const [isTyping, setIsTyping] = useState(false);
@@ -76,8 +65,6 @@ const Chat = () => {
   const [isSending, setIsSending] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isUploading, setIsUploading] = useState(false);
-  const [replyingTo, setReplyingTo] = useState<Message | null>(null);
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const typingTimeoutRef = useRef<NodeJS.Timeout>();
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -234,26 +221,16 @@ const Chat = () => {
 
     setIsSending(true);
     try {
-      const messageData: any = {
+      const { error } = await supabase.from('messages').insert({
         from_user: displayName,
         to_user: partnerName,
         content: newMessage.trim(),
         message_type: 'text',
-      };
-
-      // Add reply data if replying
-      if (replyingTo) {
-        messageData.reply_to_message_id = replyingTo.id;
-        messageData.reply_to_content = String(replyingTo.content || '').substring(0, 100); // Store first 100 chars
-        messageData.reply_to_user = replyingTo.from_user;
-      }
-
-      const { error } = await supabase.from('messages').insert(messageData);
+      });
 
       if (error) throw error;
 
       setNewMessage('');
-      setReplyingTo(null);
       setIsTyping(false);
       updateTypingStatus(false);
       scrollToBottom();
@@ -336,7 +313,7 @@ const Chat = () => {
       const fileUrl = await uploadFile(selectedFile);
       const fileType = selectedFile.type.split('/')[0]; // 'image', 'video', 'application', etc.
 
-      const messageData: any = {
+      const { error } = await supabase.from('messages').insert({
         from_user: displayName,
         to_user: partnerName,
         content: `Sent a file: ${selectedFile.name}`,
@@ -345,21 +322,11 @@ const Chat = () => {
         file_name: selectedFile.name,
         file_type: fileType,
         file_size: selectedFile.size,
-      };
-
-      // Add reply data if replying
-      if (replyingTo) {
-        messageData.reply_to_message_id = replyingTo.id;
-        messageData.reply_to_content = String(replyingTo.content || '').substring(0, 100);
-        messageData.reply_to_user = replyingTo.from_user;
-      }
-
-      const { error } = await supabase.from('messages').insert(messageData);
+      });
 
       if (error) throw error;
 
       setSelectedFile(null);
-      setReplyingTo(null);
       if (fileInputRef.current) {
         fileInputRef.current.value = '';
       }
@@ -443,36 +410,12 @@ const Chat = () => {
     return fromUser === displayName ? 'justify-end' : 'justify-start';
   };
 
-  const handleImageClick = (url: string) => {
-    setImagePreview(url);
-  };
-
-  // Safe content renderer - fixes React error #31
-  const renderMessageContent = (content: any): string => {
-    if (typeof content === 'string') return content;
-    if (typeof content === 'number') return String(content);
-    if (content === null || content === undefined) return '';
-    // If it's an object, stringify it
-    try {
-      return JSON.stringify(content);
-    } catch {
-      return String(content);
-    }
-  };
-
   return (
-    <div 
-      className="min-h-screen relative overflow-hidden flex flex-col"
-      style={{
-        background: backgroundImage 
-          ? `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${backgroundImage}) center/cover fixed`
-          : undefined
-      }}
-    >
-      {!backgroundImage && <FloatingHearts />}
-      
-      {/* Fixed Header */}
-      <div className="fixed top-0 left-0 right-0 z-50 bg-card/95 backdrop-blur-md border-b border-border/50 shadow-lg">
+    <div className="min-h-screen bg-background relative overflow-hidden flex flex-col">
+      <FloatingHearts />
+
+      {/* Header */}
+      <div className="relative z-10 bg-card/80 backdrop-blur-md border-b border-border/50 shadow-lg">
         <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <Button
@@ -511,8 +454,8 @@ const Chat = () => {
         </div>
       </div>
 
-      {/* Messages - with padding for fixed header and footer */}
-      <div className="flex-1 overflow-y-auto pt-20 pb-32 relative z-10 p-4">
+      {/* Messages */}
+      <div className="flex-1 overflow-y-auto relative z-10 p-4">
         <div className="max-w-4xl mx-auto space-y-4">
           <AnimatePresence>
             {messages.map((message) => (
@@ -528,14 +471,6 @@ const Chat = () => {
                     className={`p-3 ${getMessageColor(message.from_user)} shadow-lg`}
                     data-testid="chat-message"
                   >
-                    {/* Reply indicator */}
-                    {message.reply_to_content && (
-                      <div className="mb-2 p-2 bg-black/20 rounded-lg border-l-2 border-white/50">
-                        <p className="text-xs opacity-70">{message.reply_to_user}</p>
-                        <p className="text-sm opacity-90">{renderMessageContent(message.reply_to_content)}</p>
-                      </div>
-                    )}
-
                     {message.message_type === 'hug' && (
                       <div className="text-center text-4xl mb-2">🤗</div>
                     )}
@@ -545,13 +480,17 @@ const Chat = () => {
                     {message.message_type === 'file' && (
                       <div className="space-y-2">
                         {message.file_type === 'image' && message.file_url ? (
-                          <div onClick={() => handleImageClick(message.file_url!)}>
+                          <a
+                            href={message.file_url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
                             <img
                               src={message.file_url}
                               alt={message.file_name || 'Image'}
-                              className="max-w-full h-auto rounded-lg max-h-64 object-cover cursor-pointer hover:opacity-90 transition-opacity"
+                              className="max-w-full h-auto rounded-lg max-h-64 object-cover"
                             />
-                          </div>
+                          </a>
                         ) : message.file_type === 'video' && message.file_url ? (
                           <video
                             src={message.file_url}
@@ -579,7 +518,7 @@ const Chat = () => {
                         )}
                       </div>
                     )}
-                    <p className="whitespace-pre-wrap break-words">{renderMessageContent(message.content)}</p>
+                    <p className="whitespace-pre-wrap break-words">{message.content}</p>
 
                     {/* Reactions */}
                     {message.reactions && message.reactions.length > 0 && (
@@ -614,8 +553,8 @@ const Chat = () => {
                     </div>
                   </Card>
 
-                  {/* Quick reactions and reply */}
-                  <div className="flex gap-1 mt-1 text-sm items-center">
+                  {/* Quick reactions */}
+                  <div className="flex gap-1 mt-1 text-sm">
                     {['❤️', '😍', '😊', '👍', '🔥'].map((emoji) => (
                       <button
                         key={emoji}
@@ -625,13 +564,6 @@ const Chat = () => {
                         {emoji}
                       </button>
                     ))}
-                    <button
-                      onClick={() => setReplyingTo(message)}
-                      className="ml-2 p-1 hover:bg-primary/10 rounded-md transition-colors"
-                      title="Reply"
-                    >
-                      <Reply className="w-4 h-4 text-primary" />
-                    </button>
                   </div>
                 </div>
               </motion.div>
@@ -641,29 +573,9 @@ const Chat = () => {
         </div>
       </div>
 
-      {/* Fixed Input Footer */}
-      <div className="fixed bottom-0 left-0 right-0 z-50 bg-card/95 backdrop-blur-md border-t border-border/50 shadow-lg">
+      {/* Input */}
+      <div className="relative z-10 bg-card/80 backdrop-blur-md border-t border-border/50 shadow-lg">
         <div className="max-w-4xl mx-auto px-4 py-4">
-          {/* Reply preview */}
-          {replyingTo && (
-            <div className="mb-3 p-3 bg-primary/10 rounded-lg flex items-start gap-3">
-              <Reply className="w-5 h-5 text-primary mt-1" />
-              <div className="flex-1">
-                <p className="text-xs text-muted-foreground font-semibold">
-                  Replying to {replyingTo.from_user}
-                </p>
-                <p className="text-sm line-clamp-2">{renderMessageContent(replyingTo.content)}</p>
-              </div>
-              <Button
-                size="icon"
-                variant="ghost"
-                onClick={() => setReplyingTo(null)}
-              >
-                <XCircle className="w-4 h-4" />
-              </Button>
-            </div>
-          )}
-
           {/* Selected file preview */}
           {selectedFile && (
             <div className="mb-3 p-3 bg-primary/10 rounded-lg flex items-center gap-3">
@@ -743,30 +655,6 @@ const Chat = () => {
           </div>
         </div>
       </div>
-
-      {/* Image Preview Modal */}
-      <Dialog open={!!imagePreview} onOpenChange={() => setImagePreview(null)}>
-        <DialogContent className="max-w-4xl p-0">
-          <DialogHeader className="p-4">
-            <DialogTitle>Image Preview</DialogTitle>
-          </DialogHeader>
-          <div className="relative">
-            <img 
-              src={imagePreview || ''} 
-              alt="Preview" 
-              className="w-full h-auto max-h-[80vh] object-contain"
-            />
-            <Button
-              className="absolute top-2 right-2"
-              size="icon"
-              variant="secondary"
-              onClick={() => setImagePreview(null)}
-            >
-              <X className="w-4 h-4" />
-            </Button>
-          </div>
-        </DialogContent>
-      </Dialog>
     </div>
   );
 };
