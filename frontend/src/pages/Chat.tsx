@@ -576,26 +576,82 @@ const Chat = () => {
       {/* Input */}
       <div className="relative z-10 bg-card/80 backdrop-blur-md border-t border-border/50 shadow-lg">
         <div className="max-w-4xl mx-auto px-4 py-4">
+          {/* Selected file preview */}
+          {selectedFile && (
+            <div className="mb-3 p-3 bg-primary/10 rounded-lg flex items-center gap-3">
+              <FileText className="w-5 h-5 text-primary" />
+              <div className="flex-1">
+                <p className="text-sm font-semibold">{selectedFile.name}</p>
+                <p className="text-xs text-muted-foreground">
+                  {formatFileSize(selectedFile.size)}
+                </p>
+              </div>
+              <Button
+                size="icon"
+                variant="ghost"
+                onClick={() => setSelectedFile(null)}
+              >
+                <X className="w-4 h-4" />
+              </Button>
+            </div>
+          )}
+
           <div className="flex gap-2 items-end">
+            {/* Hidden file input */}
+            <input
+              ref={fileInputRef}
+              type="file"
+              onChange={handleFileSelect}
+              className="hidden"
+              accept="image/*,video/*,audio/*,.pdf,.doc,.docx,.txt,.zip,.rar"
+            />
+
+            {/* File upload button */}
+            <Button
+              size="icon"
+              variant="outline"
+              onClick={() => fileInputRef.current?.click()}
+              disabled={isSending || isUploading}
+              data-testid="file-upload-button"
+            >
+              <Paperclip className="w-5 h-5" />
+            </Button>
+
             <div className="flex-1">
               <Input
                 value={newMessage}
                 onChange={(e) => handleTyping(e.target.value)}
                 onKeyPress={handleKeyPress}
-                placeholder="Type a message..."
+                placeholder={selectedFile ? "Add a message (optional)..." : "Type a message..."}
                 className="resize-none"
-                disabled={isSending}
+                disabled={isSending || isUploading}
                 data-testid="message-input"
               />
             </div>
-            <Button
-              onClick={sendMessage}
-              disabled={!newMessage.trim() || isSending}
-              size="icon"
-              data-testid="send-button"
-            >
-              <Send className="w-5 h-5" />
-            </Button>
+
+            {selectedFile ? (
+              <Button
+                onClick={sendFile}
+                disabled={isUploading}
+                size="icon"
+                data-testid="send-file-button"
+              >
+                {isUploading ? (
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                ) : (
+                  <Send className="w-5 h-5" />
+                )}
+              </Button>
+            ) : (
+              <Button
+                onClick={sendMessage}
+                disabled={!newMessage.trim() || isSending}
+                size="icon"
+                data-testid="send-button"
+              >
+                <Send className="w-5 h-5" />
+              </Button>
+            )}
           </div>
         </div>
       </div>
