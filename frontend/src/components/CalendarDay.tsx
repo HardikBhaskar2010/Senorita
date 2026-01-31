@@ -109,13 +109,22 @@ const CalendarDay = () => {
     }
 
     try {
+      // Create event date with time
+      let eventDateTime = new Date();
+      if (newEvent.time) {
+        const [hours, minutes] = newEvent.time.split(':');
+        eventDateTime.setHours(parseInt(hours), parseInt(minutes), 0, 0);
+      } else {
+        eventDateTime.setHours(12, 0, 0, 0); // Default to noon if no time specified
+      }
+
       const eventData = {
         title: newEvent.title,
         description: newEvent.description || null,
-        event_date: format(today, 'yyyy-MM-dd'),
-        event_time: newEvent.time || null,
+        event_date: eventDateTime.toISOString(),
         category: 'reminder',
         created_by: currentUser || 'Cookie',
+        is_all_day: !newEvent.time,
         created_at: new Date().toISOString()
       };
 
