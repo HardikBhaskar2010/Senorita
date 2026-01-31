@@ -14,6 +14,7 @@ import DailyAffirmation from "@/components/DailyAffirmation";
 import CountdownTimer from "@/components/CountdownTimer";
 import MemoryTimeline from "@/components/MemoryTimeline";
 import SharedCalendar from "@/components/SharedCalendar";
+import CalendarDay from "@/components/CalendarDay";
 import LoveLanguageResults from "@/components/LoveLanguageResults";
 import QuickNotification from "@/components/QuickNotification";
 import ChatBubble from "@/components/ChatBubble";
