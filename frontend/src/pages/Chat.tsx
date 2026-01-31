@@ -31,11 +31,15 @@ interface Message {
   from_user: string;
   to_user: string;
   content: string;
-  message_type: 'text' | 'image' | 'hug' | 'kiss';
+  message_type: 'text' | 'image' | 'hug' | 'kiss' | 'file';
   is_read: boolean;
   read_at: string | null;
   created_at: string;
   reactions?: MessageReaction[];
+  file_url?: string | null;
+  file_name?: string | null;
+  file_type?: string | null;
+  file_size?: number | null;
 }
 
 interface MessageReaction {
