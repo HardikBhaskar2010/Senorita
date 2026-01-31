@@ -1,12 +1,16 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Settings as SettingsIcon, ArrowLeft, Palette, Sun, Moon, Monitor, Heart, Sparkles, Check } from "lucide-react";
+import { Settings as SettingsIcon, ArrowLeft, Palette, Sun, Moon, Monitor, Heart, Sparkles, Check, Lock, Loader2 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { useNavigate } from "react-router-dom";
 import FloatingHearts from "@/components/FloatingHearts";
 import { useSpace } from "@/contexts/SpaceContext";
 import { useTheme, ColorTheme, AppearanceMode } from "@/contexts/ThemeContext";
+import { changePassword } from "@/lib/auth";
+import { useToast } from "@/hooks/use-toast";
 
 const colorOptions: { value: ColorTheme; label: string; color: string }[] = [
   { value: 'pink', label: 'Pink Romance', color: '#ec4899' },
