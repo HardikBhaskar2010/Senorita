@@ -207,9 +207,9 @@ const QuickNotification = () => {
           data-testid="notification-bell-button"
         >
           <Bell className="w-6 h-6" />
-          {notifications.length > 0 && (
+          {totalNotifications > 0 && (
             <span className="absolute -top-1 -right-1 h-6 w-6 bg-red-500 text-white text-xs rounded-full flex items-center justify-center font-bold animate-pulse">
-              {notifications.length}
+              {totalNotifications}
             </span>
           )}
         </Button>
