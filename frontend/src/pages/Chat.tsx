@@ -270,6 +270,97 @@ const Chat = () => {
     }
   };
 
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      // Check file size (max 10MB)
+      if (file.size > 10 * 1024 * 1024) {
+        toast({
+          title: 'File too large',
+          description: 'Please select a file smaller than 10MB',
+          variant: 'destructive',
+        });
+        return;
+      }
+      setSelectedFile(file);
+    }
+  };
+
+  const uploadFile = async (file: File) => {
+    const fileExt = file.name.split('.').pop();
+    const fileName = `${displayName}-${Date.now()}.${fileExt}`;
+
+    const { error: uploadError } = await supabase.storage
+      .from('chat-media')
+      .upload(fileName, file);
+
+    if (uploadError) throw uploadError;
+
+    const {
+      data: { publicUrl },
+    } = supabase.storage.from('chat-media').getPublicUrl(fileName);
+
+    return publicUrl;
+  };
+
+  const sendFile = async () => {
+    if (!selectedFile) return;
+
+    setIsUploading(true);
+    setIsSending(true);
+
+    try {
+      const fileUrl = await uploadFile(selectedFile);
+      const fileType = selectedFile.type.split('/')[0]; // 'image', 'video', 'application', etc.
+
+      const { error } = await supabase.from('messages').insert({
+        from_user: displayName,
+        to_user: partnerName,
+        content: `Sent a file: ${selectedFile.name}`,
+        message_type: 'file',
+        file_url: fileUrl,
+        file_name: selectedFile.name,
+        file_type: fileType,
+        file_size: selectedFile.size,
+      });
+
+      if (error) throw error;
+
+      setSelectedFile(null);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
+
+      toast({
+        title: '📎 File sent!',
+        description: 'Your file has been delivered',
+      });
+    } catch (error: any) {
+      toast({
+        title: 'Upload failed',
+        description: error.message,
+        variant: 'destructive',
+      });
+    } finally {
+      setIsUploading(false);
+      setIsSending(false);
+    }
+  };
+
+  const getFileIcon = (fileType: string | null | undefined) => {
+    if (!fileType) return <FileText className="w-4 h-4" />;
+    if (fileType === 'image') return <ImageIcon className="w-4 h-4" />;
+    if (fileType === 'video') return <FileText className="w-4 h-4" />;
+    return <FileText className="w-4 h-4" />;
+  };
+
+  const formatFileSize = (bytes: number | null | undefined) => {
+    if (!bytes) return '';
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+    return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+  };
+
   const addReaction = async (messageId: string, emoji: string) => {
     try {
       // Check if user already reacted
