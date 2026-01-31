@@ -84,8 +84,15 @@ const SenoritaDashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background relative overflow-x-hidden">
-      <FloatingHearts />
+    <div 
+      className="min-h-screen bg-background relative overflow-x-hidden"
+      style={{
+        background: backgroundImage 
+          ? `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(${backgroundImage}) center/cover fixed`
+          : undefined
+      }}
+    >
+      {!backgroundImage && <FloatingHearts />}
       
       <HeroSection />
       
