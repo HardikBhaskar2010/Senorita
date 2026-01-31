@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useSpace } from "@/contexts/SpaceContext";
 import { useCouple } from "@/contexts/CoupleContext";
+import { useTheme } from "@/contexts/ThemeContext";
 import FloatingHearts from "@/components/FloatingHearts";
 import HeroSection from "@/components/HeroSection";
 import DaysCounter from "@/components/DaysCounter";
@@ -26,6 +27,7 @@ const CookieDashboard = () => {
   const navigate = useNavigate();
   const { currentSpace, logout, displayName, partnerName } = useSpace();
   const { anniversaryDate, relationshipStart } = useCouple();
+  const { backgroundImage } = useTheme();
   
   // Only redirect if space is explicitly set to something else (not null/loading)
   useEffect(() => {
@@ -82,8 +84,15 @@ const CookieDashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background relative overflow-x-hidden">
-      <FloatingHearts />
+    <div 
+      className="min-h-screen bg-background relative overflow-x-hidden"
+      style={{
+        background: backgroundImage 
+          ? `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(${backgroundImage}) center/cover fixed`
+          : undefined
+      }}
+    >
+      {!backgroundImage && <FloatingHearts />}
       
       <HeroSection />
       
