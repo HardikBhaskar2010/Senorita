@@ -519,7 +519,7 @@ const Chat = () => {
           className="w-full lg:w-[420px] lg:flex-shrink-0 flex flex-col relative bg-background h-full"
         >
           {/* Fixed Header */}
-          <div className="sticky top-0 z-50 w-full bg-card/95 backdrop-blur-md border-b border-border/50 shadow-lg">
+          <div className="sticky top-0 z-50 w-full bg-gradient-to-r from-pink-500/10 via-purple-500/10 to-blue-500/10 backdrop-blur-xl border-b border-white/10 shadow-2xl">
             <div className="px-4 py-4 flex items-center justify-between">
               <div className="flex items-center gap-4">
                 <Button
@@ -527,30 +527,43 @@ const Chat = () => {
                   size="icon"
                   onClick={goBack}
                   data-testid="back-button"
+                  className="hover:scale-110 transition-transform duration-200"
                 >
                   <ArrowLeft className="w-5 h-5" />
                 </Button>
                 <div>
-                  <h1 className="text-xl font-bold">
-                    {partnerName} <Heart className="inline w-4 h-4 text-primary fill-current" />
+                  <h1 className="text-xl font-bold flex items-center gap-2">
+                    {partnerName} 
+                    <Heart className="w-5 h-5 text-pink-500 fill-pink-500 animate-pulse" />
                   </h1>
                   {partnerIsTyping && (
-                    <p className="text-xs text-muted-foreground">typing...</p>
+                    <motion.p 
+                      initial={{ opacity: 0, y: -5 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="text-xs text-primary font-medium flex items-center gap-1"
+                    >
+                      <span className="flex gap-0.5">
+                        <span className="w-1 h-1 bg-primary rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></span>
+                        <span className="w-1 h-1 bg-primary rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></span>
+                        <span className="w-1 h-1 bg-primary rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></span>
+                      </span>
+                      typing...
+                    </motion.p>
                   )}
                 </div>
               </div>
 
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="icon">
+                  <Button variant="ghost" size="icon" className="hover:scale-110 transition-transform duration-200">
                     <MoreVertical className="w-5 h-5" />
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  <DropdownMenuItem onClick={() => sendSpecialMessage('hug')}>
+                <DropdownMenuContent align="end" className="bg-card/95 backdrop-blur-md border-white/20">
+                  <DropdownMenuItem onClick={() => sendSpecialMessage('hug')} className="cursor-pointer">
                     🤗 Send Virtual Hug
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => sendSpecialMessage('kiss')}>
+                  <DropdownMenuItem onClick={() => sendSpecialMessage('kiss')} className="cursor-pointer">
                     😘 Send Virtual Kiss
                   </DropdownMenuItem>
                 </DropdownMenuContent>
