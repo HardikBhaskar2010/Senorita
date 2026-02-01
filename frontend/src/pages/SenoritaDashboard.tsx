@@ -53,8 +53,8 @@ const SenoritaDashboard = () => {
   }
 
   // Fallback dates if not set in profile
-  const displayAnniversary = anniversaryDate || new Date(2025, 7, 12); // Aug 12th, 2025
-  const displayRelationshipStart = relationshipStart || new Date(2024, 7, 12); // Aug 12th, 2024
+  const displayAnniversary = anniversaryDate || new Date(2025, 4, 14); // May 14th, 2025 (official commitment)
+  const displayRelationshipStart = relationshipStart || new Date(2024, 7, 12); // Aug 12th, 2024 (first meeting)
   const partnerNames = ['Cookie', 'Senorita'];
 
   // Animation variants for stagger effect
