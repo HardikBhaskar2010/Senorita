@@ -567,129 +567,161 @@ const Chat = () => {
                 : undefined
             }}
           >
-            <div className="space-y-4">
+            <div className="space-y-6">
               <AnimatePresence>
-                {messages.map((message) => (
-                  <motion.div
-                    key={message.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0 }}
-                    className={`flex ${getMessageAlignment(message.from_user)}`}
-                  >
-                    <div className="max-w-[70%]">
-                      <Card
-                        className={`p-3 ${getMessageColor(message.from_user)} shadow-lg`}
-                        data-testid="chat-message"
-                      >
-                        {/* Reply indicator */}
-                        {message.reply_to_content && (
-                          <div className="mb-2 p-2 bg-black/20 rounded-lg border-l-2 border-white/50">
-                            <p className="text-xs opacity-70">{message.reply_to_user}</p>
-                            <p className="text-sm opacity-90">{renderMessageContent(message.reply_to_content)}</p>
-                          </div>
-                        )}
+                {Object.keys(messageGroups).map((dateKey, groupIndex) => {
+                  const messagesInGroup = messageGroups[dateKey];
+                  const date = new Date(dateKey);
+                  const dateLabel = formatDateSeparator(date);
 
-                        {message.message_type === 'hug' && (
-                          <div className="text-center text-4xl mb-2">🤗</div>
-                        )}
-                        {message.message_type === 'kiss' && (
-                          <div className="text-center text-4xl mb-2">😘</div>
-                        )}
-                        {message.message_type === 'file' && (
-                          <div className="space-y-2">
-                            {message.file_type === 'image' && message.file_url ? (
-                              <div onClick={() => handleImageClick(message.file_url!)}>
-                                <img
-                                  src={message.file_url}
-                                  alt={message.file_name || 'Image'}
-                                  className="max-w-full h-auto rounded-lg max-h-64 object-cover cursor-pointer hover:opacity-90 transition-opacity"
-                                />
-                              </div>
-                            ) : message.file_type === 'video' && message.file_url ? (
-                              <video
-                                src={message.file_url}
-                                controls
-                                className="max-w-full h-auto rounded-lg max-h-64"
-                              />
-                            ) : (
-                              <a
-                                href={message.file_url || '#'}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="flex items-center gap-2 p-3 bg-white/10 rounded-lg hover:bg-white/20 transition-colors"
-                              >
-                                {getFileIcon(message.file_type)}
-                                <div className="flex-1">
-                                  <p className="font-semibold text-sm">
-                                    {message.file_name || 'File'}
-                                  </p>
-                                  <p className="text-xs opacity-70">
-                                    {formatFileSize(message.file_size)}
-                                  </p>
-                                </div>
-                                <Download className="w-4 h-4" />
-                              </a>
-                            )}
-                          </div>
-                        )}
-                        <p className="whitespace-pre-wrap break-words">{renderMessageContent(message.content)}</p>
-
-                        {/* Reactions */}
-                        {message.reactions && message.reactions.length > 0 && (
-                          <div className="flex gap-1 mt-2 flex-wrap">
-                            {message.reactions.map((reaction) => (
-                              <span
-                                key={reaction.id}
-                                className="text-sm bg-white/20 px-2 py-1 rounded-full"
-                              >
-                                {reaction.reaction_emoji}
-                              </span>
-                            ))}
-                          </div>
-                        )}
-
-                        <div className="flex items-center justify-between mt-2 text-xs opacity-70">
-                          <span>
-                            {new Date(message.created_at).toLocaleTimeString([], {
-                              hour: '2-digit',
-                              minute: '2-digit',
-                            })}
-                          </span>
-                          {message.from_user === displayName && (
-                            <span>
-                              {message.is_read ? (
-                                <CheckCheck className="w-4 h-4" />
-                              ) : (
-                                <Check className="w-4 h-4" />
-                              )}
-                            </span>
-                          )}
-                        </div>
-                      </Card>
-
-                      {/* Quick reactions and reply */}
-                      <div className="flex gap-1 mt-1 text-sm items-center">
-                        {['❤️', '😍', '😊', '👍', '🔥'].map((emoji) => (
-                          <button
-                            key={emoji}
-                            onClick={() => addReaction(message.id, emoji)}
-                            className="hover:scale-125 transition-transform"
-                          >
-                            {emoji}
-                          </button>
-                        ))}
-                        <button
-                          onClick={() => setReplyingTo(message)}
-                          className="ml-2 p-1 hover:bg-primary/10 rounded-md transition-colors"
-                          title="Reply"
+                  return (
+                    <motion.div
+                      key={dateKey}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: groupIndex * 0.05 }}
+                      className="space-y-4"
+                    >
+                      {/* Date Separator - Sticky */}
+                      <div className="sticky top-16 z-20 flex justify-center mb-6">
+                        <motion.div
+                          initial={{ scale: 0.8, opacity: 0 }}
+                          animate={{ scale: 1, opacity: 1 }}
+                          transition={{ delay: groupIndex * 0.05 + 0.1 }}
+                          className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-pink-500/20 via-purple-500/20 to-blue-500/20 backdrop-blur-md border border-white/20 shadow-lg"
                         >
-                          <Reply className="w-4 h-4 text-primary" />
-                        </button>
+                          <span className="text-sm font-semibold text-foreground/90">
+                            {dateLabel}
+                          </span>
+                          <Heart className="w-3 h-3 text-pink-500 fill-pink-500 animate-pulse" />
+                        </motion.div>
                       </div>
-                    </div>
-                  </motion.div>
-                ))}
+
+                      {/* Messages in this date group */}
+                      {messagesInGroup.map((message, msgIndex) => (
+                        <motion.div
+                          key={message.id}
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: groupIndex * 0.05 + msgIndex * 0.02 }}
+                          className={`flex ${getMessageAlignment(message.from_user)}`}
+                        >
+                          <div className="max-w-[75%]">
+                            <Card
+                              className={`p-4 ${getMessageColor(message.from_user)} shadow-xl hover:shadow-2xl transition-all duration-300 rounded-2xl`}
+                              data-testid="chat-message"
+                            >
+                              {/* Reply indicator */}
+                              {message.reply_to_content && (
+                                <div className="mb-3 p-3 bg-black/20 rounded-xl border-l-4 border-white/50">
+                                  <p className="text-xs opacity-80 font-semibold mb-1">{message.reply_to_user}</p>
+                                  <p className="text-sm opacity-90">{renderMessageContent(message.reply_to_content)}</p>
+                                </div>
+                              )}
+
+                              {message.message_type === 'hug' && (
+                                <div className="text-center text-5xl mb-2 animate-bounce">🤗</div>
+                              )}
+                              {message.message_type === 'kiss' && (
+                                <div className="text-center text-5xl mb-2 animate-pulse">😘</div>
+                              )}
+                              {message.message_type === 'file' && (
+                                <div className="space-y-2 mb-2">
+                                  {message.file_type === 'image' && message.file_url ? (
+                                    <div onClick={() => handleImageClick(message.file_url!)}>
+                                      <img
+                                        src={message.file_url}
+                                        alt={message.file_name || 'Image'}
+                                        className="max-w-full h-auto rounded-xl max-h-72 object-cover cursor-pointer hover:opacity-90 hover:scale-[1.02] transition-all duration-300 shadow-lg"
+                                      />
+                                    </div>
+                                  ) : message.file_type === 'video' && message.file_url ? (
+                                    <video
+                                      src={message.file_url}
+                                      controls
+                                      className="max-w-full h-auto rounded-xl max-h-72 shadow-lg"
+                                    />
+                                  ) : (
+                                    <a
+                                      href={message.file_url || '#'}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="flex items-center gap-3 p-3 bg-white/10 rounded-xl hover:bg-white/20 transition-all duration-300 hover:scale-[1.02]"
+                                    >
+                                      {getFileIcon(message.file_type)}
+                                      <div className="flex-1">
+                                        <p className="font-semibold text-sm">
+                                          {message.file_name || 'File'}
+                                        </p>
+                                        <p className="text-xs opacity-70">
+                                          {formatFileSize(message.file_size)}
+                                        </p>
+                                      </div>
+                                      <Download className="w-4 h-4" />
+                                    </a>
+                                  )}
+                                </div>
+                              )}
+                              <p className="whitespace-pre-wrap break-words text-[15px] leading-relaxed">{renderMessageContent(message.content)}</p>
+
+                              {/* Reactions */}
+                              {message.reactions && message.reactions.length > 0 && (
+                                <div className="flex gap-1 mt-3 flex-wrap">
+                                  {message.reactions.map((reaction) => (
+                                    <span
+                                      key={reaction.id}
+                                      className="text-base bg-white/20 px-2.5 py-1 rounded-full hover:scale-110 transition-transform duration-200"
+                                    >
+                                      {reaction.reaction_emoji}
+                                    </span>
+                                  ))}
+                                </div>
+                              )}
+
+                              <div className="flex items-center justify-between mt-3 text-xs opacity-70">
+                                <span className="font-medium">
+                                  {new Date(message.created_at).toLocaleTimeString([], {
+                                    hour: '2-digit',
+                                    minute: '2-digit',
+                                  })}
+                                </span>
+                                {message.from_user === displayName && (
+                                  <span>
+                                    {message.is_read ? (
+                                      <CheckCheck className="w-4 h-4" />
+                                    ) : (
+                                      <Check className="w-4 h-4" />
+                                    )}
+                                  </span>
+                                )}
+                              </div>
+                            </Card>
+
+                            {/* Quick reactions and reply */}
+                            <div className="flex gap-1.5 mt-2 text-base items-center">
+                              {['❤️', '😍', '😊', '👍', '🔥'].map((emoji) => (
+                                <button
+                                  key={emoji}
+                                  onClick={() => addReaction(message.id, emoji)}
+                                  className="hover:scale-125 transition-transform duration-200 p-1 hover:bg-primary/10 rounded-full"
+                                >
+                                  {emoji}
+                                </button>
+                              ))}
+                              <button
+                                onClick={() => setReplyingTo(message)}
+                                className="ml-2 p-1.5 hover:bg-primary/20 rounded-lg transition-all duration-200 hover:scale-110"
+                                title="Reply"
+                              >
+                                <Reply className="w-4 h-4 text-primary" />
+                              </button>
+                            </div>
+                          </div>
+                        </motion.div>
+                      ))}
+                    </motion.div>
+                  );
+                })}
               </AnimatePresence>
               <div ref={messagesEndRef} />
             </div>
