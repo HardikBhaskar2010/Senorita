@@ -466,8 +466,11 @@ const Chat = () => {
       {/* Desktop Split Layout */}
       <div className="flex flex-1 w-full max-w-full overflow-hidden">
         {/* Left Sidebar - Only visible on desktop, takes remaining space */}
-        <div className="hidden lg:flex lg:flex-1 lg:max-w-[calc(100%-420px)] border-r border-primary/30 overflow-y-auto bg-gradient-to-br from-primary/5 via-background to-primary/10">
-          <div className="w-full">
+        <div 
+          className="hidden lg:flex lg:flex-1 lg:max-w-[calc(100%-420px)] border-r border-primary/30 overflow-y-auto bg-gradient-to-br from-primary/5 via-background to-primary/10"
+          data-testid="relationship-sidebar-container"
+        >
+          <div className="w-full min-h-screen">
             <RelationshipSidebar />
           </div>
         </div>
