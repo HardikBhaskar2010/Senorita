@@ -464,12 +464,12 @@ const Chat = () => {
     <div 
       className="min-h-screen relative overflow-hidden flex flex-col"
       style={{
-        background: backgroundImage 
-          ? `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${backgroundImage}) center/cover fixed`
+        background: chatBackground 
+          ? `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${chatBackground}) center/cover fixed`
           : undefined
       }}
     >
-      {!backgroundImage && <FloatingHearts />}
+      {!chatBackground && <FloatingHearts />}
       
       {/* Fixed Header */}
       <div className="fixed top-0 left-0 right-0 z-50 bg-card/95 backdrop-blur-md border-b border-border/50 shadow-lg">
