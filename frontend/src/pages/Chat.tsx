@@ -462,30 +462,24 @@ const Chat = () => {
   };
 
   return (
-    <div className="min-h-screen flex overflow-hidden bg-background">
+    <div className="min-h-screen h-screen flex overflow-hidden bg-background">
       {/* Desktop Split Layout */}
-      <div className="flex flex-1 w-full max-w-full overflow-hidden">
+      <div className="flex w-full h-full overflow-hidden">
         {/* Left Sidebar - Only visible on desktop, takes remaining space */}
         <div 
-          className="hidden lg:flex lg:flex-1 lg:max-w-[calc(100%-420px)] border-r border-primary/30 overflow-y-auto bg-gradient-to-br from-primary/5 via-background to-primary/10"
+          className="hidden lg:block flex-1 border-r border-primary/30 overflow-y-auto bg-gradient-to-br from-primary/5 via-background to-primary/10"
           data-testid="relationship-sidebar-container"
+          style={{ maxWidth: 'calc(100vw - 420px)' }}
         >
-          <div className="w-full min-h-screen">
-            <RelationshipSidebar />
-          </div>
+          <RelationshipSidebar />
         </div>
 
         {/* Right Chat Panel - Full width on mobile, fixed 420px on desktop */}
         <div 
-          className="flex-1 lg:w-[420px] lg:max-w-[420px] lg:flex-none flex flex-col relative bg-background overflow-hidden"
+          className="w-full lg:w-[420px] lg:flex-shrink-0 flex flex-col relative bg-background h-full"
         >
-          {/* Background and hearts container - only for messages area */}
-          <div className="absolute inset-0 pointer-events-none z-0">
-            {!chatBackground && <FloatingHearts />}
-          </div>
-          
           {/* Fixed Header */}
-          <div className="fixed top-0 right-0 z-50 w-full lg:w-[420px] bg-card/95 backdrop-blur-md border-b border-border/50 shadow-lg">
+          <div className="sticky top-0 z-50 w-full bg-card/95 backdrop-blur-md border-b border-border/50 shadow-lg">
             <div className="px-4 py-4 flex items-center justify-between">
               <div className="flex items-center gap-4">
                 <Button
