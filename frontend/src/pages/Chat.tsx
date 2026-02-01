@@ -741,31 +741,40 @@ const Chat = () => {
           </div>
 
           {/* Fixed Input Footer */}
-          <div className="fixed bottom-0 right-0 z-50 w-full lg:w-[420px] bg-card/95 backdrop-blur-md border-t border-border/50 shadow-lg">
+          <div className="fixed bottom-0 right-0 z-50 w-full lg:w-[420px] bg-gradient-to-r from-pink-500/10 via-purple-500/10 to-blue-500/10 backdrop-blur-xl border-t border-white/10 shadow-2xl">
             <div className="px-4 py-4">
               {/* Reply preview */}
               {replyingTo && (
-                <div className="mb-3 p-3 bg-primary/10 rounded-lg flex items-start gap-3">
+                <motion.div 
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="mb-3 p-3 bg-gradient-to-r from-primary/20 to-primary/10 rounded-xl flex items-start gap-3 border border-primary/30 shadow-lg"
+                >
                   <Reply className="w-5 h-5 text-primary mt-1" />
                   <div className="flex-1">
-                    <p className="text-xs text-muted-foreground font-semibold">
+                    <p className="text-xs text-primary font-semibold mb-1">
                       Replying to {replyingTo.from_user}
                     </p>
-                    <p className="text-sm line-clamp-2">{renderMessageContent(replyingTo.content)}</p>
+                    <p className="text-sm line-clamp-2 opacity-90">{renderMessageContent(replyingTo.content)}</p>
                   </div>
                   <Button
                     size="icon"
                     variant="ghost"
                     onClick={() => setReplyingTo(null)}
+                    className="hover:scale-110 transition-transform duration-200"
                   >
                     <XCircle className="w-4 h-4" />
                   </Button>
-                </div>
+                </motion.div>
               )}
 
               {/* Selected file preview */}
               {selectedFile && (
-                <div className="mb-3 p-3 bg-primary/10 rounded-lg flex items-center gap-3">
+                <motion.div 
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="mb-3 p-3 bg-gradient-to-r from-primary/20 to-primary/10 rounded-xl flex items-center gap-3 border border-primary/30 shadow-lg"
+                >
                   <FileText className="w-5 h-5 text-primary" />
                   <div className="flex-1">
                     <p className="text-sm font-semibold">{selectedFile.name}</p>
@@ -777,10 +786,11 @@ const Chat = () => {
                     size="icon"
                     variant="ghost"
                     onClick={() => setSelectedFile(null)}
+                    className="hover:scale-110 transition-transform duration-200"
                   >
                     <X className="w-4 h-4" />
                   </Button>
-                </div>
+                </motion.div>
               )}
 
               <div className="flex gap-2 items-end">
@@ -800,6 +810,7 @@ const Chat = () => {
                   onClick={() => fileInputRef.current?.click()}
                   disabled={isSending || isUploading}
                   data-testid="file-upload-button"
+                  className="hover:scale-110 transition-transform duration-200 border-primary/30 hover:border-primary/50"
                 >
                   <Paperclip className="w-5 h-5" />
                 </Button>
@@ -810,7 +821,7 @@ const Chat = () => {
                     onChange={(e) => handleTyping(e.target.value)}
                     onKeyPress={handleKeyPress}
                     placeholder={selectedFile ? "Add a message (optional)..." : "Type a message..."}
-                    className="resize-none"
+                    className="resize-none rounded-xl border-primary/30 focus:border-primary/50 bg-background/50 backdrop-blur-sm shadow-lg"
                     disabled={isSending || isUploading}
                     data-testid="message-input"
                   />
@@ -822,6 +833,7 @@ const Chat = () => {
                     disabled={isUploading}
                     size="icon"
                     data-testid="send-file-button"
+                    className="hover:scale-110 transition-transform duration-200 bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 shadow-lg"
                   >
                     {isUploading ? (
                       <Loader2 className="w-5 h-5 animate-spin" />
@@ -835,6 +847,7 @@ const Chat = () => {
                     disabled={!newMessage.trim() || isSending}
                     size="icon"
                     data-testid="send-button"
+                    className="hover:scale-110 transition-transform duration-200 bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 shadow-lg disabled:opacity-50"
                   >
                     <Send className="w-5 h-5" />
                   </Button>
