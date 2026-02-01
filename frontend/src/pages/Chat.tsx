@@ -466,7 +466,7 @@ const Chat = () => {
       {/* Desktop Split Layout */}
       <div className="flex flex-1 w-full">
         {/* Left Sidebar - Only visible on desktop */}
-        <div className="hidden lg:flex lg:w-[380px] xl:w-[420px] border-r border-border/50 overflow-hidden flex-shrink-0 bg-background">
+        <div className="hidden lg:flex lg:w-[380px] xl:w-[420px] border-r border-primary/30 overflow-hidden flex-shrink-0 bg-card/95 backdrop-blur-xl shadow-2xl">
           <RelationshipSidebar />
         </div>
 
