@@ -496,7 +496,7 @@ const MoodEnhanced = () => {
                 <Clock className="w-6 h-6 text-primary" />
                 Mood History
               </CardTitle>
-              <p className="text-muted-foreground">A timeline of your shared feelings</p>
+              <p className="text-muted-foreground">A timeline of our shared feelings</p>
             </CardHeader>
             <CardContent className="p-6">
               <div className="space-y-4">
