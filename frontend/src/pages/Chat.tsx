@@ -519,8 +519,15 @@ const Chat = () => {
             </div>
           </div>
 
-          {/* Messages - with padding for sticky header and footer */}
-          <div className="flex-1 overflow-y-auto pb-32 relative z-10 p-4">
+          {/* Messages - with padding for fixed header and footer, background applied here */}
+          <div 
+            className="flex-1 overflow-y-auto pt-20 pb-40 relative z-10 p-4"
+            style={{
+              background: chatBackground 
+                ? `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${chatBackground}) center/cover`
+                : undefined
+            }}
+          >
             <div className="space-y-4">
               <AnimatePresence>
                 {messages.map((message) => (
