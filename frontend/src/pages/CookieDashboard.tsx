@@ -53,8 +53,8 @@ const CookieDashboard = () => {
   }
 
   // Fallback dates if not set in profile
-  const displayAnniversary = anniversaryDate || new Date(2024, 4, 14); // May 14th
-  const displayRelationshipStart = relationshipStart || new Date(2024, 1, 14); // Feb 14th
+  const displayAnniversary = anniversaryDate || new Date(2025, 7, 12); // Aug 12th, 2025
+  const displayRelationshipStart = relationshipStart || new Date(2024, 7, 12); // Aug 12th, 2024
   const partnerNames = ['Cookie', 'Senorita'];
 
   // Animation variants for stagger effect
