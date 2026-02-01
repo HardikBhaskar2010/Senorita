@@ -156,41 +156,6 @@ const Login = () => {
           </p>
         </motion.div>
       </div>
-
-      {/* Skip Dialog */}
-      <Dialog open={showSkipDialog} onOpenChange={setShowSkipDialog}>
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
-              <TestTube className="w-5 h-5" />
-              Testing Mode
-            </DialogTitle>
-            <DialogDescription>
-              Choose which dashboard to access for testing
-            </DialogDescription>
-          </DialogHeader>
-          <div className="flex flex-col gap-3 py-4">
-            <Button
-              onClick={() => handleSkipToDashboard('cookie')}
-              className="w-full h-16 text-lg"
-              style={{ backgroundColor: '#3b82f6' }}
-              data-testid="skip-to-cookie"
-            >
-              <span className="mr-2">🍪</span>
-              Cookie's Dashboard
-            </Button>
-            <Button
-              onClick={() => handleSkipToDashboard('senorita')}
-              className="w-full h-16 text-lg"
-              style={{ backgroundColor: '#ec4899' }}
-              data-testid="skip-to-senorita"
-            >
-              <span className="mr-2">💃</span>
-              Senorita's Dashboard
-            </Button>
-          </div>
-        </DialogContent>
-      </Dialog>
     </div>
   );
 };
