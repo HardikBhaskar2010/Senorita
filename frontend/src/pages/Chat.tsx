@@ -462,26 +462,25 @@ const Chat = () => {
   };
 
   return (
-    <div className="min-h-screen flex overflow-hidden">
+    <div className="min-h-screen flex overflow-hidden bg-background">
       {/* Desktop Split Layout */}
-      <div className="flex flex-1 w-full">
+      <div className="flex flex-1 w-full max-w-full">
         {/* Left Sidebar - Only visible on desktop */}
-        <div className="hidden lg:flex lg:w-[380px] xl:w-[420px] border-r border-primary/30 overflow-hidden flex-shrink-0 bg-card/95 backdrop-blur-xl shadow-2xl">
+        <div className="hidden lg:flex lg:flex-1 border-r border-primary/30 overflow-hidden bg-gradient-to-br from-primary/5 via-background to-primary/10">
           <RelationshipSidebar />
         </div>
 
-        {/* Right Chat Panel - Full width on mobile, remaining space on desktop */}
+        {/* Right Chat Panel - Full width on mobile, fixed width on desktop */}
         <div 
-          className="flex-1 flex flex-col relative"
-          style={{
-            background: chatBackground 
-              ? `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${chatBackground}) center/cover fixed`
-              : undefined
-          }}
+          className="flex-1 lg:w-[420px] lg:max-w-[420px] lg:flex-none flex flex-col relative bg-background"
         >
-          {!chatBackground && <FloatingHearts />}
+          {/* Background and hearts container - only for messages area */}
+          <div className="absolute inset-0 pointer-events-none">
+            {!chatBackground && <FloatingHearts />}
+          </div>
+          
           {/* Fixed Header */}
-          <div className="sticky top-0 z-50 bg-card/95 backdrop-blur-md border-b border-border/50 shadow-lg w-full">
+          <div className="fixed top-0 right-0 z-50 w-full lg:w-[420px] bg-card/95 backdrop-blur-md border-b border-border/50 shadow-lg">
             <div className="px-4 py-4 flex items-center justify-between">
               <div className="flex items-center gap-4">
                 <Button
