@@ -311,6 +311,12 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         setColorTheme,
         setAppearanceMode,
         isDark,
+        chatBackground,
+        dashboardBackgroundCookie,
+        dashboardBackgroundSenorita,
+        setChatBackground,
+        setDashboardBackground,
+        // Legacy support
         backgroundImage,
         setBackgroundImage,
       }}
