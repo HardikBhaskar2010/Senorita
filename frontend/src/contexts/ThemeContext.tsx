@@ -10,6 +10,12 @@ interface ThemeContextType {
   setColorTheme: (theme: ColorTheme) => void;
   setAppearanceMode: (mode: AppearanceMode) => void;
   isDark: boolean;
+  chatBackground: string;
+  dashboardBackgroundCookie: string;
+  dashboardBackgroundSenorita: string;
+  setChatBackground: (url: string) => Promise<void>;
+  setDashboardBackground: (url: string, user: 'cookie' | 'senorita') => Promise<void>;
+  // Legacy support
   backgroundImage: string;
   setBackgroundImage: (url: string) => Promise<void>;
 }
