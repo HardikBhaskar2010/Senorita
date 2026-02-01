@@ -49,6 +49,7 @@ interface CalendarEvent {
 
 const RelationshipSidebar = () => {
   const { displayName, partnerName } = useSpace();
+  const { relationshipStart } = useCouple();
   const { toast } = useToast();
   const [stats, setStats] = useState<RelationshipStats>({
     daysTogether: 0,
