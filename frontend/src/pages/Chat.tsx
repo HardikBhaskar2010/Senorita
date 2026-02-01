@@ -461,6 +461,46 @@ const Chat = () => {
     }
   };
 
+  // Date Helper Functions
+  const isToday = (date: Date): boolean => {
+    const today = new Date();
+    return date.toDateString() === today.toDateString();
+  };
+
+  const isYesterday = (date: Date): boolean => {
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    return date.toDateString() === yesterday.toDateString();
+  };
+
+  const formatDateSeparator = (date: Date): string => {
+    if (isToday(date)) return 'Today';
+    if (isYesterday(date)) return 'Yesterday';
+    
+    // Format as "Feb 5" (shorter format)
+    const options: Intl.DateTimeFormatOptions = { month: 'short', day: 'numeric' };
+    return date.toLocaleDateString('en-US', options);
+  };
+
+  // Group messages by date
+  const groupMessagesByDate = (messages: Message[]) => {
+    const groups: { [key: string]: Message[] } = {};
+    
+    messages.forEach((message) => {
+      const date = new Date(message.created_at);
+      const dateKey = date.toDateString();
+      
+      if (!groups[dateKey]) {
+        groups[dateKey] = [];
+      }
+      groups[dateKey].push(message);
+    });
+    
+    return groups;
+  };
+
+  const messageGroups = groupMessagesByDate(messages);
+
   return (
     <div className="min-h-screen h-screen flex overflow-hidden bg-background">
       {/* Desktop Split Layout */}
