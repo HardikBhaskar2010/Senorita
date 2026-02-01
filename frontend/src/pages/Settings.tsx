@@ -159,7 +159,7 @@ const Settings = () => {
 
       toast({
         title: '🎨 Chat Background Updated!',
-        description: 'Your new chat background has been synced with ' + partnerName,
+        description: 'I synced our new chat background for us!',
       });
     } catch (error: any) {
       toast({
