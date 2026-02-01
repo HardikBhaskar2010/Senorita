@@ -96,7 +96,7 @@ const RelationshipSidebar = () => {
   const fetchStats = async () => {
     try {
       // Calculate days together using relationship start date from context
-      const startDate = relationshipStart || new Date('2024-02-14');
+      const startDate = relationshipStart || new Date('2024-08-12');
       const today = new Date();
       const daysTogether = Math.floor((today.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
 
