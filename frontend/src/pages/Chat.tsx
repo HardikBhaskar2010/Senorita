@@ -652,7 +652,7 @@ const Chat = () => {
           </div>
 
           {/* Fixed Input Footer */}
-          <div className="fixed bottom-0 right-0 z-50 bg-card/95 backdrop-blur-md border-t border-border/50 shadow-lg w-full lg:w-[420px]">
+          <div className="sticky bottom-0 z-50 bg-card/95 backdrop-blur-md border-t border-border/50 shadow-lg w-full">
             <div className="px-4 py-4">
               {/* Reply preview */}
               {replyingTo && (
