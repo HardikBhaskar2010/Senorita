@@ -133,6 +133,11 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   });
 
   const [isDark, setIsDark] = useState(false);
+  const [chatBackground, setChatBackgroundState] = useState<string>('');
+  const [dashboardBackgroundCookie, setDashboardBackgroundCookie] = useState<string>('');
+  const [dashboardBackgroundSenorita, setDashboardBackgroundSenorita] = useState<string>('');
+  
+  // Legacy support - defaults to chat background
   const [backgroundImage, setBackgroundImageState] = useState<string>('');
 
   // Handle system preference changes
