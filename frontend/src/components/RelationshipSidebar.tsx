@@ -211,7 +211,11 @@ const RelationshipSidebar = () => {
   };
 
   return (
-    <div className="h-full w-full overflow-y-auto p-6 space-y-6 bg-gradient-to-br from-background via-background/95 to-primary/5">
+    <div 
+      className="h-full w-full overflow-y-auto p-6 space-y-6 bg-gradient-to-br from-background via-background/95 to-primary/5"
+      data-testid="relationship-sidebar-content"
+      style={{ minWidth: '300px' }}
+    >
       {/* Animated Beating Heart */}
       <motion.div
         initial={{ scale: 0 }}
