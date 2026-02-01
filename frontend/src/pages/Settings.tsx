@@ -114,7 +114,7 @@ const Settings = () => {
     }
   };
 
-  const handleBackgroundUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChatBackgroundUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
@@ -138,11 +138,11 @@ const Settings = () => {
       return;
     }
 
-    setIsUploadingBg(true);
+    setIsUploadingChatBg(true);
     try {
       // Upload to Supabase storage
       const fileExt = file.name.split('.').pop();
-      const fileName = `background-${Date.now()}.${fileExt}`;
+      const fileName = `chat-bg-${Date.now()}.${fileExt}`;
 
       const { error: uploadError } = await supabase.storage
         .from('chat-media')
@@ -154,12 +154,12 @@ const Settings = () => {
         data: { publicUrl },
       } = supabase.storage.from('chat-media').getPublicUrl(fileName);
 
-      // Update background in context (which syncs to Supabase)
-      await setBackgroundImage(publicUrl);
+      // Update chat background (synced)
+      await setChatBackground(publicUrl);
 
       toast({
-        title: '🎨 Background Updated!',
-        description: 'Your new background has been set and synced',
+        title: '🎨 Chat Background Updated!',
+        description: 'Your new chat background has been synced with ' + partnerName,
       });
     } catch (error: any) {
       toast({
@@ -168,16 +168,90 @@ const Settings = () => {
         variant: 'destructive',
       });
     } finally {
-      setIsUploadingBg(false);
+      setIsUploadingChatBg(false);
     }
   };
 
-  const removeBackground = async () => {
-    try {
-      await setBackgroundImage('');
+  const handleDashboardBackgroundUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // Check file size (max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
       toast({
-        title: 'Background Removed',
-        description: 'Background has been reset to default',
+        title: 'File too large',
+        description: 'Please select an image smaller than 5MB',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    // Check file type
+    if (!file.type.startsWith('image/')) {
+      toast({
+        title: 'Invalid file type',
+        description: 'Please select an image file',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    setIsUploadingDashboardBg(true);
+    try {
+      // Upload to Supabase storage
+      const fileExt = file.name.split('.').pop();
+      const fileName = `dashboard-${currentSpace}-${Date.now()}.${fileExt}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from('chat-media')
+        .upload(fileName, file);
+
+      if (uploadError) throw uploadError;
+
+      const {
+        data: { publicUrl },
+      } = supabase.storage.from('chat-media').getPublicUrl(fileName);
+
+      // Update dashboard background (personal)
+      await setDashboardBackground(publicUrl, currentSpace as 'cookie' | 'senorita');
+
+      toast({
+        title: '🎨 Dashboard Background Updated!',
+        description: 'Your personal dashboard background has been set',
+      });
+    } catch (error: any) {
+      toast({
+        title: 'Upload failed',
+        description: error.message,
+        variant: 'destructive',
+      });
+    } finally {
+      setIsUploadingDashboardBg(false);
+    }
+  };
+
+  const removeChatBackground = async () => {
+    try {
+      await setChatBackground('');
+      toast({
+        title: 'Chat Background Removed',
+        description: 'Chat background has been reset to default',
+      });
+    } catch (error: any) {
+      toast({
+        title: 'Error',
+        description: error.message,
+        variant: 'destructive',
+      });
+    }
+  };
+
+  const removeDashboardBackground = async () => {
+    try {
+      await setDashboardBackground('', currentSpace as 'cookie' | 'senorita');
+      toast({
+        title: 'Dashboard Background Removed',
+        description: 'Dashboard background has been reset to default',
       });
     } catch (error: any) {
       toast({
