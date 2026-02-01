@@ -464,18 +464,20 @@ const Chat = () => {
   return (
     <div className="min-h-screen flex overflow-hidden bg-background">
       {/* Desktop Split Layout */}
-      <div className="flex flex-1 w-full max-w-full">
-        {/* Left Sidebar - Only visible on desktop */}
-        <div className="hidden lg:flex lg:w-[calc(100%-420px)] xl:w-[calc(100%-420px)] border-r border-primary/30 overflow-hidden bg-gradient-to-br from-primary/5 via-background to-primary/10">
-          <RelationshipSidebar />
+      <div className="flex flex-1 w-full max-w-full overflow-hidden">
+        {/* Left Sidebar - Only visible on desktop, takes remaining space */}
+        <div className="hidden lg:flex lg:flex-1 lg:max-w-[calc(100%-420px)] border-r border-primary/30 overflow-y-auto bg-gradient-to-br from-primary/5 via-background to-primary/10">
+          <div className="w-full">
+            <RelationshipSidebar />
+          </div>
         </div>
 
-        {/* Right Chat Panel - Full width on mobile, fixed width on desktop */}
+        {/* Right Chat Panel - Full width on mobile, fixed 420px on desktop */}
         <div 
-          className="flex-1 lg:w-[420px] lg:max-w-[420px] lg:flex-none flex flex-col relative bg-background"
+          className="flex-1 lg:w-[420px] lg:max-w-[420px] lg:flex-none flex flex-col relative bg-background overflow-hidden"
         >
           {/* Background and hearts container - only for messages area */}
-          <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute inset-0 pointer-events-none z-0">
             {!chatBackground && <FloatingHearts />}
           </div>
           
