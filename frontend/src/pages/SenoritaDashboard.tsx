@@ -27,7 +27,7 @@ const SenoritaDashboard = () => {
   const navigate = useNavigate();
   const { currentSpace, logout, displayName, partnerName } = useSpace();
   const { anniversaryDate, relationshipStart } = useCouple();
-  const { backgroundImage } = useTheme();
+  const { dashboardBackgroundSenorita } = useTheme();
   
   // Only redirect if space is explicitly set to something else (not null/loading)
   useEffect(() => {
