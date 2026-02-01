@@ -17,7 +17,7 @@ import { supabase } from '@/lib/supabase';
 import { useToast } from '@/hooks/use-toast';
 
 interface RelationshipStats {
-  daysToget her: number;
+  daysTogether: number;
   totalMessages: number;
   totalHugs: number;
   totalKisses: number;
