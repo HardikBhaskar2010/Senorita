@@ -32,7 +32,17 @@ const Settings = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const { currentSpace, displayName, partnerName, user } = useSpace();
-  const { colorTheme, setColorTheme, appearanceMode, setAppearanceMode, backgroundImage, setBackgroundImage } = useTheme();
+  const { 
+    colorTheme, 
+    setColorTheme, 
+    appearanceMode, 
+    setAppearanceMode, 
+    chatBackground,
+    dashboardBackgroundCookie,
+    dashboardBackgroundSenorita,
+    setChatBackground,
+    setDashboardBackground 
+  } = useTheme();
   
   // Password change state
   const [oldPassword, setOldPassword] = useState("");
@@ -41,8 +51,13 @@ const Settings = () => {
   const [isChangingPassword, setIsChangingPassword] = useState(false);
   
   // Background image state
-  const [isUploadingBg, setIsUploadingBg] = useState(false);
-  const bgFileInputRef = useRef<HTMLInputElement>(null);
+  const [isUploadingChatBg, setIsUploadingChatBg] = useState(false);
+  const [isUploadingDashboardBg, setIsUploadingDashboardBg] = useState(false);
+  const chatBgFileInputRef = useRef<HTMLInputElement>(null);
+  const dashboardBgFileInputRef = useRef<HTMLInputElement>(null);
+
+  // Get current dashboard background based on user
+  const currentDashboardBg = currentSpace === 'cookie' ? dashboardBackgroundCookie : dashboardBackgroundSenorita;
 
   const goBack = () => {
     navigate(currentSpace === 'cookie' ? '/cookie' : '/senorita');
