@@ -362,7 +362,7 @@ const Settings = () => {
               </div>
 
               <p className="text-xs text-muted-foreground">
-                💕 This background syncs instantly with your partner
+                💕 This background syncs instantly between you and I
               </p>
             </CardContent>
           </Card>
