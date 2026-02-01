@@ -463,7 +463,7 @@ const Chat = () => {
 
   return (
     <div 
-      className="min-h-screen relative overflow-hidden flex flex-col"
+      className="min-h-screen relative overflow-hidden flex"
       style={{
         background: chatBackground 
           ? `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${chatBackground}) center/cover fixed`
@@ -472,275 +472,286 @@ const Chat = () => {
     >
       {!chatBackground && <FloatingHearts />}
       
-      {/* Fixed Header */}
-      <div className="fixed top-0 left-0 right-0 z-50 bg-card/95 backdrop-blur-md border-b border-border/50 shadow-lg">
-        <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={goBack}
-              data-testid="back-button"
-            >
-              <ArrowLeft className="w-5 h-5" />
-            </Button>
-            <div>
-              <h1 className="text-xl font-bold">
-                {partnerName} <Heart className="inline w-4 h-4 text-primary fill-current" />
-              </h1>
-              {partnerIsTyping && (
-                <p className="text-xs text-muted-foreground">typing...</p>
-              )}
+      {/* Desktop Split Layout */}
+      <div className="flex flex-1 w-full">
+        {/* Left Sidebar - Only visible on desktop */}
+        <div className="hidden lg:block lg:w-[400px] xl:w-[450px] border-r border-border/50 overflow-hidden">
+          <RelationshipSidebar />
+        </div>
+
+        {/* Right Chat Panel - Phone sized on desktop, full on mobile */}
+        <div className="flex-1 lg:max-w-[420px] lg:mx-auto flex flex-col">
+          {/* Fixed Header */}
+          <div className="fixed top-0 right-0 z-50 bg-card/95 backdrop-blur-md border-b border-border/50 shadow-lg w-full lg:w-[420px]">
+            <div className="px-4 py-4 flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={goBack}
+                  data-testid="back-button"
+                >
+                  <ArrowLeft className="w-5 h-5" />
+                </Button>
+                <div>
+                  <h1 className="text-xl font-bold">
+                    {partnerName} <Heart className="inline w-4 h-4 text-primary fill-current" />
+                  </h1>
+                  {partnerIsTyping && (
+                    <p className="text-xs text-muted-foreground">typing...</p>
+                  )}
+                </div>
+              </div>
+
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="icon">
+                    <MoreVertical className="w-5 h-5" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem onClick={() => sendSpecialMessage('hug')}>
+                    🤗 Send Virtual Hug
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => sendSpecialMessage('kiss')}>
+                    😘 Send Virtual Kiss
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           </div>
 
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon">
-                <MoreVertical className="w-5 h-5" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={() => sendSpecialMessage('hug')}>
-                🤗 Send Virtual Hug
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => sendSpecialMessage('kiss')}>
-                😘 Send Virtual Kiss
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
-      </div>
-
-      {/* Messages - with padding for fixed header and footer */}
-      <div className="flex-1 overflow-y-auto pt-20 pb-32 relative z-10 p-4">
-        <div className="max-w-4xl mx-auto space-y-4">
-          <AnimatePresence>
-            {messages.map((message) => (
-              <motion.div
-                key={message.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0 }}
-                className={`flex ${getMessageAlignment(message.from_user)}`}
-              >
-                <div className="max-w-[70%]">
-                  <Card
-                    className={`p-3 ${getMessageColor(message.from_user)} shadow-lg`}
-                    data-testid="chat-message"
+          {/* Messages - with padding for fixed header and footer */}
+          <div className="flex-1 overflow-y-auto pt-20 pb-32 relative z-10 p-4">
+            <div className="space-y-4">
+              <AnimatePresence>
+                {messages.map((message) => (
+                  <motion.div
+                    key={message.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0 }}
+                    className={`flex ${getMessageAlignment(message.from_user)}`}
                   >
-                    {/* Reply indicator */}
-                    {message.reply_to_content && (
-                      <div className="mb-2 p-2 bg-black/20 rounded-lg border-l-2 border-white/50">
-                        <p className="text-xs opacity-70">{message.reply_to_user}</p>
-                        <p className="text-sm opacity-90">{renderMessageContent(message.reply_to_content)}</p>
-                      </div>
-                    )}
-
-                    {message.message_type === 'hug' && (
-                      <div className="text-center text-4xl mb-2">🤗</div>
-                    )}
-                    {message.message_type === 'kiss' && (
-                      <div className="text-center text-4xl mb-2">😘</div>
-                    )}
-                    {message.message_type === 'file' && (
-                      <div className="space-y-2">
-                        {message.file_type === 'image' && message.file_url ? (
-                          <div onClick={() => handleImageClick(message.file_url!)}>
-                            <img
-                              src={message.file_url}
-                              alt={message.file_name || 'Image'}
-                              className="max-w-full h-auto rounded-lg max-h-64 object-cover cursor-pointer hover:opacity-90 transition-opacity"
-                            />
-                          </div>
-                        ) : message.file_type === 'video' && message.file_url ? (
-                          <video
-                            src={message.file_url}
-                            controls
-                            className="max-w-full h-auto rounded-lg max-h-64"
-                          />
-                        ) : (
-                          <a
-                            href={message.file_url || '#'}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex items-center gap-2 p-3 bg-white/10 rounded-lg hover:bg-white/20 transition-colors"
-                          >
-                            {getFileIcon(message.file_type)}
-                            <div className="flex-1">
-                              <p className="font-semibold text-sm">
-                                {message.file_name || 'File'}
-                              </p>
-                              <p className="text-xs opacity-70">
-                                {formatFileSize(message.file_size)}
-                              </p>
-                            </div>
-                            <Download className="w-4 h-4" />
-                          </a>
-                        )}
-                      </div>
-                    )}
-                    <p className="whitespace-pre-wrap break-words">{renderMessageContent(message.content)}</p>
-
-                    {/* Reactions */}
-                    {message.reactions && message.reactions.length > 0 && (
-                      <div className="flex gap-1 mt-2 flex-wrap">
-                        {message.reactions.map((reaction) => (
-                          <span
-                            key={reaction.id}
-                            className="text-sm bg-white/20 px-2 py-1 rounded-full"
-                          >
-                            {reaction.reaction_emoji}
-                          </span>
-                        ))}
-                      </div>
-                    )}
-
-                    <div className="flex items-center justify-between mt-2 text-xs opacity-70">
-                      <span>
-                        {new Date(message.created_at).toLocaleTimeString([], {
-                          hour: '2-digit',
-                          minute: '2-digit',
-                        })}
-                      </span>
-                      {message.from_user === displayName && (
-                        <span>
-                          {message.is_read ? (
-                            <CheckCheck className="w-4 h-4" />
-                          ) : (
-                            <Check className="w-4 h-4" />
-                          )}
-                        </span>
-                      )}
-                    </div>
-                  </Card>
-
-                  {/* Quick reactions and reply */}
-                  <div className="flex gap-1 mt-1 text-sm items-center">
-                    {['❤️', '😍', '😊', '👍', '🔥'].map((emoji) => (
-                      <button
-                        key={emoji}
-                        onClick={() => addReaction(message.id, emoji)}
-                        className="hover:scale-125 transition-transform"
+                    <div className="max-w-[70%]">
+                      <Card
+                        className={`p-3 ${getMessageColor(message.from_user)} shadow-lg`}
+                        data-testid="chat-message"
                       >
-                        {emoji}
-                      </button>
-                    ))}
-                    <button
-                      onClick={() => setReplyingTo(message)}
-                      className="ml-2 p-1 hover:bg-primary/10 rounded-md transition-colors"
-                      title="Reply"
-                    >
-                      <Reply className="w-4 h-4 text-primary" />
-                    </button>
+                        {/* Reply indicator */}
+                        {message.reply_to_content && (
+                          <div className="mb-2 p-2 bg-black/20 rounded-lg border-l-2 border-white/50">
+                            <p className="text-xs opacity-70">{message.reply_to_user}</p>
+                            <p className="text-sm opacity-90">{renderMessageContent(message.reply_to_content)}</p>
+                          </div>
+                        )}
+
+                        {message.message_type === 'hug' && (
+                          <div className="text-center text-4xl mb-2">🤗</div>
+                        )}
+                        {message.message_type === 'kiss' && (
+                          <div className="text-center text-4xl mb-2">😘</div>
+                        )}
+                        {message.message_type === 'file' && (
+                          <div className="space-y-2">
+                            {message.file_type === 'image' && message.file_url ? (
+                              <div onClick={() => handleImageClick(message.file_url!)}>
+                                <img
+                                  src={message.file_url}
+                                  alt={message.file_name || 'Image'}
+                                  className="max-w-full h-auto rounded-lg max-h-64 object-cover cursor-pointer hover:opacity-90 transition-opacity"
+                                />
+                              </div>
+                            ) : message.file_type === 'video' && message.file_url ? (
+                              <video
+                                src={message.file_url}
+                                controls
+                                className="max-w-full h-auto rounded-lg max-h-64"
+                              />
+                            ) : (
+                              <a
+                                href={message.file_url || '#'}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-center gap-2 p-3 bg-white/10 rounded-lg hover:bg-white/20 transition-colors"
+                              >
+                                {getFileIcon(message.file_type)}
+                                <div className="flex-1">
+                                  <p className="font-semibold text-sm">
+                                    {message.file_name || 'File'}
+                                  </p>
+                                  <p className="text-xs opacity-70">
+                                    {formatFileSize(message.file_size)}
+                                  </p>
+                                </div>
+                                <Download className="w-4 h-4" />
+                              </a>
+                            )}
+                          </div>
+                        )}
+                        <p className="whitespace-pre-wrap break-words">{renderMessageContent(message.content)}</p>
+
+                        {/* Reactions */}
+                        {message.reactions && message.reactions.length > 0 && (
+                          <div className="flex gap-1 mt-2 flex-wrap">
+                            {message.reactions.map((reaction) => (
+                              <span
+                                key={reaction.id}
+                                className="text-sm bg-white/20 px-2 py-1 rounded-full"
+                              >
+                                {reaction.reaction_emoji}
+                              </span>
+                            ))}
+                          </div>
+                        )}
+
+                        <div className="flex items-center justify-between mt-2 text-xs opacity-70">
+                          <span>
+                            {new Date(message.created_at).toLocaleTimeString([], {
+                              hour: '2-digit',
+                              minute: '2-digit',
+                            })}
+                          </span>
+                          {message.from_user === displayName && (
+                            <span>
+                              {message.is_read ? (
+                                <CheckCheck className="w-4 h-4" />
+                              ) : (
+                                <Check className="w-4 h-4" />
+                              )}
+                            </span>
+                          )}
+                        </div>
+                      </Card>
+
+                      {/* Quick reactions and reply */}
+                      <div className="flex gap-1 mt-1 text-sm items-center">
+                        {['❤️', '😍', '😊', '👍', '🔥'].map((emoji) => (
+                          <button
+                            key={emoji}
+                            onClick={() => addReaction(message.id, emoji)}
+                            className="hover:scale-125 transition-transform"
+                          >
+                            {emoji}
+                          </button>
+                        ))}
+                        <button
+                          onClick={() => setReplyingTo(message)}
+                          className="ml-2 p-1 hover:bg-primary/10 rounded-md transition-colors"
+                          title="Reply"
+                        >
+                          <Reply className="w-4 h-4 text-primary" />
+                        </button>
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+              <div ref={messagesEndRef} />
+            </div>
+          </div>
+
+          {/* Fixed Input Footer */}
+          <div className="fixed bottom-0 right-0 z-50 bg-card/95 backdrop-blur-md border-t border-border/50 shadow-lg w-full lg:w-[420px]">
+            <div className="px-4 py-4">
+              {/* Reply preview */}
+              {replyingTo && (
+                <div className="mb-3 p-3 bg-primary/10 rounded-lg flex items-start gap-3">
+                  <Reply className="w-5 h-5 text-primary mt-1" />
+                  <div className="flex-1">
+                    <p className="text-xs text-muted-foreground font-semibold">
+                      Replying to {replyingTo.from_user}
+                    </p>
+                    <p className="text-sm line-clamp-2">{renderMessageContent(replyingTo.content)}</p>
                   </div>
+                  <Button
+                    size="icon"
+                    variant="ghost"
+                    onClick={() => setReplyingTo(null)}
+                  >
+                    <XCircle className="w-4 h-4" />
+                  </Button>
                 </div>
-              </motion.div>
-            ))}
-          </AnimatePresence>
-          <div ref={messagesEndRef} />
-        </div>
-      </div>
+              )}
 
-      {/* Fixed Input Footer */}
-      <div className="fixed bottom-0 left-0 right-0 z-50 bg-card/95 backdrop-blur-md border-t border-border/50 shadow-lg">
-        <div className="max-w-4xl mx-auto px-4 py-4">
-          {/* Reply preview */}
-          {replyingTo && (
-            <div className="mb-3 p-3 bg-primary/10 rounded-lg flex items-start gap-3">
-              <Reply className="w-5 h-5 text-primary mt-1" />
-              <div className="flex-1">
-                <p className="text-xs text-muted-foreground font-semibold">
-                  Replying to {replyingTo.from_user}
-                </p>
-                <p className="text-sm line-clamp-2">{renderMessageContent(replyingTo.content)}</p>
-              </div>
-              <Button
-                size="icon"
-                variant="ghost"
-                onClick={() => setReplyingTo(null)}
-              >
-                <XCircle className="w-4 h-4" />
-              </Button>
-            </div>
-          )}
+              {/* Selected file preview */}
+              {selectedFile && (
+                <div className="mb-3 p-3 bg-primary/10 rounded-lg flex items-center gap-3">
+                  <FileText className="w-5 h-5 text-primary" />
+                  <div className="flex-1">
+                    <p className="text-sm font-semibold">{selectedFile.name}</p>
+                    <p className="text-xs text-muted-foreground">
+                      {formatFileSize(selectedFile.size)}
+                    </p>
+                  </div>
+                  <Button
+                    size="icon"
+                    variant="ghost"
+                    onClick={() => setSelectedFile(null)}
+                  >
+                    <X className="w-4 h-4" />
+                  </Button>
+                </div>
+              )}
 
-          {/* Selected file preview */}
-          {selectedFile && (
-            <div className="mb-3 p-3 bg-primary/10 rounded-lg flex items-center gap-3">
-              <FileText className="w-5 h-5 text-primary" />
-              <div className="flex-1">
-                <p className="text-sm font-semibold">{selectedFile.name}</p>
-                <p className="text-xs text-muted-foreground">
-                  {formatFileSize(selectedFile.size)}
-                </p>
-              </div>
-              <Button
-                size="icon"
-                variant="ghost"
-                onClick={() => setSelectedFile(null)}
-              >
-                <X className="w-4 h-4" />
-              </Button>
-            </div>
-          )}
+              <div className="flex gap-2 items-end">
+                {/* Hidden file input */}
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  onChange={handleFileSelect}
+                  className="hidden"
+                  accept="image/*,video/*,audio/*,.pdf,.doc,.docx,.txt,.zip,.rar"
+                />
 
-          <div className="flex gap-2 items-end">
-            {/* Hidden file input */}
-            <input
-              ref={fileInputRef}
-              type="file"
-              onChange={handleFileSelect}
-              className="hidden"
-              accept="image/*,video/*,audio/*,.pdf,.doc,.docx,.txt,.zip,.rar"
-            />
+                {/* File upload button */}
+                <Button
+                  size="icon"
+                  variant="outline"
+                  onClick={() => fileInputRef.current?.click()}
+                  disabled={isSending || isUploading}
+                  data-testid="file-upload-button"
+                >
+                  <Paperclip className="w-5 h-5" />
+                </Button>
 
-            {/* File upload button */}
-            <Button
-              size="icon"
-              variant="outline"
-              onClick={() => fileInputRef.current?.click()}
-              disabled={isSending || isUploading}
-              data-testid="file-upload-button"
-            >
-              <Paperclip className="w-5 h-5" />
-            </Button>
+                <div className="flex-1">
+                  <Input
+                    value={newMessage}
+                    onChange={(e) => handleTyping(e.target.value)}
+                    onKeyPress={handleKeyPress}
+                    placeholder={selectedFile ? "Add a message (optional)..." : "Type a message..."}
+                    className="resize-none"
+                    disabled={isSending || isUploading}
+                    data-testid="message-input"
+                  />
+                </div>
 
-            <div className="flex-1">
-              <Input
-                value={newMessage}
-                onChange={(e) => handleTyping(e.target.value)}
-                onKeyPress={handleKeyPress}
-                placeholder={selectedFile ? "Add a message (optional)..." : "Type a message..."}
-                className="resize-none"
-                disabled={isSending || isUploading}
-                data-testid="message-input"
-              />
-            </div>
-
-            {selectedFile ? (
-              <Button
-                onClick={sendFile}
-                disabled={isUploading}
-                size="icon"
-                data-testid="send-file-button"
-              >
-                {isUploading ? (
-                  <Loader2 className="w-5 h-5 animate-spin" />
+                {selectedFile ? (
+                  <Button
+                    onClick={sendFile}
+                    disabled={isUploading}
+                    size="icon"
+                    data-testid="send-file-button"
+                  >
+                    {isUploading ? (
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                    ) : (
+                      <Send className="w-5 h-5" />
+                    )}
+                  </Button>
                 ) : (
-                  <Send className="w-5 h-5" />
+                  <Button
+                    onClick={sendMessage}
+                    disabled={!newMessage.trim() || isSending}
+                    size="icon"
+                    data-testid="send-button"
+                  >
+                    <Send className="w-5 h-5" />
+                  </Button>
                 )}
-              </Button>
-            ) : (
-              <Button
-                onClick={sendMessage}
-                disabled={!newMessage.trim() || isSending}
-                size="icon"
-                data-testid="send-button"
-              >
-                <Send className="w-5 h-5" />
-              </Button>
-            )}
+              </div>
+            </div>
           </div>
         </div>
       </div>
