@@ -79,18 +79,76 @@ const Chat = () => {
   const [isUploading, setIsUploading] = useState(false);
   const [replyingTo, setReplyingTo] = useState<Message | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [isScrolling, setIsScrolling] = useState(false);
+  const [currentDateLabel, setCurrentDateLabel] = useState<string>('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const typingTimeoutRef = useRef<NodeJS.Timeout>();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const scrollTimeoutRef = useRef<NodeJS.Timeout>();
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
 
   // Scroll to bottom
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  // Handle scroll detection for date bar
+  const handleScroll = () => {
+    if (!messagesContainerRef.current) return;
+
+    const container = messagesContainerRef.current;
+    const scrollTop = container.scrollTop;
+    
+    // Find the current visible date by checking which date group is most visible
+    const dateElements = container.querySelectorAll('[data-date-group]');
+    let currentDate = '';
+    
+    dateElements.forEach((element) => {
+      const rect = element.getBoundingClientRect();
+      const containerRect = container.getBoundingClientRect();
+      
+      // Check if this date group is in the visible area (considering header offset)
+      if (rect.top <= containerRect.top + 120 && rect.bottom >= containerRect.top + 120) {
+        currentDate = element.getAttribute('data-date-group') || '';
+      }
+    });
+
+    if (currentDate) {
+      const date = new Date(currentDate);
+      setCurrentDateLabel(formatDateSeparator(date));
+    }
+
+    // Show date bar while scrolling
+    setIsScrolling(true);
+    
+    // Clear previous timeout
+    if (scrollTimeoutRef.current) {
+      clearTimeout(scrollTimeoutRef.current);
+    }
+    
+    // Hide date bar after scrolling stops
+    scrollTimeoutRef.current = setTimeout(() => {
+      setIsScrolling(false);
+    }, 1500);
+  };
+
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
+
+  // Add scroll listener
+  useEffect(() => {
+    const container = messagesContainerRef.current;
+    if (container) {
+      container.addEventListener('scroll', handleScroll);
+      return () => {
+        container.removeEventListener('scroll', handleScroll);
+        if (scrollTimeoutRef.current) {
+          clearTimeout(scrollTimeoutRef.current);
+        }
+      };
+    }
+  }, []);
 
   // Fetch messages
   useEffect(() => {
@@ -161,6 +219,9 @@ const Chat = () => {
       messagesSubscription.unsubscribe();
       typingSubscription.unsubscribe();
       reactionsSubscription.unsubscribe();
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
     };
   }, [displayName, partnerName]);
 
@@ -571,8 +632,29 @@ const Chat = () => {
             </div>
           </div>
 
+          {/* Floating Date Bar - WhatsApp style */}
+          <AnimatePresence>
+            {isScrolling && currentDateLabel && (
+              <motion.div
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.2 }}
+                className="fixed top-20 left-1/2 transform -translate-x-1/2 z-40 lg:left-auto lg:right-[210px] lg:transform-none"
+              >
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-pink-500/90 via-purple-500/90 to-blue-500/90 backdrop-blur-md border border-white/30 shadow-xl">
+                  <span className="text-sm font-semibold text-white">
+                    {currentDateLabel}
+                  </span>
+                  <Heart className="w-3 h-3 text-white fill-white animate-pulse" />
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
           {/* Messages - with padding for fixed header and footer, background applied here */}
           <div 
+            ref={messagesContainerRef}
             className="flex-1 overflow-y-auto pt-20 pb-40 relative z-10 p-4"
             style={{
               background: chatBackground 
@@ -594,9 +676,10 @@ const Chat = () => {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: groupIndex * 0.05 }}
                       className="space-y-4"
+                      data-date-group={dateKey}
                     >
-                      {/* Date Separator - Sticky */}
-                      <div className="sticky top-16 z-20 flex justify-center mb-6">
+                      {/* Date Separator - Static (no longer sticky) */}
+                      <div className="flex justify-center mb-6">
                         <motion.div
                           initial={{ scale: 0.8, opacity: 0 }}
                           animate={{ scale: 1, opacity: 1 }}
