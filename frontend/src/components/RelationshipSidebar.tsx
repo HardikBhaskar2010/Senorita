@@ -13,6 +13,7 @@ import {
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useSpace } from '@/contexts/SpaceContext';
+import { useCouple } from '@/contexts/CoupleContext';
 import { supabase } from '@/lib/supabase';
 import { useToast } from '@/hooks/use-toast';
 
