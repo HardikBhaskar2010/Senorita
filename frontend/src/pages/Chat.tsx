@@ -68,7 +68,7 @@ const Chat = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const { currentSpace, displayName, partnerName } = useSpace();
-  const { backgroundImage } = useTheme();
+  const { chatBackground } = useTheme();
   const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState('');
   const [isTyping, setIsTyping] = useState(false);
