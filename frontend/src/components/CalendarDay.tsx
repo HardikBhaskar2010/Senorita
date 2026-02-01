@@ -31,7 +31,7 @@ const CalendarDay = () => {
   const today = new Date();
   const dayOfWeek = format(today, 'EEEE');
   const dateStr = format(today, 'MMM d');
-  const relationshipStartDate = relationshipStart || new Date(2024, 1, 14);
+  const relationshipStartDate = relationshipStart || new Date(2024, 7, 12);
   const daysInRelationship = differenceInDays(today, relationshipStartDate);
 
   // Fetch today's events
