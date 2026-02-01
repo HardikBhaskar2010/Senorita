@@ -462,25 +462,24 @@ const Chat = () => {
   };
 
   return (
-    <div 
-      className="min-h-screen relative overflow-hidden flex"
-      style={{
-        background: chatBackground 
-          ? `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${chatBackground}) center/cover fixed`
-          : undefined
-      }}
-    >
-      {!chatBackground && <FloatingHearts />}
-      
+    <div className="min-h-screen flex overflow-hidden">
       {/* Desktop Split Layout */}
       <div className="flex flex-1 w-full">
         {/* Left Sidebar - Only visible on desktop */}
-        <div className="hidden lg:flex lg:w-[380px] xl:w-[420px] border-r border-border/50 overflow-hidden flex-shrink-0">
+        <div className="hidden lg:flex lg:w-[380px] xl:w-[420px] border-r border-border/50 overflow-hidden flex-shrink-0 bg-background">
           <RelationshipSidebar />
         </div>
 
         {/* Right Chat Panel - Full width on mobile, remaining space on desktop */}
-        <div className="flex-1 flex flex-col relative">
+        <div 
+          className="flex-1 flex flex-col relative"
+          style={{
+            background: chatBackground 
+              ? `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${chatBackground}) center/cover fixed`
+              : undefined
+          }}
+        >
+          {!chatBackground && <FloatingHearts />}
           {/* Fixed Header */}
           <div className="sticky top-0 z-50 bg-card/95 backdrop-blur-md border-b border-border/50 shadow-lg w-full">
             <div className="px-4 py-4 flex items-center justify-between">
