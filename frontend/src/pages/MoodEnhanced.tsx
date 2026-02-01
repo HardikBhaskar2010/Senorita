@@ -268,7 +268,7 @@ const MoodEnhanced = () => {
                   <Smile className="w-8 h-8 text-primary" />
                 </div>
                 <CardTitle className="text-3xl">How are you feeling?</CardTitle>
-                <p className="text-muted-foreground">Share your mood with your loved one</p>
+                <p className="text-muted-foreground">Share your mood with us</p>
               </CardHeader>
               <CardContent className="p-6 space-y-6">
                 {/* Mood Selection */}
