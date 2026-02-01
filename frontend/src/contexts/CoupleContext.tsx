@@ -16,8 +16,8 @@ export const CoupleProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
   // Fixed couple data for Cookie and Senorita
   const value: CoupleData = {
-    anniversaryDate: new Date(2025, 7, 12), // Aug 12th, 2025 (first anniversary)
-    relationshipStart: new Date(2024, 7, 12), // Aug 12th, 2024
+    anniversaryDate: new Date(2025, 4, 14), // May 14th, 2025 (official commitment)
+    relationshipStart: new Date(2024, 7, 12), // Aug 12th, 2024 (first meeting)
     partnerNames: ['Cookie', 'Senorita'],
     myName: 'Cookie',
     partnerName: 'Senorita',
