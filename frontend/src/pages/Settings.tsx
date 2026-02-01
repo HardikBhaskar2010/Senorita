@@ -296,47 +296,47 @@ const Settings = () => {
             </CardHeader>
           </Card>
 
-          {/* Background Image Settings */}
+          {/* Chat Background Settings */}
           <Card className="bg-card/90 backdrop-blur-md border-primary/20 shadow-xl">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-xl">
                 <ImageIcon className="w-5 h-5 text-primary" />
-                Custom Background
+                Chat Background (Synced)
               </CardTitle>
-              <CardDescription>Upload a custom background image for all pages (synced across both spaces)</CardDescription>
+              <CardDescription>Upload a custom background for chat page (synced with {partnerName})</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               {/* Current background preview */}
-              {backgroundImage && (
+              {chatBackground && (
                 <div className="relative rounded-lg overflow-hidden border-2 border-primary/20 h-40">
                   <img 
-                    src={backgroundImage} 
-                    alt="Current background" 
+                    src={chatBackground} 
+                    alt="Current chat background" 
                     className="w-full h-full object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-4">
-                    <p className="text-white text-sm font-medium">Current Background</p>
+                    <p className="text-white text-sm font-medium">Current Chat Background</p>
                   </div>
                 </div>
               )}
 
               {/* Hidden file input */}
               <input
-                ref={bgFileInputRef}
+                ref={chatBgFileInputRef}
                 type="file"
-                onChange={handleBackgroundUpload}
+                onChange={handleChatBackgroundUpload}
                 className="hidden"
                 accept="image/*"
               />
 
               <div className="flex gap-3">
                 <Button
-                  onClick={() => bgFileInputRef.current?.click()}
-                  disabled={isUploadingBg}
+                  onClick={() => chatBgFileInputRef.current?.click()}
+                  disabled={isUploadingChatBg}
                   className="flex-1"
-                  data-testid="upload-background-button"
+                  data-testid="upload-chat-background-button"
                 >
-                  {isUploadingBg ? (
+                  {isUploadingChatBg ? (
                     <>
                       <Loader2 className="w-4 h-4 mr-2 animate-spin" />
                       Uploading...
@@ -344,16 +344,16 @@ const Settings = () => {
                   ) : (
                     <>
                       <Upload className="w-4 h-4 mr-2" />
-                      Upload Background
+                      Upload Chat Background
                     </>
                   )}
                 </Button>
 
-                {backgroundImage && (
+                {chatBackground && (
                   <Button
-                    onClick={removeBackground}
+                    onClick={removeChatBackground}
                     variant="outline"
-                    data-testid="remove-background-button"
+                    data-testid="remove-chat-background-button"
                   >
                     <X className="w-4 h-4 mr-2" />
                     Remove
@@ -362,7 +362,78 @@ const Settings = () => {
               </div>
 
               <p className="text-xs text-muted-foreground">
-                Recommended: Images with 1920x1080 resolution or higher. Max size: 5MB
+                💕 This background syncs instantly with your partner
+              </p>
+            </CardContent>
+          </Card>
+
+          {/* Dashboard Background Settings */}
+          <Card className="bg-card/90 backdrop-blur-md border-primary/20 shadow-xl">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-xl">
+                <ImageIcon className="w-5 h-5 text-primary" />
+                Dashboard Background (Personal)
+              </CardTitle>
+              <CardDescription>Upload a custom background for your dashboard only</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              {/* Current background preview */}
+              {currentDashboardBg && (
+                <div className="relative rounded-lg overflow-hidden border-2 border-primary/20 h-40">
+                  <img 
+                    src={currentDashboardBg} 
+                    alt="Current dashboard background" 
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-4">
+                    <p className="text-white text-sm font-medium">Current Dashboard Background</p>
+                  </div>
+                </div>
+              )}
+
+              {/* Hidden file input */}
+              <input
+                ref={dashboardBgFileInputRef}
+                type="file"
+                onChange={handleDashboardBackgroundUpload}
+                className="hidden"
+                accept="image/*"
+              />
+
+              <div className="flex gap-3">
+                <Button
+                  onClick={() => dashboardBgFileInputRef.current?.click()}
+                  disabled={isUploadingDashboardBg}
+                  className="flex-1"
+                  data-testid="upload-dashboard-background-button"
+                >
+                  {isUploadingDashboardBg ? (
+                    <>
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                      Uploading...
+                    </>
+                  ) : (
+                    <>
+                      <Upload className="w-4 h-4 mr-2" />
+                      Upload Dashboard Background
+                    </>
+                  )}
+                </Button>
+
+                {currentDashboardBg && (
+                  <Button
+                    onClick={removeDashboardBackground}
+                    variant="outline"
+                    data-testid="remove-dashboard-background-button"
+                  >
+                    <X className="w-4 h-4 mr-2" />
+                    Remove
+                  </Button>
+                )}
+              </div>
+
+              <p className="text-xs text-muted-foreground">
+                ⭐ Recommended: Images with 1920x1080 resolution or higher. Max size: 5MB
               </p>
             </CardContent>
           </Card>
