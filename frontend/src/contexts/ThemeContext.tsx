@@ -192,39 +192,56 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     localStorage.setItem('loveos-appearance-mode', mode);
   };
 
-  // Fetch background image from Supabase
+  // Fetch background images from Supabase
   useEffect(() => {
-    const fetchBackground = async () => {
+    const fetchBackgrounds = async () => {
       try {
         const { data, error } = await supabase
           .from('chat_settings')
-          .select('setting_value')
-          .eq('setting_key', 'shared_background_url')
-          .single();
+          .select('setting_key, setting_value')
+          .in('setting_key', ['chat_background_url', 'dashboard_background_cookie', 'dashboard_background_senorita']);
 
         if (!error && data) {
-          setBackgroundImageState(data.setting_value || '');
+          data.forEach((setting) => {
+            if (setting.setting_key === 'chat_background_url') {
+              setChatBackgroundState(setting.setting_value || '');
+              setBackgroundImageState(setting.setting_value || ''); // Legacy support
+            } else if (setting.setting_key === 'dashboard_background_cookie') {
+              setDashboardBackgroundCookie(setting.setting_value || '');
+            } else if (setting.setting_key === 'dashboard_background_senorita') {
+              setDashboardBackgroundSenorita(setting.setting_value || '');
+            }
+          });
         }
       } catch (err) {
-        console.error('Error fetching background:', err);
+        console.error('Error fetching backgrounds:', err);
       }
     };
 
-    fetchBackground();
+    fetchBackgrounds();
 
     // Subscribe to background changes
     const subscription = supabase
-      .channel('background-channel')
+      .channel('backgrounds-channel')
       .on(
         'postgres_changes',
         {
           event: 'UPDATE',
           schema: 'public',
           table: 'chat_settings',
-          filter: 'setting_key=eq.shared_background_url',
         },
         (payload) => {
-          setBackgroundImageState((payload.new as any).setting_value || '');
+          const key = (payload.new as any).setting_key;
+          const value = (payload.new as any).setting_value || '';
+          
+          if (key === 'chat_background_url') {
+            setChatBackgroundState(value);
+            setBackgroundImageState(value); // Legacy support
+          } else if (key === 'dashboard_background_cookie') {
+            setDashboardBackgroundCookie(value);
+          } else if (key === 'dashboard_background_senorita') {
+            setDashboardBackgroundSenorita(value);
+          }
         }
       )
       .subscribe();
@@ -234,8 +251,8 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     };
   }, []);
 
-  // Update background image in Supabase
-  const setBackgroundImage = async (url: string) => {
+  // Update chat background in Supabase (synced)
+  const setChatBackground = async (url: string) => {
     try {
       const { error } = await supabase
         .from('chat_settings')
@@ -243,14 +260,47 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
           setting_value: url,
           updated_at: new Date().toISOString(),
         })
-        .eq('setting_key', 'shared_background_url');
+        .eq('setting_key', 'chat_background_url');
 
       if (error) throw error;
-      setBackgroundImageState(url);
+      setChatBackgroundState(url);
+      setBackgroundImageState(url); // Legacy support
     } catch (err) {
-      console.error('Error updating background:', err);
+      console.error('Error updating chat background:', err);
       throw err;
     }
+  };
+
+  // Update dashboard background in Supabase (personal)
+  const setDashboardBackground = async (url: string, user: 'cookie' | 'senorita') => {
+    try {
+      const settingKey = user === 'cookie' ? 'dashboard_background_cookie' : 'dashboard_background_senorita';
+      
+      const { error } = await supabase
+        .from('chat_settings')
+        .update({ 
+          setting_value: url,
+          updated_by: user === 'cookie' ? 'Cookie' : 'Senorita',
+          updated_at: new Date().toISOString(),
+        })
+        .eq('setting_key', settingKey);
+
+      if (error) throw error;
+      
+      if (user === 'cookie') {
+        setDashboardBackgroundCookie(url);
+      } else {
+        setDashboardBackgroundSenorita(url);
+      }
+    } catch (err) {
+      console.error('Error updating dashboard background:', err);
+      throw err;
+    }
+  };
+
+  // Legacy support - defaults to chat background
+  const setBackgroundImage = async (url: string) => {
+    await setChatBackground(url);
   };
 
   return (
