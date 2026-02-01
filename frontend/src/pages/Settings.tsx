@@ -374,7 +374,7 @@ const Settings = () => {
                 <ImageIcon className="w-5 h-5 text-primary" />
                 Dashboard Background (Personal)
               </CardTitle>
-              <CardDescription>Upload a custom background for your dashboard only</CardDescription>
+              <CardDescription>Upload a custom background for your personal dashboard</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               {/* Current background preview */}
