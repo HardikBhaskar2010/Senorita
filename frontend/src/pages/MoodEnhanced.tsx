@@ -136,7 +136,7 @@ const MoodEnhanced = () => {
           if (payload.eventType === 'INSERT' && payload.new.user_name !== displayName) {
             toast({
               title: "New mood update! 💕",
-              description: "Your partner just shared their mood",
+              description: "I just shared my mood with you",
             });
           }
         }
