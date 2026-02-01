@@ -860,18 +860,21 @@ const Chat = () => {
 
       {/* Image Preview Modal */}
       <Dialog open={!!imagePreview} onOpenChange={() => setImagePreview(null)}>
-        <DialogContent className="max-w-4xl p-0">
-          <DialogHeader className="p-4">
-            <DialogTitle>Image Preview</DialogTitle>
+        <DialogContent className="max-w-4xl p-0 border-white/20 bg-card/95 backdrop-blur-xl">
+          <DialogHeader className="p-4 border-b border-white/10">
+            <DialogTitle className="flex items-center gap-2">
+              <ImageIcon className="w-5 h-5 text-primary" />
+              Image Preview
+            </DialogTitle>
           </DialogHeader>
-          <div className="relative">
+          <div className="relative p-4">
             <img 
               src={imagePreview || ''} 
               alt="Preview" 
-              className="w-full h-auto max-h-[80vh] object-contain"
+              className="w-full h-auto max-h-[80vh] object-contain rounded-lg shadow-2xl"
             />
             <Button
-              className="absolute top-2 right-2"
+              className="absolute top-6 right-6 shadow-xl hover:scale-110 transition-transform duration-200"
               size="icon"
               variant="secondary"
               onClick={() => setImagePreview(null)}
