@@ -31,6 +31,11 @@ All content syncs in real-time across both spaces via Supabase subscriptions.
 
 ## 🔥 Recent Fixes & Improvements (v7.2)
 
+### ✅ Relationship Date Updates (Feb 2025)
+- **Updated Relationship Start Date**: August 12, 2024 (previously February 14, 2024)
+- **Updated Anniversary Date**: August 12, 2025 (first anniversary)
+- **Improved Language**: Changed "your partner" references to more personal "I/Us/You" language throughout the app
+
 ### ✅ Chat System Enhancements
 All issues fixed and working perfectly:
 
