@@ -212,6 +212,30 @@ const RelationshipSidebar = () => {
 
   return (
     <div className="h-full overflow-y-auto p-6 space-y-6 bg-gradient-to-br from-background via-background/95 to-primary/5">
+      {/* Animated Beating Heart */}
+      <motion.div
+        initial={{ scale: 0 }}
+        animate={{ scale: 1 }}
+        transition={{ type: "spring", stiffness: 260, damping: 20 }}
+        className="flex justify-center"
+      >
+        <motion.div
+          animate={{ 
+            scale: [1, 1.2, 1],
+          }}
+          transition={{
+            duration: 1.5,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+          className="relative"
+        >
+          <Heart className="w-24 h-24 text-red-500 fill-current drop-shadow-2xl" />
+          {/* Glow effect */}
+          <div className="absolute inset-0 blur-xl opacity-50 bg-red-500/30 rounded-full" />
+        </motion.div>
+      </motion.div>
+
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}
@@ -221,11 +245,11 @@ const RelationshipSidebar = () => {
         <div className="flex items-center justify-center gap-2 mb-2">
           <Sparkles className="w-6 h-6 text-primary animate-pulse" />
           <h2 className="text-2xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
-            Relationship Hub
+            Love Hub
           </h2>
           <Sparkles className="w-6 h-6 text-primary animate-pulse" />
         </div>
-        <p className="text-sm text-muted-foreground">Your love story at a glance</p>
+        <p className="text-sm text-muted-foreground">Your love story at a glance ✨</p>
       </motion.div>
 
       {/* Quick Actions */}
