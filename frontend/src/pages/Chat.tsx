@@ -521,8 +521,8 @@ const Chat = () => {
             </div>
           </div>
 
-          {/* Messages - with padding for fixed header and footer */}
-          <div className="flex-1 overflow-y-auto pt-20 pb-32 relative z-10 p-4">
+          {/* Messages - with padding for sticky header and footer */}
+          <div className="flex-1 overflow-y-auto pb-32 relative z-10 p-4">
             <div className="space-y-4">
               <AnimatePresence>
                 {messages.map((message) => (
