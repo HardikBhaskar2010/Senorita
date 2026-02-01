@@ -475,14 +475,14 @@ const Chat = () => {
       {/* Desktop Split Layout */}
       <div className="flex flex-1 w-full">
         {/* Left Sidebar - Only visible on desktop */}
-        <div className="hidden lg:block lg:w-[400px] xl:w-[450px] border-r border-border/50 overflow-hidden">
+        <div className="hidden lg:flex lg:w-[380px] xl:w-[420px] border-r border-border/50 overflow-hidden flex-shrink-0">
           <RelationshipSidebar />
         </div>
 
-        {/* Right Chat Panel - Phone sized on desktop, full on mobile */}
-        <div className="flex-1 lg:max-w-[420px] lg:mx-auto flex flex-col">
+        {/* Right Chat Panel - Full width on mobile, remaining space on desktop */}
+        <div className="flex-1 flex flex-col relative">
           {/* Fixed Header */}
-          <div className="fixed top-0 right-0 z-50 bg-card/95 backdrop-blur-md border-b border-border/50 shadow-lg w-full lg:w-[420px]">
+          <div className="sticky top-0 z-50 bg-card/95 backdrop-blur-md border-b border-border/50 shadow-lg w-full">
             <div className="px-4 py-4 flex items-center justify-between">
               <div className="flex items-center gap-4">
                 <Button
