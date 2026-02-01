@@ -632,7 +632,7 @@ const Chat = () => {
             </div>
           </div>
 
-          {/* Floating Date Bar - WhatsApp style */}
+          {/* Floating Date Bar - WhatsApp style - Centered */}
           <AnimatePresence>
             {isScrolling && currentDateLabel && (
               <motion.div
@@ -640,7 +640,7 @@ const Chat = () => {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.2 }}
-                className="fixed top-20 left-1/2 transform -translate-x-1/2 z-40 lg:left-auto lg:right-[210px] lg:transform-none"
+                className="fixed top-20 left-1/2 transform -translate-x-1/2 z-40"
               >
                 <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-pink-500/90 via-purple-500/90 to-blue-500/90 backdrop-blur-md border border-white/30 shadow-xl">
                   <span className="text-sm font-semibold text-white">
