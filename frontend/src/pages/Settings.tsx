@@ -303,7 +303,7 @@ const Settings = () => {
                 <ImageIcon className="w-5 h-5 text-primary" />
                 Chat Background (Synced)
               </CardTitle>
-              <CardDescription>Upload a custom background for chat page (synced with {partnerName})</CardDescription>
+              <CardDescription>Upload a custom background for our chat page (syncs between us)</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               {/* Current background preview */}
