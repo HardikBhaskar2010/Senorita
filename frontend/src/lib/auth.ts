@@ -23,23 +23,34 @@ export async function login(credentials: LoginCredentials): Promise<User> {
   try {
     console.log('Attempting login for:', credentials.username);
     
-    // Fetch user from Supabase
-    const { data: user, error } = await supabase
+    // Fetch user from Supabase with case-insensitive matching
+    // Using ilike for case-insensitive search to handle "cookie" vs "Cookie"
+    const { data: users, error } = await supabase
       .from('users')
       .select('*')
-      .eq('username', credentials.username)
-      .single();
+      .ilike('username', credentials.username)
+      .limit(1);
 
-    console.log('Supabase response:', { user: user ? 'found' : 'not found', error });
+    console.log('Supabase response:', { 
+      usersFound: users?.length || 0, 
+      error: error?.message,
+      errorCode: error?.code,
+      errorDetails: error?.details
+    });
 
     if (error) {
-      console.error('Supabase error:', error);
+      console.error('Supabase error details:', error);
       throw new Error(`Database error: ${error.message}`);
     }
 
-    if (!user) {
+    // Check if we got a user result
+    if (!users || users.length === 0) {
+      console.warn('No user found with username:', credentials.username);
       throw new Error('Invalid username or password');
     }
+
+    const user = users[0];
+    console.log('User found:', { username: user.username, hasPasswordHash: !!user.password_hash });
 
     // Verify password
     console.log('Verifying password...');
@@ -50,14 +61,14 @@ export async function login(credentials: LoginCredentials): Promise<User> {
       throw new Error('Invalid username or password');
     }
 
-    // Remove password hash from response
-    const { password_hash, ...userWithoutPassword } = user;
+    // Remove password hash and extra fields from response
+    const { password_hash, background_image_url, background_updated_at, ...userWithoutPassword } = user;
     
     // Store user in localStorage
     localStorage.setItem('user', JSON.stringify(userWithoutPassword));
-    localStorage.setItem('selectedSpace', user.username === 'Cookie' ? 'cookie' : 'senorita');
+    localStorage.setItem('selectedSpace', user.username.toLowerCase() === 'cookie' ? 'cookie' : 'senorita');
     
-    console.log('Login successful');
+    console.log('Login successful for:', user.username);
     return userWithoutPassword as User;
   } catch (error: any) {
     console.error('Login error:', error);
@@ -86,17 +97,23 @@ export function isAuthenticated(): boolean {
 // Change password
 export async function changePassword(username: string, oldPassword: string, newPassword: string): Promise<void> {
   try {
-    // Verify old password first
-    const { data: user, error } = await supabase
+    // Verify old password first using case-insensitive search
+    const { data: users, error } = await supabase
       .from('users')
       .select('password_hash')
-      .eq('username', username)
-      .single();
+      .ilike('username', username)
+      .limit(1);
 
-    if (error || !user) {
+    if (error) {
+      console.error('Error fetching user for password change:', error);
       throw new Error('User not found');
     }
 
+    if (!users || users.length === 0) {
+      throw new Error('User not found');
+    }
+
+    const user = users[0];
     const isValid = await bcrypt.compare(oldPassword, user.password_hash);
     if (!isValid) {
       throw new Error('Current password is incorrect');
@@ -105,13 +122,14 @@ export async function changePassword(username: string, oldPassword: string, newP
     // Hash new password
     const newPasswordHash = await bcrypt.hash(newPassword, 12);
 
-    // Update password in Supabase
+    // Update password in Supabase using case-insensitive match
     const { error: updateError } = await supabase
       .from('users')
       .update({ password_hash: newPasswordHash, updated_at: new Date().toISOString() })
-      .eq('username', username);
+      .ilike('username', username);
 
     if (updateError) {
+      console.error('Error updating password:', updateError);
       throw new Error('Failed to update password');
     }
   } catch (error: any) {
