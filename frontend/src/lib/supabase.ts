@@ -35,9 +35,15 @@ export interface Database {
           partner_id: string | null;
           anniversary_date: string | null;
           relationship_start: string | null;
+          profile_color: string;
+          avatar_url: string | null;
+          background_image_url: string | null;
+          background_updated_at: string | null;
           created_at: string;
+          updated_at: string;
+          password_hash: string;
         };
-        Insert: Omit<Database['public']['Tables']['users']['Row'], 'id' | 'created_at'>;
+        Insert: Omit<Database['public']['Tables']['users']['Row'], 'id' | 'created_at' | 'updated_at'>;
         Update: Partial<Database['public']['Tables']['users']['Insert']>;
       };
       moods: {
