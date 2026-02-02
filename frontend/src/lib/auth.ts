@@ -11,6 +11,10 @@ export interface User {
   relationship_start: string | null;
   profile_color: string;
   avatar_url: string | null;
+  background_image_url?: string | null;
+  background_updated_at?: string | null;
+  created_at?: string;
+  updated_at?: string;
 }
 
 export interface LoginCredentials {
