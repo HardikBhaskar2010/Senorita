@@ -2,16 +2,16 @@ import React, { useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const petalsData = [
-  { id: 1, message: "You make my world brighter 💖", style: { top: 40, left: 40 }, rotation: 0, size: 1.0 },
-  { id: 2, message: "Every day with you is magic ✨", style: { top: 15, left: 15 }, rotation: -30, size: 1.1 },
-  { id: 3, message: "You are my favorite person 🌸", style: { top: 15, right: 15 }, rotation: 30, size: 1.1 },
-  { id: 4, message: "Forever starts with you 💍", style: { top: 40, right: 40 }, rotation: 0, size: 1.0 },
-  { id: 5, message: "Your smile lights up my life 😊", style: { top: 60, left: 30 }, rotation: -20, size: 0.9 },
-  { id: 6, message: "You're my everything ❤️", style: { top: 60, right: 30 }, rotation: 20, size: 0.9 },
-  { id: 7, message: "You complete me 🧩", style: { top: 25, left: 60 }, rotation: -15, size: 1.0 },
-  { id: 8, message: "My heart beats for you 💓", style: { top: 25, right: 60 }, rotation: 15, size: 1.0 },
-  { id: 9, message: "Endless love for you ∞", style: { top: 50, left: 50 }, rotation: 0, size: 0.8 },
-  { id: 10, message: "You're my sunshine ☀️", style: { top: 10, left: 40 }, rotation: -10, size: 1.2 },
+  { id: 1, message: "You make my world brighter 💖", style: { top: 40, left: 40 }, rotation: 0, size: 1.0, color: "#ff4d6d" },
+  { id: 2, message: "Every day with you is magic ✨", style: { top: 15, left: 15 }, rotation: -30, size: 1.1, color: "#ff758f" },
+  { id: 3, message: "You are my favorite person 🌸", style: { top: 15, right: 15 }, rotation: 30, size: 1.1, color: "#ff85a1" },
+  { id: 4, message: "Forever starts with you 💍", style: { top: 40, right: 40 }, rotation: 0, size: 1.0, color: "#ff4d6d" },
+  { id: 5, message: "Your smile lights up my life 😊", style: { top: 60, left: 30 }, rotation: -20, size: 0.9, color: "#ffb3c1" },
+  { id: 6, message: "You're my everything ❤️", style: { top: 60, right: 30 }, rotation: 20, size: 0.9, color: "#ff758f" },
+  { id: 7, message: "You complete me 🧩", style: { top: 25, left: 60 }, rotation: -15, size: 1.0, color: "#ff85a1" },
+  { id: 8, message: "My heart beats for you 💓", style: { top: 25, right: 60 }, rotation: 15, size: 1.0, color: "#ff4d6d" },
+  { id: 9, message: "Endless love for you ∞", style: { top: 50, left: 50 }, rotation: 0, size: 0.8, color: "#ffb3c1" },
+  { id: 10, message: "You're my sunshine ☀️", style: { top: 10, left: 40 }, rotation: -10, size: 1.2, color: "#ff758f" },
 ];
 
 const AnimatedRose: React.FC = () => {
@@ -30,7 +30,31 @@ const AnimatedRose: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-start min-h-screen p-10 text-white bg-gradient-to-br from-pink-800 via-red-800 to-pink-800">
+    <div className="flex flex-col items-center justify-start min-h-[600px] p-10 text-white bg-white/5 backdrop-blur-md rounded-3xl border border-white/20 shadow-2xl relative overflow-hidden">
+      {/* Sparkle background */}
+      <div className="absolute inset-0 pointer-events-none">
+        {[...Array(20)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute bg-white rounded-full opacity-20"
+            style={{
+              top: `${Math.random() * 100}%`,
+              left: `${Math.random() * 100}%`,
+              width: `${Math.random() * 4 + 2}px`,
+              height: `${Math.random() * 4 + 2}px`,
+            }}
+            animate={{
+              opacity: [0.1, 0.5, 0.1],
+              scale: [1, 1.5, 1],
+            }}
+            transition={{
+              duration: 2 + Math.random() * 3,
+              repeat: Infinity,
+              delay: Math.random() * 5,
+            }}
+          />
+        ))}
+      </div>
       {/* Title - Ensure no duplicates */}
       <h1 className="text-6xl font-extrabold mb-1 tracking-wider" style={{ fontFamily: 'cursive' }}>Rose Day</h1>
       <p className="opacity-90 mb-8 text-xl font-light">Beauty & Admiration</p>
@@ -111,9 +135,10 @@ const AnimatedRose: React.FC = () => {
                   ...petal.style,
                   width: `${100 * petal.size}px`,
                   height: `${140 * petal.size}px`,
-                  background: "radial-gradient(circle at 30% 40%, #ff99ac, #b3123e, #800f2f)",
+                  background: `radial-gradient(circle at 30% 40%, ${petal.color || '#ff99ac'}, #b3123e, #800f2f)`,
                   clipPath: "path('M 50 0 C 20 20, 0 60, 0 100 C 0 140, 50 160, 100 140 C 100 100, 80 20, 50 0 Z')", // Realistic petal path
                   boxShadow: "0 20px 40px rgba(0,0,0,0.4)",
+                  filter: "drop-shadow(0 0 10px rgba(255, 77, 109, 0.3))",
                 }}
                 whileHover={{ scale: 1.15 * petal.size, rotate: petal.rotation + 8 }}
                 whileTap={{ scale: 0.85 * petal.size }}
