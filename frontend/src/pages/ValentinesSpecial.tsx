@@ -736,6 +736,18 @@ const ValentinesSpecial = () => {
             const isUnlocked = unlockedDays.has(day.dayNumber);
             const isAvailable = isDayAvailable(day);
             const shouldShowLock = !isUnlocked && !isValentinesWeekEnded();
+            
+            // Animation class based on day
+            const dayAnimationClass = {
+              1: 'rose-bloom',
+              2: 'ring-sparkle',
+              3: 'chocolate-melt',
+              4: 'teddy-bounce',
+              5: 'promise-glow',
+              6: 'hug-aura',
+              7: 'kiss-ripple',
+              8: 'heart-burst'
+            }[day.dayNumber] || '';
 
             return (
               <motion.div
@@ -746,10 +758,10 @@ const ValentinesSpecial = () => {
                 whileHover={isAvailable || isUnlocked ? { scale: 1.05, y: -5 } : {}}
                 onClick={() => handleUnlockDay(day)}
                 className={`
-                  relative group cursor-pointer
+                  relative group cursor-pointer stagger-entrance
                   bg-white/10 dark:bg-black/20 backdrop-blur-xl
                   rounded-3xl p-8 border border-white/20
-                  transition-all duration-300
+                  transition-all duration-300 card-hover-lift
                   ${isAvailable || isUnlocked ? 'hover:shadow-2xl hover:border-white/40' : 'opacity-60'}
                   ${shouldShowLock ? 'blur-sm hover:blur-none' : ''}
                 `}
@@ -769,7 +781,7 @@ const ValentinesSpecial = () => {
 
                 {/* Content */}
                 <div className="text-center relative">
-                  <div className="text-6xl mb-4">{day.emoji}</div>
+                  <div className={`text-6xl mb-4 ${dayAnimationClass}`}>{day.emoji}</div>
                   <h3 className="text-2xl font-bold mb-2">{day.name}</h3>
                   <p className="text-sm opacity-80 mb-3">{day.date.replace('-', '/')}/{new Date().getFullYear()}</p>
                   <p className="text-base opacity-90 font-medium mb-2">{day.theme}</p>
@@ -783,7 +795,7 @@ const ValentinesSpecial = () => {
                         Unlocked
                       </span>
                     ) : isAvailable ? (
-                      <span className="inline-flex items-center gap-2 bg-yellow-500/20 text-yellow-300 px-4 py-2 rounded-full text-sm font-medium">
+                      <span className="inline-flex items-center gap-2 bg-yellow-500/20 text-yellow-300 px-4 py-2 rounded-full text-sm font-medium sparkle">
                         <Sparkles className="w-4 h-4" />
                         Available Now
                       </span>
@@ -803,7 +815,7 @@ const ValentinesSpecial = () => {
                         }}
                         size="sm"
                         variant="outline"
-                        className="bg-blue-500/20 text-blue-300 border-blue-400/30 hover:bg-blue-500/30 text-xs"
+                        className="bg-blue-500/20 text-blue-300 border-blue-400/30 hover:bg-blue-500/30 text-xs btn-hover-lift"
                       >
                         🧪 Test Unlock
                       </Button>
