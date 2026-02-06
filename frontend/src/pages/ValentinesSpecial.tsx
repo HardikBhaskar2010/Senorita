@@ -752,7 +752,7 @@ const ValentinesSpecial = () => {
             transition={{ duration: 2, repeat: Infinity }}
           >
             <h1 className="text-5xl md:text-7xl font-bold mb-4 bg-gradient-to-r from-pink-300 via-rose-300 to-red-300 bg-clip-text text-transparent">
-              Valentine's Week Mystery 2025
+              Valentine's Week Mystery {new Date().getFullYear()}
             </h1>
           </motion.div>
           
