@@ -479,11 +479,10 @@ const ValentinesSpecial = () => {
 
         {(() => {
           switch (day.dayNumber) {
-            case 1: // Rose Day - Reasons in Petals
+            case 1: // Rose Day - Interactive Rose with Clickable Petals
               return (
                 <div>
                   <AnimatedRose />
-                  <RosePetals dayNumber={day.dayNumber} />
                   {renderAnswerSection(day)}
                   <SaveToAlbum dayNumber={day.dayNumber} dayName={day.name} contentRef={dayContentRef} />
                 </div>
