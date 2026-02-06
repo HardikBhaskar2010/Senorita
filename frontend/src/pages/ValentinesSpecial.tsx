@@ -438,14 +438,17 @@ const ValentinesSpecial = () => {
     switch (day.dayNumber) {
       case 1: // Rose Day
         return (
-          <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: 1, rotate: [0, 5, -5, 0] }}
-            transition={{ duration: 0.8, repeat: Infinity, repeatDelay: 2 }}
-            className="text-9xl mb-8"
-          >
-            🌹
-          </motion.div>
+          <div>
+            <motion.div
+              initial={{ scale: 0 }}
+              animate={{ scale: 1, rotate: [0, 5, -5, 0] }}
+              transition={{ duration: 0.8, repeat: Infinity, repeatDelay: 2 }}
+              className="text-9xl mb-8"
+            >
+              🌹
+            </motion.div>
+            {renderAnswerSection(day)}
+          </div>
         );
       
       case 2: // Propose Day
