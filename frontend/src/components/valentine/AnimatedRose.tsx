@@ -127,12 +127,12 @@ const AnimatedRose: React.FC = () => {
                 initial={{ scale: 0, rotate: petal.rotation }}
                 animate={
                   isClicked
-                    ? { y: randomY, x: randomX, rotate: randomRotate, opacity: 0 }
-                    : { scale: petal.size, y: 0, opacity: 1, rotate: petal.rotation }
+                    ? { y: randomY, x: randomX, rotate: randomRotate, opacity: 0, pointerEvents: "none" }
+                    : { scale: petal.size, y: 0, opacity: 1, rotate: petal.rotation, pointerEvents: "auto" }
                 }
                 transition={{ duration: 1.5, delay: i * 0.1, ease: [0.25, 0.1, 0.25, 1] }}
                 onClick={() => handlePetalClick(petal)}
-                className="absolute cursor-pointer origin-bottom"
+                className="absolute cursor-pointer origin-bottom z-10"
                 style={{
                   ...petal.style,
                   width: `${100 * petal.size}px`,
