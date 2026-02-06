@@ -39,8 +39,9 @@ CREATE POLICY "Anyone can update valentines progress"
   FOR UPDATE
   USING (true);
 
--- Enable realtime
-ALTER PUBLICATION supabase_realtime ADD TABLE IF NOT EXISTS public.valentines_progress;
+-- Enable realtime (drop and re-add to avoid errors)
+ALTER PUBLICATION supabase_realtime DROP TABLE IF EXISTS public.valentines_progress;
+ALTER PUBLICATION supabase_realtime ADD TABLE public.valentines_progress;
 
 -- Insert sample data (optional - for testing)
 -- You can delete this after testing
