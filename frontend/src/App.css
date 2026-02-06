@@ -329,3 +329,504 @@
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-5px); }
 }
+
+/* ========== Valentine's Animation System ========== */
+
+/* Reusable Animation Classes */
+.pulse {
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.float {
+  animation: float 4s ease-in-out infinite;
+}
+
+.glow {
+  animation: glow 2s ease-in-out infinite;
+}
+
+.bloom {
+  animation: bloom 2s ease-in-out forwards;
+}
+
+.sparkle {
+  animation: sparkle 1.5s ease-in-out infinite;
+}
+
+.ripple {
+  animation: ripple 2s ease-in-out infinite;
+}
+
+/* Core Animation Keyframes */
+@keyframes pulse {
+  0%, 100% { 
+    transform: scale(1); 
+    opacity: 1;
+  }
+  50% { 
+    transform: scale(1.05); 
+    opacity: 0.9;
+  }
+}
+
+@keyframes float {
+  0%, 100% { 
+    transform: translateY(0px); 
+  }
+  50% { 
+    transform: translateY(-20px); 
+  }
+}
+
+@keyframes glow {
+  0%, 100% { 
+    box-shadow: 0 0 20px rgba(236, 72, 153, 0.4);
+    filter: brightness(1);
+  }
+  50% { 
+    box-shadow: 0 0 40px rgba(236, 72, 153, 0.8);
+    filter: brightness(1.2);
+  }
+}
+
+@keyframes bloom {
+  0% { 
+    transform: scale(0) rotate(-180deg);
+    opacity: 0;
+  }
+  100% { 
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+@keyframes sparkle {
+  0%, 100% { 
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  25% { 
+    transform: scale(1.2) rotate(5deg);
+    opacity: 0.8;
+  }
+  50% { 
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  75% { 
+    transform: scale(1.2) rotate(-5deg);
+    opacity: 0.8;
+  }
+}
+
+@keyframes ripple {
+  0% { 
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% { 
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+/* Background Gradient Shift */
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.gradient-shift {
+  background-size: 600% 600%;
+  animation: gradientShift 10s ease infinite;
+}
+
+/* Valentine's Day Specific Animations */
+
+/* Rose Day - Blooming Rose */
+@keyframes roseBloom {
+  0% { 
+    transform: scale(0.5) rotate(-45deg);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.1) rotate(5deg);
+  }
+  100% { 
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+@keyframes petalRotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.rose-bloom {
+  animation: roseBloom 2s ease-out forwards;
+}
+
+.petal-rotate {
+  animation: petalRotate 20s linear infinite;
+}
+
+/* Propose Day - Ring Sparkle */
+@keyframes ringSparkle {
+  0%, 100% { 
+    transform: scale(1) rotate(0deg);
+    filter: drop-shadow(0 0 10px rgba(236, 72, 153, 0.5));
+  }
+  25% { 
+    transform: scale(1.15) rotate(5deg);
+    filter: drop-shadow(0 0 20px rgba(236, 72, 153, 1));
+  }
+  50% { 
+    transform: scale(1) rotate(0deg);
+    filter: drop-shadow(0 0 10px rgba(236, 72, 153, 0.5));
+  }
+  75% { 
+    transform: scale(1.15) rotate(-5deg);
+    filter: drop-shadow(0 0 20px rgba(236, 72, 153, 1));
+  }
+}
+
+.ring-sparkle {
+  animation: ringSparkle 2s ease-in-out infinite;
+}
+
+/* Chocolate Day - Melt Effect */
+@keyframes chocolateMelt {
+  0%, 100% { 
+    transform: translateY(0) scaleY(1);
+    filter: hue-rotate(0deg);
+  }
+  50% { 
+    transform: translateY(5px) scaleY(0.98);
+    filter: hue-rotate(10deg);
+  }
+}
+
+.chocolate-melt {
+  animation: chocolateMelt 3s ease-in-out infinite;
+}
+
+/* Teddy Day - Soft Bounce */
+@keyframes teddyBounce {
+  0%, 100% { 
+    transform: translateY(0) scale(1);
+  }
+  25% { 
+    transform: translateY(-10px) scale(1.05);
+  }
+  50% { 
+    transform: translateY(0) scale(1);
+  }
+  75% { 
+    transform: translateY(-5px) scale(1.02);
+  }
+}
+
+.teddy-bounce {
+  animation: teddyBounce 2s ease-in-out infinite;
+}
+
+/* Promise Day - Handshake Glow */
+@keyframes promiseGlow {
+  0%, 100% { 
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+    transform: scale(1);
+  }
+  50% { 
+    box-shadow: 0 0 40px rgba(59, 130, 246, 0.8);
+    transform: scale(1.05);
+  }
+}
+
+.promise-glow {
+  animation: promiseGlow 2s ease-in-out infinite;
+}
+
+/* Hug Day - Warm Aura */
+@keyframes hugAura {
+  0%, 100% { 
+    box-shadow: 0 0 30px rgba(168, 85, 247, 0.3);
+    transform: scale(1);
+  }
+  50% { 
+    box-shadow: 0 0 60px rgba(168, 85, 247, 0.6);
+    transform: scale(1.03);
+  }
+}
+
+.hug-aura {
+  animation: hugAura 2.5s ease-in-out infinite;
+}
+
+/* Kiss Day - Ripple Effect */
+@keyframes kissRipple {
+  0% { 
+    transform: scale(1);
+    opacity: 1;
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+  }
+  100% { 
+    transform: scale(1.3);
+    opacity: 0;
+    box-shadow: 0 0 0 20px rgba(239, 68, 68, 0);
+  }
+}
+
+.kiss-ripple::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  animation: kissRipple 2s ease-out infinite;
+}
+
+/* Valentine's Day - Heart Burst */
+@keyframes heartBurst {
+  0% { 
+    transform: scale(0.8);
+    filter: brightness(1);
+  }
+  50% { 
+    transform: scale(1.2);
+    filter: brightness(1.3);
+  }
+  100% { 
+    transform: scale(1);
+    filter: brightness(1);
+  }
+}
+
+.heart-burst {
+  animation: heartBurst 1.5s ease-in-out infinite;
+}
+
+/* Micro-interactions */
+.btn-hover-lift {
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+}
+
+.btn-hover-lift:hover {
+  transform: translateY(-5px) scale(1.05);
+  box-shadow: 0 15px 30px rgba(236, 72, 153, 0.3);
+}
+
+.btn-hover-lift:active {
+  transform: translateY(-2px) scale(1.02);
+}
+
+.card-hover-lift {
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.card-hover-lift:hover {
+  transform: translateY(-10px) scale(1.03);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* Staggered Entrance Animation */
+.stagger-entrance {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: riseUp 0.6s ease-out forwards;
+}
+
+.stagger-entrance:nth-child(1) { animation-delay: 0s; }
+.stagger-entrance:nth-child(2) { animation-delay: 0.1s; }
+.stagger-entrance:nth-child(3) { animation-delay: 0.2s; }
+.stagger-entrance:nth-child(4) { animation-delay: 0.3s; }
+.stagger-entrance:nth-child(5) { animation-delay: 0.4s; }
+.stagger-entrance:nth-child(6) { animation-delay: 0.5s; }
+.stagger-entrance:nth-child(7) { animation-delay: 0.6s; }
+.stagger-entrance:nth-child(8) { animation-delay: 0.7s; }
+
+@keyframes riseUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Animated Heart Background for Valentine's Page */
+.valentine-heart-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.heart-bg-layer {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  background: red;
+  transform: rotate(45deg);
+  animation: pulseHeart 1.5s ease-in-out infinite;
+}
+
+.heart-bg-layer::before,
+.heart-bg-layer::after {
+  content: "";
+  width: 50px;
+  height: 50px;
+  background: red;
+  border-radius: 50%;
+  position: absolute;
+}
+
+.heart-bg-layer::before {
+  top: -25px;
+  left: 0;
+}
+
+.heart-bg-layer::after {
+  left: -25px;
+  top: 0;
+}
+
+@keyframes pulseHeart {
+  0%, 100% { 
+    transform: rotate(45deg) scale(1); 
+    opacity: 0.3;
+  }
+  50% { 
+    transform: rotate(45deg) scale(1.3); 
+    opacity: 0.6;
+  }
+}
+
+/* Multiple hearts at different positions */
+.heart-1 { top: 10%; left: 10%; animation-delay: 0s; }
+.heart-2 { top: 20%; left: 80%; animation-delay: 0.3s; }
+.heart-3 { top: 60%; left: 15%; animation-delay: 0.6s; }
+.heart-4 { top: 70%; left: 75%; animation-delay: 0.9s; }
+.heart-5 { top: 40%; left: 50%; animation-delay: 0.2s; }
+.heart-6 { top: 85%; left: 40%; animation-delay: 0.5s; }
+
+/* CSS Rose Component */
+.css-rose {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  margin: 0 auto;
+}
+
+.rose-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40px;
+  height: 40px;
+  background: radial-gradient(circle, #ff1744, #c2185b);
+  border-radius: 50%;
+  box-shadow: 0 0 20px rgba(255, 23, 68, 0.6);
+  animation: roseCenter 3s ease-in-out infinite;
+}
+
+@keyframes roseCenter {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); }
+  50% { transform: translate(-50%, -50%) scale(1.1); }
+}
+
+.rose-petal {
+  position: absolute;
+  width: 60px;
+  height: 80px;
+  background: radial-gradient(ellipse at center, #ff4569, #d81b60);
+  border-radius: 50% 50% 50% 0;
+  transform-origin: bottom left;
+  animation: petalFloat 4s ease-in-out infinite;
+  box-shadow: inset -5px -5px 10px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes petalFloat {
+  0%, 100% { transform: rotate(var(--rotate)) translateY(0); }
+  50% { transform: rotate(var(--rotate)) translateY(-5px); }
+}
+
+.rose-petal:nth-child(1) { 
+  --rotate: 0deg;
+  top: 50%; 
+  left: 50%; 
+  transform: rotate(0deg) translate(50px, -40px);
+  animation-delay: 0s;
+}
+
+.rose-petal:nth-child(2) { 
+  --rotate: 60deg;
+  top: 50%; 
+  left: 50%; 
+  transform: rotate(60deg) translate(50px, -40px);
+  animation-delay: 0.2s;
+}
+
+.rose-petal:nth-child(3) { 
+  --rotate: 120deg;
+  top: 50%; 
+  left: 50%; 
+  transform: rotate(120deg) translate(50px, -40px);
+  animation-delay: 0.4s;
+}
+
+.rose-petal:nth-child(4) { 
+  --rotate: 180deg;
+  top: 50%; 
+  left: 50%; 
+  transform: rotate(180deg) translate(50px, -40px);
+  animation-delay: 0.6s;
+}
+
+.rose-petal:nth-child(5) { 
+  --rotate: 240deg;
+  top: 50%; 
+  left: 50%; 
+  transform: rotate(240deg) translate(50px, -40px);
+  animation-delay: 0.8s;
+}
+
+.rose-petal:nth-child(6) { 
+  --rotate: 300deg;
+  top: 50%; 
+  left: 50%; 
+  transform: rotate(300deg) translate(50px, -40px);
+  animation-delay: 1s;
+}
+
+.rose-stem {
+  position: absolute;
+  bottom: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 6px;
+  height: 80px;
+  background: linear-gradient(to bottom, #2e7d32, #1b5e20);
+  border-radius: 3px;
+}
+
+.rose-leaf {
+  position: absolute;
+  width: 30px;
+  height: 20px;
+  background: linear-gradient(to right, #2e7d32, #43a047);
+  border-radius: 0 100% 0 100%;
+  transform-origin: left center;
+}
+
+.rose-leaf:nth-child(1) {
+  bottom: -40px;
+  left: 55%;
+  transform: rotate(-30deg);
+}
+
+.rose-leaf:nth-child(2) {
+  bottom: -55px;
+  left: 40%;
+  transform: rotate(30deg) scaleX(-1);
+}
