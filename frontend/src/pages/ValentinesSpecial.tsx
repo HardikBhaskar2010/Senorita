@@ -660,10 +660,12 @@ const ValentinesSpecial = () => {
 
   // Status message
   const getStatusMessage = () => {
+    const currentYear = new Date().getFullYear();
+    
     if (isBeforeValentinesWeek()) {
       return {
         title: '💕 Coming Soon',
-        message: "Valentine's Week starts on February 7, 2025",
+        message: `Valentine's Week starts on February 7, ${currentYear}`,
         emoji: '⏰'
       };
     }
