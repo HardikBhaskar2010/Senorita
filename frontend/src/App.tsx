@@ -18,6 +18,7 @@ import MoodEnhanced from "./pages/MoodEnhanced";
 import Settings from "./pages/Settings";
 import Chat from "./pages/Chat";
 import Milestones from "./pages/Milestones";
+import ValentinesSpecial from "./pages/ValentinesSpecial";
 
 const queryClient = new QueryClient({
   defaultOptions: {
