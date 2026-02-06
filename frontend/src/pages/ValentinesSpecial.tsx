@@ -452,7 +452,7 @@ const ValentinesSpecial = () => {
             />
             <Button
               onClick={saveAnswer}
-              className="w-full py-3 text-base bg-white/20 hover:bg-white/30 text-white"
+              className="w-full py-3 text-base bg-white/20 hover:bg-white/30 text-white btn-hover-lift"
             >
               💝 Save My Answer
             </Button>
