@@ -207,11 +207,27 @@ const ValentinesSpecial = () => {
         (payload) => {
           if (payload.eventType === 'INSERT' || payload.eventType === 'UPDATE') {
             const data = payload.new as any;
-            setUnlockedDays(prev => new Set([...prev, data.day_number]));
+            
+            // Check if day should be unlocked based on date
+            const now = new Date();
+            const isAfterValentinesWeek = now >= new Date(2025, 1, 15);
+            const [month, date] = valentineDays.find(vd => vd.dayNumber === data.day_number)?.date.split('-').map(Number) || [0, 0];
+            const dayUnlockDate = new Date(2025, month - 1, date);
+            
+            if (isAfterValentinesWeek || now >= dayUnlockDate) {
+              setUnlockedDays(prev => new Set([...prev, data.day_number]));
+            }
+            
             if (data.custom_message) {
               setCustomMessages(prev => ({
                 ...prev,
                 [data.day_number]: data.custom_message
+              }));
+            }
+            if (data.answer) {
+              setAnswers(prev => ({
+                ...prev,
+                [data.day_number]: data.answer
               }));
             }
           }
