@@ -60,6 +60,19 @@ const categoryOptions = [
   { value: 'special', label: 'Special Moments', emoji: '💖' },
 ];
 
+// Helper function to normalize old category values to new schema
+const normalizeCategory = (category: string): string => {
+  const categoryMap: Record<string, string> = {
+    'first_time': 'first',
+    'first': 'first',
+    'memory': 'memory',
+    'achievement': 'achievement',
+    'trip': 'trip',
+    'special': 'special',
+  };
+  return categoryMap[category] || 'memory'; // Default to 'memory' if unknown
+};
+
 const Milestones = () => {
   const navigate = useNavigate();
   const { currentSpace, displayName } = useSpace();
@@ -206,9 +219,9 @@ const Milestones = () => {
         title: formData.title,
         description: formData.description,
         milestone_date: formData.milestone_date,
-        category: formData.category,
+        category: normalizeCategory(formData.category),
         icon:
-          categoryOptions.find((c) => c.value === formData.category)?.emoji ||
+          categoryOptions.find((c) => c.value === normalizeCategory(formData.category))?.emoji ||
           '💖',
         image_url: imageUrl,
         created_by: displayName,
@@ -255,7 +268,7 @@ const Milestones = () => {
       title: milestone.title,
       description: milestone.description,
       milestone_date: milestone.milestone_date,
-      category: milestone.category,
+      category: normalizeCategory(milestone.category),
       icon: milestone.icon,
       image_url: milestone.image_url,
       imageFile: null,
