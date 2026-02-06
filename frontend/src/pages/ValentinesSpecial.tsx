@@ -456,165 +456,63 @@ const ValentinesSpecial = () => {
     const message = customMessages[day.dayNumber];
 
     switch (day.dayNumber) {
-      case 1: // Rose Day
+      case 1: // Rose Day - Reasons in Petals
         return (
           <div>
-            <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1, rotate: [0, 5, -5, 0] }}
-              transition={{ duration: 0.8, repeat: Infinity, repeatDelay: 2 }}
-              className="text-9xl mb-8"
-            >
-              🌹
-            </motion.div>
+            <RosePetals dayNumber={day.dayNumber} />
             {renderAnswerSection(day)}
           </div>
         );
       
-      case 2: // Propose Day
-        return (
-          <motion.div
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            className="text-center"
-          >
-            <motion.div
-              animate={{ scale: [1, 1.2, 1] }}
-              transition={{ duration: 1.5, repeat: Infinity }}
-              className="text-8xl mb-8"
-            >
-              💍
-            </motion.div>
-            {renderAnswerSection(day)}
-          </motion.div>
-        );
-
-      case 3: // Chocolate Day
+      case 2: // Propose Day - Interactive Proposal Reel
         return (
           <div>
-            <div className="grid grid-cols-3 gap-4 mb-8">
-              {[1, 2, 3, 4, 5, 6].map((i) => (
-                <motion.div
-                  key={i}
-                  initial={{ scale: 0, rotate: -180 }}
-                  animate={{ scale: 1, rotate: 0 }}
-                  transition={{ delay: i * 0.1 }}
-                  whileHover={{ scale: 1.1, rotate: 5 }}
-                  className="bg-amber-800 rounded-lg p-6 text-4xl cursor-pointer shadow-lg"
-                >
-                  🍫
-                </motion.div>
-              ))}
-            </div>
+            <ProposalSlideshow dayNumber={day.dayNumber} />
             {renderAnswerSection(day)}
           </div>
         );
 
-      case 4: // Teddy Day
+      case 3: // Chocolate Day - Make-a-Choc Mini-Game
         return (
           <div>
-            <motion.div
-              animate={{ 
-                y: [0, -20, 0],
-                rotate: [0, 5, -5, 0]
-              }}
-              transition={{ duration: 2, repeat: Infinity }}
-              className="text-9xl mb-8 cursor-pointer"
-            >
-              🧸
-            </motion.div>
+            <ChocolateGame dayNumber={day.dayNumber} />
             {renderAnswerSection(day)}
           </div>
         );
 
-      case 5: // Promise Day
+      case 4: // Teddy Day - 3D Teddy Bears
         return (
           <div>
-            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20 max-w-md mb-6">
-              <h3 className="text-2xl font-bold mb-6">My Promises to You:</h3>
-              <ul className="space-y-4 text-lg text-left">
-                <motion.li 
-                  initial={{ x: -20, opacity: 0 }}
-                  animate={{ x: 0, opacity: 1 }}
-                  transition={{ delay: 0.2 }}
-                  className="flex items-start gap-3"
-                >
-                  <Check className="w-6 h-6 text-green-400 flex-shrink-0 mt-1" />
-                  <span>I promise to always love you unconditionally</span>
-                </motion.li>
-                <motion.li 
-                  initial={{ x: -20, opacity: 0 }}
-                  animate={{ x: 0, opacity: 1 }}
-                  transition={{ delay: 0.4 }}
-                  className="flex items-start gap-3"
-                >
-                  <Check className="w-6 h-6 text-green-400 flex-shrink-0 mt-1" />
-                  <span>I promise to support you in every dream</span>
-                </motion.li>
-                <motion.li 
-                  initial={{ x: -20, opacity: 0 }}
-                  animate={{ x: 0, opacity: 1 }}
-                  transition={{ delay: 0.6 }}
-                  className="flex items-start gap-3"
-                >
-                  <Check className="w-6 h-6 text-green-400 flex-shrink-0 mt-1" />
-                  <span>I promise to cherish every moment together</span>
-                </motion.li>
-              </ul>
-              <div className="mt-8 text-4xl">🤝</div>
-            </div>
+            <TeddyBears3D />
             {renderAnswerSection(day)}
           </div>
         );
 
-      case 6: // Hug Day
+      case 5: // Promise Day - Sealed Promise Vault
         return (
           <div>
-            <motion.div
-              initial={{ scale: 0.8 }}
-              animate={{ scale: [0.8, 1.1, 1] }}
-              transition={{ duration: 1, repeat: Infinity, repeatDelay: 1 }}
-              className="relative"
-            >
-              <div className="text-9xl mb-8">🤗</div>
-              <div className="text-2xl font-medium mb-8">Sending you a warm virtual hug 🫂</div>
-            </motion.div>
+            <PromiseVault dayNumber={day.dayNumber} />
             {renderAnswerSection(day)}
           </div>
         );
 
-      case 7: // Kiss Day
+      case 6: // Hug Day - Hold-to-Hug
         return (
           <div>
-            <div className="relative mb-8">
-              {[...Array(5)].map((_, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ x: -100, y: 0, opacity: 1 }}
-                  animate={{ 
-                    x: 300, 
-                    y: Math.sin(i) * 100,
-                    opacity: 0 
-                  }}
-                  transition={{ 
-                    duration: 2, 
-                    delay: i * 0.3,
-                    repeat: Infinity,
-                    repeatDelay: 1
-                  }}
-                  className="absolute text-6xl"
-                  style={{ left: '50%', top: '50%' }}
-                >
-                  💋
-                </motion.div>
-              ))}
-              <div className="text-9xl relative z-10">💋</div>
-            </div>
+            <HoldToHug />
             {renderAnswerSection(day)}
           </div>
         );
 
-      case 8: // Valentine's Day
+      case 7: // Kiss Day - Kiss Ripples
+        return (
+          <div>
+            <KissRipples dayNumber={day.dayNumber} />
+            {renderAnswerSection(day)}
+          </div>
+        );
+
+      case 8: // Valentine's Day - Mini Storybook
         return (
           <div>
             <div className="relative mb-8">
@@ -654,6 +552,7 @@ const ValentinesSpecial = () => {
               <h2 className="text-4xl font-bold mb-4">Happy Valentine's Day! 💝</h2>
               <p className="text-xl mb-8">Celebrating our beautiful love story</p>
             </div>
+            <StorybookPDF />
             {renderAnswerSection(day)}
           </div>
         );
