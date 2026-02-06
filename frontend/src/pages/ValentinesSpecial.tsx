@@ -698,7 +698,7 @@ const ValentinesSpecial = () => {
           <Button
             onClick={() => navigate('/senorita')}
             variant="ghost"
-            className="mb-6 hover:bg-white/10"
+            className="mb-6 hover:bg-white/10 btn-hover-lift"
           >
             <ArrowLeft className="mr-2 w-4 h-4" />
             Back to Dashboard
