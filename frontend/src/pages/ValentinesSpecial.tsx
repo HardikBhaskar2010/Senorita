@@ -213,9 +213,10 @@ const ValentinesSpecial = () => {
             
             // Check if day should be unlocked based on date
             const now = new Date();
-            const isAfterValentinesWeek = now >= new Date(2025, 1, 15);
+            const currentYear = now.getFullYear();
+            const isAfterValentinesWeek = now >= new Date(currentYear, 1, 15);
             const [month, date] = valentineDays.find(vd => vd.dayNumber === data.day_number)?.date.split('-').map(Number) || [0, 0];
-            const dayUnlockDate = new Date(2025, month - 1, date);
+            const dayUnlockDate = new Date(currentYear, month - 1, date);
             
             if (isAfterValentinesWeek || now >= dayUnlockDate) {
               setUnlockedDays(prev => new Set([...prev, data.day_number]));
