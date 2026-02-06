@@ -327,6 +327,48 @@ const ValentinesSpecial = () => {
     }
   };
 
+  // Save answer to database
+  const saveAnswer = async () => {
+    if (!selectedDay || !currentAnswer.trim()) {
+      toast({
+        title: 'Oops! 💕',
+        description: 'Please write your answer before saving.',
+        variant: 'default'
+      });
+      return;
+    }
+
+    try {
+      const { error } = await supabase
+        .from('valentines_progress')
+        .update({ answer: currentAnswer.trim() })
+        .eq('user_name', 'Senorita')
+        .eq('day_number', selectedDay.dayNumber);
+
+      if (error) throw error;
+
+      setAnswers(prev => ({
+        ...prev,
+        [selectedDay.dayNumber]: currentAnswer.trim()
+      }));
+
+      toast({
+        title: '💝 Answer Saved!',
+        description: 'Your beautiful response has been saved.',
+        variant: 'default'
+      });
+
+      setCurrentAnswer('');
+    } catch (err) {
+      console.error('Error saving answer:', err);
+      toast({
+        title: 'Error',
+        description: 'Failed to save answer. Please try again.',
+        variant: 'destructive'
+      });
+    }
+  };
+
   // Render day content based on day number
   const renderDayContent = (day: ValentineDay) => {
     const message = customMessages[day.dayNumber];
