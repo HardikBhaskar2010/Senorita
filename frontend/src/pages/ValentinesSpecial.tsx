@@ -114,6 +114,8 @@ const ValentinesSpecial = () => {
   const [isUnlocking, setIsUnlocking] = useState(false);
   const [customMessages, setCustomMessages] = useState<Record<number, string>>({});
   const [showConfetti, setShowConfetti] = useState(false);
+  const [answers, setAnswers] = useState<Record<number, string>>({});
+  const [currentAnswer, setCurrentAnswer] = useState('');
 
   // Check if a day is available to unlock based on current date
   const isDayAvailable = (day: ValentineDay): boolean => {
