@@ -813,7 +813,7 @@ const ValentinesSpecial = () => {
                 <div className="text-center relative">
                   <div className="text-6xl mb-4">{day.emoji}</div>
                   <h3 className="text-2xl font-bold mb-2">{day.name}</h3>
-                  <p className="text-sm opacity-80 mb-3">{day.date.replace('-', '/')}/2025</p>
+                  <p className="text-sm opacity-80 mb-3">{day.date.replace('-', '/')}/{new Date().getFullYear()}</p>
                   <p className="text-base opacity-90 font-medium mb-2">{day.theme}</p>
                   <p className="text-sm opacity-70">{day.description}</p>
 
