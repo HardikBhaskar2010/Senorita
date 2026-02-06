@@ -23,10 +23,12 @@ const AnimatedRose: React.FC = () => {
   );
 
   const handlePetalClick = (petal: any) => {
-    if (clickedPetals.has(petal.id)) return;
+    if (clickedPetals.has(petal.id)) {
+      setSelectedMessage(petal.message);
+      return;
+    }
     setSelectedMessage(petal.message);
     setClickedPetals(prev => new Set([...prev, petal.id]));
-    setTimeout(() => setSelectedMessage(""), 4000);
   };
 
   return (
