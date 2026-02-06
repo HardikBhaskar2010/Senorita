@@ -42,8 +42,6 @@ const TeddyBears3D = () => {
             enablePan={false}
             minDistance={3}
             maxDistance={8}
-            autoRotate
-            autoRotateSpeed={2}
           />
         </Canvas>
       </motion.div>
