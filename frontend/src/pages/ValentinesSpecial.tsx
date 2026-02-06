@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Heart, Lock, Sparkles, Gift, ArrowLeft, Check } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -16,6 +16,8 @@ import PromiseVault from '@/components/valentine/PromiseVault';
 import HoldToHug from '@/components/valentine/HoldToHug';
 import KissRipples from '@/components/valentine/KissRipples';
 import StorybookPDF from '@/components/valentine/StorybookPDF';
+import EasterEggHunt from '@/components/valentine/EasterEggHunt';
+import SaveToAlbum from '@/components/valentine/SaveToAlbum';
 
 interface ValentineDay {
   dayNumber: number;
@@ -125,6 +127,8 @@ const ValentinesSpecial = () => {
   const [showConfetti, setShowConfetti] = useState(false);
   const [answers, setAnswers] = useState<Record<number, string>>({});
   const [currentAnswer, setCurrentAnswer] = useState('');
+  const [easterEggsFound, setEasterEggsFound] = useState<Record<number, number>>({});
+  const dayContentRef = useRef<HTMLDivElement>(null);
 
   // Check if a day is available to unlock based on current date
   const isDayAvailable = (day: ValentineDay): boolean => {
