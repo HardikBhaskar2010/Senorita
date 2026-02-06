@@ -924,14 +924,14 @@ const ValentinesSpecial = () => {
                       <Button
                         onClick={handleTypeUnlock}
                         disabled={isUnlocking}
-                        className="w-full py-6 text-lg bg-white/20 hover:bg-white/30 text-white"
+                        className="w-full py-6 text-lg bg-white/20 hover:bg-white/30 text-white btn-hover-lift"
                       >
                         {isUnlocking ? 'Unlocking...' : 'Unlock 💝'}
                       </Button>
                       <Button
                         onClick={() => setSelectedDay(null)}
                         variant="ghost"
-                        className="w-full text-white/80 hover:bg-white/10"
+                        className="w-full text-white/80 hover:bg-white/10 btn-hover-lift"
                       >
                         Maybe Later
                       </Button>
