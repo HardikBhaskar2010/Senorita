@@ -482,6 +482,7 @@ const ValentinesSpecial = () => {
             case 1: // Rose Day - Reasons in Petals
               return (
                 <div>
+                  <AnimatedRose />
                   <RosePetals dayNumber={day.dayNumber} />
                   {renderAnswerSection(day)}
                   <SaveToAlbum dayNumber={day.dayNumber} dayName={day.name} contentRef={dayContentRef} />
