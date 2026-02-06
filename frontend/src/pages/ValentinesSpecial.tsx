@@ -565,29 +565,32 @@ const ValentinesSpecial = () => {
 
       case 7: // Kiss Day
         return (
-          <div className="relative">
-            {[...Array(5)].map((_, i) => (
-              <motion.div
-                key={i}
-                initial={{ x: -100, y: 0, opacity: 1 }}
-                animate={{ 
-                  x: 300, 
-                  y: Math.sin(i) * 100,
-                  opacity: 0 
-                }}
-                transition={{ 
-                  duration: 2, 
-                  delay: i * 0.3,
-                  repeat: Infinity,
-                  repeatDelay: 1
-                }}
-                className="absolute text-6xl"
-                style={{ left: '50%', top: '50%' }}
-              >
-                💋
-              </motion.div>
-            ))}
-            <div className="text-9xl mb-8 relative z-10">💋</div>
+          <div>
+            <div className="relative mb-8">
+              {[...Array(5)].map((_, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ x: -100, y: 0, opacity: 1 }}
+                  animate={{ 
+                    x: 300, 
+                    y: Math.sin(i) * 100,
+                    opacity: 0 
+                  }}
+                  transition={{ 
+                    duration: 2, 
+                    delay: i * 0.3,
+                    repeat: Infinity,
+                    repeatDelay: 1
+                  }}
+                  className="absolute text-6xl"
+                  style={{ left: '50%', top: '50%' }}
+                >
+                  💋
+                </motion.div>
+              ))}
+              <div className="text-9xl relative z-10">💋</div>
+            </div>
+            {renderAnswerSection(day)}
           </div>
         );
 
