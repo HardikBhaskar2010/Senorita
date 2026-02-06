@@ -401,8 +401,41 @@ const ValentinesSpecial = () => {
               💍
             </motion.div>
             <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
-              <p className="text-3xl font-bold mb-4">Will You Be Mine Forever?</p>
-              <p className="text-xl opacity-90">Yes, always and forever 💕</p>
+              <p className="text-3xl font-bold mb-6">Will You Marry Me Senorita?</p>
+              
+              {/* Show saved answer or input field */}
+              {answers[day.dayNumber] ? (
+                <div className="space-y-4">
+                  <div className="bg-white/10 rounded-xl p-6 border border-white/20">
+                    <p className="text-sm opacity-70 mb-2">Your Answer:</p>
+                    <p className="text-xl italic">"{answers[day.dayNumber]}"</p>
+                  </div>
+                  <Button
+                    onClick={() => {
+                      setCurrentAnswer(answers[day.dayNumber]);
+                    }}
+                    variant="ghost"
+                    className="text-white/80 hover:bg-white/10"
+                  >
+                    Edit Answer
+                  </Button>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  <Input
+                    value={currentAnswer}
+                    onChange={(e) => setCurrentAnswer(e.target.value)}
+                    placeholder="Write your answer here..."
+                    className="text-center text-lg py-6 bg-white/20 border-white/30 text-white placeholder:text-white/50"
+                  />
+                  <Button
+                    onClick={saveAnswer}
+                    className="w-full py-6 text-lg bg-white/20 hover:bg-white/30 text-white"
+                  >
+                    Save My Answer 💕
+                  </Button>
+                </div>
+              )}
             </div>
           </motion.div>
         );
