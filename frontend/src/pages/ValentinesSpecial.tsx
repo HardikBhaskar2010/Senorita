@@ -158,7 +158,8 @@ const ValentinesSpecial = () => {
         if (data) {
           // Only set as unlocked if the day is actually available OR after Valentine's Week
           const now = new Date();
-          const isAfterValentinesWeek = now >= new Date(2025, 1, 15);
+          const currentYear = now.getFullYear();
+          const isAfterValentinesWeek = now >= new Date(currentYear, 1, 15);
           
           const unlocked = new Set<number>();
           const messages: Record<number, string> = {};
@@ -167,7 +168,7 @@ const ValentinesSpecial = () => {
           data.forEach(d => {
             // Check if this day should be unlocked based on date
             const [month, date] = valentineDays.find(vd => vd.dayNumber === d.day_number)?.date.split('-').map(Number) || [0, 0];
-            const dayUnlockDate = new Date(2025, month - 1, date);
+            const dayUnlockDate = new Date(currentYear, month - 1, date);
             
             // Only add to unlocked if:
             // 1. It's after Valentine's Week (all unlocked), OR
