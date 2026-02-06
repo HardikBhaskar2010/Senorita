@@ -471,19 +471,22 @@ const ValentinesSpecial = () => {
 
       case 3: // Chocolate Day
         return (
-          <div className="grid grid-cols-3 gap-4 mb-8">
-            {[1, 2, 3, 4, 5, 6].map((i) => (
-              <motion.div
-                key={i}
-                initial={{ scale: 0, rotate: -180 }}
-                animate={{ scale: 1, rotate: 0 }}
-                transition={{ delay: i * 0.1 }}
-                whileHover={{ scale: 1.1, rotate: 5 }}
-                className="bg-amber-800 rounded-lg p-6 text-4xl cursor-pointer shadow-lg"
-              >
-                🍫
-              </motion.div>
-            ))}
+          <div>
+            <div className="grid grid-cols-3 gap-4 mb-8">
+              {[1, 2, 3, 4, 5, 6].map((i) => (
+                <motion.div
+                  key={i}
+                  initial={{ scale: 0, rotate: -180 }}
+                  animate={{ scale: 1, rotate: 0 }}
+                  transition={{ delay: i * 0.1 }}
+                  whileHover={{ scale: 1.1, rotate: 5 }}
+                  className="bg-amber-800 rounded-lg p-6 text-4xl cursor-pointer shadow-lg"
+                >
+                  🍫
+                </motion.div>
+              ))}
+            </div>
+            {renderAnswerSection(day)}
           </div>
         );
 
