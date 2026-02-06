@@ -53,7 +53,7 @@ interface MilestoneItem {
 }
 
 const categoryOptions = [
-  { value: 'first_time', label: 'First Times', emoji: '🌟' },
+  { value: 'first', label: 'First Times', emoji: '🌟' },
   { value: 'memory', label: 'Memories', emoji: '💭' },
   { value: 'achievement', label: 'Achievements', emoji: '🏆' },
   { value: 'trip', label: 'Trips', emoji: '✈️' },
@@ -211,6 +211,7 @@ const Milestones = () => {
           categoryOptions.find((c) => c.value === formData.category)?.emoji ||
           '💖',
         image_url: imageUrl,
+        created_by: displayName,
       };
 
       if (editingId) {
