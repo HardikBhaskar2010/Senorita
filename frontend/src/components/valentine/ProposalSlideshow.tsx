@@ -1,9 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import anime from 'animejs';
 import { Button } from '@/components/ui/button';
 import { supabase } from '@/lib/supabase';
-import { Heart, Sparkles } from 'lucide-react';
+import { Heart, Sparkles, Download } from 'lucide-react';
+import html2canvas from 'html2canvas';
 
 interface ProposalSlideshowProps {
   dayNumber: number;
@@ -38,6 +39,7 @@ const ProposalSlideshow = ({ dayNumber }: ProposalSlideshowProps) => {
   const [showConfetti, setShowConfetti] = useState(false);
   const [selectedChoice, setSelectedChoice] = useState<string | null>(null);
   const [isComplete, setIsComplete] = useState(false);
+  const celebrationRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     // Animate slide entrance
@@ -82,12 +84,32 @@ const ProposalSlideshow = ({ dayNumber }: ProposalSlideshowProps) => {
     }
   };
 
+  const downloadImage = async () => {
+    if (!celebrationRef.current) return;
+    
+    try {
+      const canvas = await html2canvas(celebrationRef.current, {
+        backgroundColor: 'transparent',
+        scale: 2
+      });
+      
+      const image = canvas.toDataURL('image/png');
+      const link = document.createElement('a');
+      link.href = image;
+      link.download = `proposal-moment-${new Date().toISOString().split('T')[0]}.png`;
+      link.click();
+    } catch (error) {
+      console.error('Error downloading image:', error);
+    }
+  };
+
   if (isComplete) {
     return (
       <motion.div
+        ref={celebrationRef}
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
-        className="text-center py-12"
+        className="text-center py-12 relative"
       >
         <motion.div
           animate={{ scale: [1, 1.2, 1] }}
@@ -97,7 +119,15 @@ const ProposalSlideshow = ({ dayNumber }: ProposalSlideshowProps) => {
           💕
         </motion.div>
         <h2 className="text-4xl font-bold mb-4">You said {selectedChoice}!</h2>
-        <p className="text-xl opacity-90">My heart is overflowing with joy 💖</p>
+        <p className="text-xl opacity-90 mb-6">My heart is overflowing with joy 💖</p>
+        
+        <Button
+          onClick={downloadImage}
+          className="bg-white/20 hover:bg-white/30 text-white border-2 border-white/30 mt-4"
+        >
+          <Download className="w-4 h-4 mr-2" />
+          Save This Moment
+        </Button>
         
         {showConfetti && (
           <div className="absolute inset-0 pointer-events-none">
