@@ -57,8 +57,6 @@ const AnimatedRose: React.FC = () => {
           />
         ))}
       </div>
-      <h1 className="text-6xl font-extrabold mb-1 tracking-wider" style={{ fontFamily: 'cursive' }}>Rose Day</h1>
-      <p className="opacity-90 mb-8 text-xl font-light">Beauty & Admiration</p>
       
       {/* Main animation area */}
       <div className="relative w-full max-w-[600px] h-[400px] flex items-center justify-center perspective-1500">
