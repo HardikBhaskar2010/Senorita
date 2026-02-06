@@ -312,6 +312,7 @@ sudo supervisorctl status
 - **Login Page**: `http://localhost:3000/`
 - **Cookie's Space**: `http://localhost:3000/cookie` (after login)
 - **Senorita's Space**: `http://localhost:3000/senorita` (after login)
+- **Valentine's Special**: `http://localhost:3000/valentines-special` (accessible from Senorita's dashboard)
 - **Chat**: `http://localhost:3000/chat`
 
 ---
