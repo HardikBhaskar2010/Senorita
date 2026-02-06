@@ -7,7 +7,7 @@
 ![License](https://img.shields.io/badge/License-Personal-blue?style=for-the-badge)
 ![Last Updated](https://img.shields.io/badge/Updated-Feb%202025-orange?style=for-the-badge) 
  
-**A personalized digital sanctuary for couples to share love, memories, and daily moments**
+**A personalized digital sanctuary for couples to share love, memories, and daily moments** 
  
 [Features](#-features) • [Tech Stack](#%EF%B8%8F-tech-stack) • [Quick Start](#-quick-start) • [Recent Fixes](#-recent-fixes--troubleshooting) • [Migration Guide](#-migration-guide) • [Project Structure](#-project-structure)
  
