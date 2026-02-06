@@ -64,6 +64,23 @@ All issues fixed and working perfectly:
 
 ## 🎯 Features
 
+### 🆕 **NEW: Valentine's Special 2025** (v7.3)
+- **Mystery Week** - Daily time-gated surprises from Feb 7-14, 2025
+- **8 Valentine Days** - Each day with unique theme, animation, and content
+  - 🌹 Rose Day (Feb 7) - Blooming rose animation with romantic message
+  - 💍 Propose Day (Feb 8) - Type "I Love You" to unlock heartfelt proposal
+  - 🍫 Chocolate Day (Feb 9) - Interactive chocolate box reveal
+  - 🧸 Teddy Day (Feb 10) - Animated teddy bear with cuddles
+  - 🤝 Promise Day (Feb 11) - Type "I Promise" to reveal commitment promises
+  - 🤗 Hug Day (Feb 12) - Warm virtual hug animation
+  - 💋 Kiss Day (Feb 13) - Flying kiss effects with particles
+  - ❤️ Valentine's Day (Feb 14) - Grand celebration with fireworks & confetti
+- **Unlock Mechanics** - Days unlock at midnight, type-to-unlock for special days
+- **Progress Tracking** - See unlocked days counter on dashboard
+- **Big Button** - Prominent access on Senorita's dashboard
+- **Custom Messages** - Cookie can add personal messages for each day (stored in DB)
+- **One-Time Event** - Commemorative 2025 Valentine's Week
+
 ### 🆕 **NEW: Calendar Day - Today Mode** (v7.1)
 - **Today's Date Display** - Big, cute, emotional date with relationship day counter
 - **Today's Events** - View all events and moments happening today
