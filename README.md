@@ -577,6 +577,19 @@ answers:
 Currently stores:
 - `shared_background_url` - Custom background image URL (synced)
 
+#### **valentines_progress** (New in v7.3)
+```sql
+- id                UUID PRIMARY KEY
+- user_name         TEXT ('Cookie' | 'Senorita')
+- day_number        INTEGER (1-8)
+- day_name          TEXT
+- unlocked_at       TIMESTAMPTZ
+- custom_message    TEXT
+- created_at        TIMESTAMPTZ
+```
+
+Tracks which Valentine's Week days have been unlocked by each user.
+
 ---
 
 ## 🎨 Design System
