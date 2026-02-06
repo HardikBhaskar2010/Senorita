@@ -369,6 +369,68 @@ const ValentinesSpecial = () => {
     }
   };
 
+  // Render interactive answer section for each day
+  const renderAnswerSection = (day: ValentineDay) => {
+    const dayQuestions: Record<number, string> = {
+      1: "What does love mean to you?",
+      2: "Will You Marry Me Senorita?",
+      3: "What's your favorite sweet memory of us?",
+      4: "What makes you feel safe and comforted with me?",
+      5: "What promise do you want to make to me?",
+      6: "How do you feel when I hug you?",
+      7: "What does my kiss mean to you?",
+      8: "What do you love most about us?"
+    };
+
+    const question = dayQuestions[day.dayNumber] || "Share your thoughts about this day...";
+
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.5 }}
+        className="mt-8 bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20"
+      >
+        <p className="text-lg font-medium mb-4">{question}</p>
+        
+        {answers[day.dayNumber] ? (
+          <div className="space-y-4">
+            <div className="bg-white/10 rounded-xl p-4 border border-white/20 text-left">
+              <p className="text-sm opacity-70 mb-2">Your Answer:</p>
+              <p className="text-base italic">"{answers[day.dayNumber]}"</p>
+            </div>
+            <Button
+              onClick={() => {
+                setCurrentAnswer(answers[day.dayNumber]);
+              }}
+              variant="ghost"
+              size="sm"
+              className="text-white/80 hover:bg-white/10 w-full"
+            >
+              ✏️ Edit Answer
+            </Button>
+          </div>
+        ) : (
+          <div className="space-y-3">
+            <textarea
+              value={currentAnswer}
+              onChange={(e) => setCurrentAnswer(e.target.value)}
+              placeholder="Write your answer here..."
+              rows={4}
+              className="w-full text-base py-3 px-4 bg-white/20 border border-white/30 text-white placeholder:text-white/50 rounded-xl resize-none focus:outline-none focus:ring-2 focus:ring-white/50"
+            />
+            <Button
+              onClick={saveAnswer}
+              className="w-full py-3 text-base bg-white/20 hover:bg-white/30 text-white"
+            >
+              💝 Save My Answer
+            </Button>
+          </div>
+        )}
+      </motion.div>
+    );
+  };
+
   // Render day content based on day number
   const renderDayContent = (day: ValentineDay) => {
     const message = customMessages[day.dayNumber];
