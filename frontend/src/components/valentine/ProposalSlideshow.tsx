@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import anime from 'animejs';
 import { Button } from '@/components/ui/button';
 import { supabase } from '@/lib/supabase';
 import { Heart, Sparkles, Download } from 'lucide-react';
@@ -42,23 +41,7 @@ const ProposalSlideshow = ({ dayNumber }: ProposalSlideshowProps) => {
   const celebrationRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Animate slide entrance
-    anime({
-      targets: '.slide-text',
-      translateY: [-50, 0],
-      opacity: [0, 1],
-      duration: 1000,
-      easing: 'easeOutQuad'
-    });
-
-    anime({
-      targets: '.slide-emoji',
-      scale: [0, 1],
-      rotate: [-180, 0],
-      duration: 800,
-      delay: 300,
-      easing: 'easeOutBack'
-    });
+    // Simple animation on slide change - using Framer Motion instead
   }, [currentSlide]);
 
   const handleChoice = async (choice: string) => {
@@ -172,13 +155,19 @@ const ProposalSlideshow = ({ dayNumber }: ProposalSlideshowProps) => {
           className="text-center max-w-2xl px-8"
         >
           <motion.div
-            className="slide-emoji text-8xl mb-8"
+            initial={{ scale: 0, rotate: -180 }}
+            animate={{ scale: 1, rotate: 0 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="text-8xl mb-8"
           >
             {slide.emoji}
           </motion.div>
           
           <motion.h2
-            className={`slide-text text-4xl md:text-5xl font-bold mb-8 bg-gradient-to-r ${slide.color} bg-clip-text text-transparent`}
+            initial={{ opacity: 0, y: -50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1 }}
+            className={`text-4xl md:text-5xl font-bold mb-8 bg-gradient-to-r ${slide.color} bg-clip-text text-transparent`}
           >
             {slide.text}
           </motion.h2>
