@@ -1,8 +1,9 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useSpace } from "@/contexts/SpaceContext";
 import { useCouple } from "@/contexts/CoupleContext";
 import { useTheme } from "@/contexts/ThemeContext";
+import { supabase } from "@/lib/supabase";
 import FloatingHearts from "@/components/FloatingHearts";
 import HeroSection from "@/components/HeroSection";
 import DaysCounter from "@/components/DaysCounter";
@@ -19,6 +20,7 @@ import CalendarDay from "@/components/CalendarDay";
 import LoveLanguageResults from "@/components/LoveLanguageResults";
 import QuickNotification from "@/components/QuickNotification";
 import ChatBubble from "@/components/ChatBubble";
+import ValentineAnswersModal from "@/components/ValentineAnswersModal";
 import { Heart, Sparkles, LogOut, Settings, Cookie } from "lucide-react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -28,6 +30,8 @@ const CookieDashboard = () => {
   const { currentSpace, logout, displayName, partnerName } = useSpace();
   const { anniversaryDate, relationshipStart } = useCouple();
   const { dashboardBackgroundCookie } = useTheme();
+  const [showAnswersModal, setShowAnswersModal] = useState(false);
+  const [hasCheckedAnswers, setHasCheckedAnswers] = useState(false);
   
   // Only redirect if space is explicitly set to something else (not null/loading)
   useEffect(() => {
@@ -35,6 +39,89 @@ const CookieDashboard = () => {
       navigate('/');
     }
   }, [currentSpace, navigate]);
+
+  // Check for unread Valentine's answers
+  useEffect(() => {
+    const checkUnreadAnswers = async () => {
+      if (currentSpace !== 'cookie' || hasCheckedAnswers) return;
+
+      try {
+        // Get all answers from Senorita
+        const { data: progressData, error: progressError } = await supabase
+          .from('valentines_progress')
+          .select('day_number, answer')
+          .eq('user_name', 'Senorita')
+          .not('answer', 'is', null);
+
+        if (progressError) throw progressError;
+
+        // Get already read answers
+        const { data: readsData, error: readsError } = await supabase
+          .from('valentines_answer_reads')
+          .select('day_number')
+          .eq('read_by', 'Cookie');
+
+        if (readsError) throw readsError;
+
+        // Check if there are unread answers
+        const readDays = new Set(readsData?.map(r => r.day_number) || []);
+        const hasUnread = progressData?.some(p => !readDays.has(p.day_number) && p.answer);
+
+        if (hasUnread) {
+          setShowAnswersModal(true);
+        }
+        
+        setHasCheckedAnswers(true);
+      } catch (err) {
+        console.error('Error checking for unread answers:', err);
+      }
+    };
+
+    checkUnreadAnswers();
+  }, [currentSpace, hasCheckedAnswers]);
+
+  // Subscribe to real-time answer updates
+  useEffect(() => {
+    if (currentSpace !== 'cookie') return;
+
+    const subscription = supabase
+      .channel('valentine-answers-updates')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'valentines_progress',
+          filter: 'user_name=eq.Senorita'
+        },
+        async (payload) => {
+          // When Senorita adds/updates an answer, check if it's new
+          if (payload.eventType === 'UPDATE' || payload.eventType === 'INSERT') {
+            const data = payload.new as any;
+            
+            if (data.answer) {
+              // Check if Cookie has already read this answer
+              const { data: readData } = await supabase
+                .from('valentines_answer_reads')
+                .select('day_number')
+                .eq('read_by', 'Cookie')
+                .eq('day_number', data.day_number)
+                .single();
+
+              if (!readData) {
+                // New unread answer - show modal
+                setShowAnswersModal(true);
+              }
+            }
+          }
+        }
+      )
+      .subscribe();
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [currentSpace]);
 
   // Show loading state while space is being initialized
   if (currentSpace === null) {
@@ -93,6 +180,11 @@ const CookieDashboard = () => {
       }}
     >
       {!dashboardBackgroundCookie && <FloatingHearts />}
+      
+      {/* Valentine's Answers Modal */}
+      {showAnswersModal && (
+        <ValentineAnswersModal onClose={() => setShowAnswersModal(false)} />
+      )}
       
       <HeroSection />
       
