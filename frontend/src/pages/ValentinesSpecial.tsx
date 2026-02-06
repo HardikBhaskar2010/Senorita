@@ -647,6 +647,16 @@ const ValentinesSpecial = () => {
         backgroundAttachment: 'fixed'
       }}
     >
+      {/* Animated Heart Background */}
+      <div className="valentine-heart-bg">
+        <div className="heart-bg-layer heart-1"></div>
+        <div className="heart-bg-layer heart-2"></div>
+        <div className="heart-bg-layer heart-3"></div>
+        <div className="heart-bg-layer heart-4"></div>
+        <div className="heart-bg-layer heart-5"></div>
+        <div className="heart-bg-layer heart-6"></div>
+      </div>
+      
       {/* Global Confetti System */}
       <ConfettiSystem active={triggerConfetti} duration={3000} particleCount={50} />
       
@@ -654,7 +664,7 @@ const ValentinesSpecial = () => {
       <AudioPlayer />
       
       {/* Overlay for better text readability */}
-      <div className="absolute inset-0 bg-gradient-to-br from-pink-500/30 via-rose-500/30 to-red-500/30 dark:from-pink-900/50 dark:via-rose-900/50 dark:to-red-900/50" />
+      <div className="absolute inset-0 bg-gradient-to-br from-pink-500/30 via-rose-500/30 to-red-500/30 dark:from-pink-900/50 dark:via-rose-900/50 dark:to-red-900/50 gradient-shift" />
       
       {/* Animated background orbs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
