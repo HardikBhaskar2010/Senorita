@@ -87,18 +87,22 @@ All issues fixed and working perfectly:
 
 ## 🎯 Features
 
-### 🆕 **NEW: Valentine's Special 2025** (v7.3)
+### 🆕 **NEW: Valentine's Special 2025** (v7.3.1)
 - **Mystery Week** - Daily time-gated surprises from Feb 7-14, 2025
 - **8 Valentine Days** - Each day with unique theme, animation, and content
-  - 🌹 Rose Day (Feb 7) - Blooming rose animation with romantic message
-  - 💍 Propose Day (Feb 8) - Type "I Love You" to unlock heartfelt proposal
-  - 🍫 Chocolate Day (Feb 9) - Interactive chocolate box reveal
-  - 🧸 Teddy Day (Feb 10) - Animated teddy bear with cuddles
-  - 🤝 Promise Day (Feb 11) - Type "I Promise" to reveal commitment promises
-  - 🤗 Hug Day (Feb 12) - Warm virtual hug animation
-  - 💋 Kiss Day (Feb 13) - Flying kiss effects with particles
-  - ❤️ Valentine's Day (Feb 14) - Grand celebration with fireworks & confetti
+  - 🌹 Rose Day (Feb 7) - "What does love mean to you?"
+  - 💍 Propose Day (Feb 8) - "Will You Marry Me Senorita?" 
+  - 🍫 Chocolate Day (Feb 9) - "What's your favorite sweet memory of us?"
+  - 🧸 Teddy Day (Feb 10) - "What makes you feel safe and comforted with me?"
+  - 🤝 Promise Day (Feb 11) - "What promise do you want to make to me?"
+  - 🤗 Hug Day (Feb 12) - "How do you feel when I hug you?"
+  - 💋 Kiss Day (Feb 13) - "What does my kiss mean to you?"
+  - ❤️ Valentine's Day (Feb 14) - "What do you love most about us?"
+- **Interactive Questions** - Each day has a unique question with text input
+- **Save Answers** - Senorita's responses saved to database
+- **Edit Feature** - Can edit and update answers anytime
 - **Unlock Mechanics** - Days unlock at midnight, type-to-unlock for special days
+- **Date Validation** - Days only unlock on correct dates (fixed in v7.3.1)
 - **Progress Tracking** - See unlocked days counter on dashboard
 - **Big Button** - Prominent access on Senorita's dashboard
 - **Custom Messages** - Cookie can add personal messages for each day (stored in DB)
