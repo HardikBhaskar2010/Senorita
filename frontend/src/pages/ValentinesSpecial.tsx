@@ -9,6 +9,7 @@ import { useTheme } from '@/contexts/ThemeContext';
 import { toast } from '@/hooks/use-toast';
 import AudioPlayer from '@/components/valentine/AudioPlayer';
 import RosePetals from '@/components/valentine/RosePetals';
+import AnimatedRose from '@/components/valentine/AnimatedRose';
 import ProposalSlideshow from '@/components/valentine/ProposalSlideshow';
 import ChocolateGame from '@/components/valentine/ChocolateGame';
 import TeddyBears3D from '@/components/valentine/TeddyBears3D';
