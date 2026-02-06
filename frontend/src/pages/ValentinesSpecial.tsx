@@ -120,7 +120,7 @@ const ValentinesSpecial = () => {
   // Check if a day is available to unlock based on current date
   const isDayAvailable = (day: ValentineDay): boolean => {
     const now = new Date();
-    const currentYear = 2025; // Valentine's Special 2025
+    const currentYear = now.getFullYear(); // Dynamic year
     const [month, date] = day.date.split('-').map(Number);
     const unlockDate = new Date(currentYear, month - 1, date);
     
