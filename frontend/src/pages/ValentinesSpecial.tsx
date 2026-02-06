@@ -131,7 +131,8 @@ const ValentinesSpecial = () => {
   // Check if Valentine's Week has ended
   const isValentinesWeekEnded = (): boolean => {
     const now = new Date();
-    const endDate = new Date(2025, 1, 15); // Feb 15, 2025
+    const currentYear = now.getFullYear();
+    const endDate = new Date(currentYear, 1, 15); // Feb 15, current year
     return now >= endDate;
   };
 
