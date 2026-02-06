@@ -961,6 +961,18 @@ three@0.160.0
 
 ## 📖 Feature Documentation
 
+### Using Valentine's Special 2025
+1. **Access**: Click the big "Valentine's Week Mystery" button on Senorita's dashboard
+2. **Daily Unlocks**: Each day from Feb 7-14 unlocks at midnight (00:00 local time)
+3. **View Progress**: See X/8 days unlocked counter on dashboard button
+4. **Unlock Days**: 
+   - Days 1, 3, 4, 6, 7, 8: Click to unlock (if available)
+   - Day 2 (Propose): Type "I Love You" to unlock
+   - Day 5 (Promise): Type "I Promise" to unlock
+5. **Special Content**: Each day has unique animations and romantic content
+6. **Custom Messages**: Cookie can add personal messages via database
+7. **Replay**: After Feb 14, all days remain unlocked forever
+
 ### Using Reply Feature
 1. Navigate to Chat page
 2. Hover over any message
