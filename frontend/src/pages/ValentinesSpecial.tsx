@@ -574,9 +574,7 @@ const ValentinesSpecial = () => {
                       </div>
                     )}
                     <motion.div
-                      animate={{ scale: [1, 1.2, 1] }}
-                      transition={{ duration: 1, repeat: Infinity }}
-                      className="text-9xl mb-8 relative z-10"
+                      className="text-9xl mb-8 relative z-10 heart-burst"
                     >
                       ❤️
                     </motion.div>
