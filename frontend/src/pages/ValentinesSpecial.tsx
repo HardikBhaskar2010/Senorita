@@ -803,21 +803,6 @@ const ValentinesSpecial = () => {
                         Coming Soon
                       </span>
                     )}
-                    
-                    {/* Test Button - Always visible for testing */}
-                    {!isUnlocked && (
-                      <Button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          unlockDay(day);
-                        }}
-                        size="sm"
-                        variant="outline"
-                        className="bg-blue-500/20 text-blue-300 border-blue-400/30 hover:bg-blue-500/30 text-xs btn-hover-lift"
-                      >
-                        🧪 Test Unlock
-                      </Button>
-                    )}
                   </div>
                 </div>
               </motion.div>
