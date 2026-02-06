@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useSpace } from "@/contexts/SpaceContext";
 import { useCouple } from "@/contexts/CoupleContext";
@@ -19,9 +19,10 @@ import CalendarDay from "@/components/CalendarDay";
 import LoveLanguageResults from "@/components/LoveLanguageResults";
 import QuickNotification from "@/components/QuickNotification";
 import ChatBubble from "@/components/ChatBubble";
-import { Heart, Sparkles, LogOut, Settings } from "lucide-react";
+import { Heart, Sparkles, LogOut, Settings, Gift, Lock } from "lucide-react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import { supabase } from "@/lib/supabase";
 
 const SenoritaDashboard = () => {
   const navigate = useNavigate();
