@@ -245,6 +245,12 @@ const ValentinesSpecial = () => {
     // If already unlocked, just open it
     if (unlockedDays.has(day.dayNumber)) {
       setSelectedDay(day);
+      // Load existing answer if available
+      if (answers[day.dayNumber]) {
+        setCurrentAnswer('');
+      } else {
+        setCurrentAnswer('');
+      }
       return;
     }
 
@@ -262,6 +268,7 @@ const ValentinesSpecial = () => {
     if (day.unlockPhrase) {
       setSelectedDay(day);
       setUnlockInput('');
+      setCurrentAnswer('');
       return;
     }
 
