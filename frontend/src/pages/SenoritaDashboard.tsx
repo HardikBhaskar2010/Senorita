@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { useSpace } from "@/contexts/SpaceContext";
 import { useCouple } from "@/contexts/CoupleContext";
 import { useTheme } from "@/contexts/ThemeContext";
+import { toast } from "@/hooks/use-toast";
 import FloatingHearts from "@/components/FloatingHearts";
 import HeroSection from "@/components/HeroSection";
 import DaysCounter from "@/components/DaysCounter";
@@ -31,6 +32,54 @@ const SenoritaDashboard = () => {
   const { dashboardBackgroundSenorita } = useTheme();
   const [unlockedDaysCount, setUnlockedDaysCount] = useState(0);
   const [hasNewUnlock, setHasNewUnlock] = useState(false);
+  
+  // Day names mapping for notifications
+  const dayNames: Record<number, string> = {
+    1: "Rose Day",
+    2: "Propose Day",
+    3: "Chocolate Day",
+    4: "Teddy Day",
+    5: "Promise Day",
+    6: "Hug Day",
+    7: "Kiss Day",
+    8: "Valentine's Day"
+  };
+
+  // Listen for Cookie's "Thank You" responses
+  useEffect(() => {
+    if (currentSpace !== 'senorita') return;
+
+    const subscription = supabase
+      .channel('cookie-thanks-notifications')
+      .on(
+        'postgres_changes',
+        {
+          event: 'INSERT',
+          schema: 'public',
+          table: 'valentines_answer_reads',
+          filter: 'read_by=eq.Cookie'
+        },
+        (payload) => {
+          const data = payload.new as any;
+          
+          if (data.thanked) {
+            const dayName = dayNames[data.day_number] || `Day ${data.day_number}`;
+            
+            toast({
+              title: '💕 Cookie Sent a Thank You!',
+              description: `Cookie read and loved your ${dayName} answer!`,
+              variant: 'default',
+              duration: 5000
+            });
+          }
+        }
+      )
+      .subscribe();
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [currentSpace]);
   
   // Check for new unlocked days
   useEffect(() => {
