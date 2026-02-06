@@ -29,7 +29,30 @@ All content syncs in real-time across both spaces via Supabase subscriptions.
 
 ---
 
-## 🔥 Recent Fixes & Improvements (v7.3)
+## 🔥 Recent Fixes & Improvements (v7.3.1)
+
+### 🐛 **FIXED: Valentine's Special Interactive Enhancement** (Feb 2025)
+Two critical fixes applied to Valentine's Week feature:
+
+**1. Date Validation Bug Fixed:**
+- ✅ Days now only unlock on their actual dates (not before!)
+- ✅ Fixed premature unlocking (e.g., Hug Day on Feb 5 instead of Feb 12)
+- ✅ Database entries validated against unlock dates
+- ✅ Real-time sync respects date validation
+
+**2. Interactive Answers Added:**
+- ✅ All 8 days now have unique questions for Senorita
+- ✅ Text area input for writing and saving answers
+- ✅ Answers persist in Supabase database
+- ✅ Edit functionality for updating answers
+- ✅ Propose Day question changed to "Will You Marry Me Senorita?"
+- ✅ Beautiful UI with glassmorphism effects
+
+**📋 Migration Required:** Run `/app/valentines-interactive-fix.sql` in Supabase SQL Editor
+
+**📖 Full Documentation:** 
+- Quick Start: `/app/VALENTINES_QUICK_START.md`
+- Detailed Guide: `/app/VALENTINES_FIX_SUMMARY.md`
 
 ### ✅ Valentine's Special 2025 (Feb 2025)
 - **🎁 NEW: Valentine's Week Mystery** - Time-gated romantic experience (Feb 7-14, 2025)
