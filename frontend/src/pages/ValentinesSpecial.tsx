@@ -459,115 +459,138 @@ const ValentinesSpecial = () => {
   const renderDayContent = (day: ValentineDay) => {
     const message = customMessages[day.dayNumber];
 
-    switch (day.dayNumber) {
-      case 1: // Rose Day - Reasons in Petals
-        return (
-          <div>
-            <RosePetals dayNumber={day.dayNumber} />
-            {renderAnswerSection(day)}
-          </div>
-        );
-      
-      case 2: // Propose Day - Interactive Proposal Reel
-        return (
-          <div>
-            <ProposalSlideshow dayNumber={day.dayNumber} />
-            {renderAnswerSection(day)}
-          </div>
-        );
+    return (
+      <div ref={dayContentRef}>
+        {/* Easter Egg Hunt */}
+        <EasterEggHunt
+          dayNumber={day.dayNumber}
+          onEggFound={(eggId) => {
+            const count = (easterEggsFound[day.dayNumber] || 0) + 1;
+            setEasterEggsFound(prev => ({ ...prev, [day.dayNumber]: count }));
+          }}
+        />
 
-      case 3: // Chocolate Day - Make-a-Choc Mini-Game
-        return (
-          <div>
-            <ChocolateGame dayNumber={day.dayNumber} />
-            {renderAnswerSection(day)}
-          </div>
-        );
-
-      case 4: // Teddy Day - 3D Teddy Bears
-        return (
-          <div>
-            <TeddyBears3D />
-            {renderAnswerSection(day)}
-          </div>
-        );
-
-      case 5: // Promise Day - Sealed Promise Vault
-        return (
-          <div>
-            <PromiseVault dayNumber={day.dayNumber} />
-            {renderAnswerSection(day)}
-          </div>
-        );
-
-      case 6: // Hug Day - Hold-to-Hug
-        return (
-          <div>
-            <HoldToHug />
-            {renderAnswerSection(day)}
-          </div>
-        );
-
-      case 7: // Kiss Day - Kiss Ripples
-        return (
-          <div>
-            <KissRipples dayNumber={day.dayNumber} />
-            {renderAnswerSection(day)}
-          </div>
-        );
-
-      case 8: // Valentine's Day - Mini Storybook
-        return (
-          <div>
-            <div className="relative mb-8">
-              {showConfetti && (
-                <div className="absolute inset-0 pointer-events-none">
-                  {[...Array(30)].map((_, i) => (
-                    <motion.div
-                      key={i}
-                      initial={{ 
-                        x: Math.random() * 400 - 200,
-                        y: -50,
-                        rotate: 0
-                      }}
-                      animate={{ 
-                        y: 600,
-                        rotate: 360
-                      }}
-                      transition={{ 
-                        duration: 2 + Math.random(),
-                        delay: Math.random() * 0.5
-                      }}
-                      className="absolute text-3xl"
-                      style={{ left: '50%' }}
-                    >
-                      {['❤️', '💕', '💖', '💗', '💝'][Math.floor(Math.random() * 5)]}
-                    </motion.div>
-                  ))}
+        {(() => {
+          switch (day.dayNumber) {
+            case 1: // Rose Day - Reasons in Petals
+              return (
+                <div>
+                  <RosePetals dayNumber={day.dayNumber} />
+                  {renderAnswerSection(day)}
+                  <SaveToAlbum dayNumber={day.dayNumber} dayName={day.name} contentRef={dayContentRef} />
                 </div>
-              )}
-              <motion.div
-                animate={{ scale: [1, 1.2, 1] }}
-                transition={{ duration: 1, repeat: Infinity }}
-                className="text-9xl mb-8 relative z-10"
-              >
-                ❤️
-              </motion.div>
-              <h2 className="text-4xl font-bold mb-4">Happy Valentine's Day! 💝</h2>
-              <p className="text-xl mb-8">Celebrating our beautiful love story</p>
-            </div>
-            <StorybookPDF />
-            {renderAnswerSection(day)}
-          </div>
-        );
+              );
+            
+            case 2: // Propose Day - Interactive Proposal Reel
+              return (
+                <div>
+                  <ProposalSlideshow dayNumber={day.dayNumber} />
+                  {renderAnswerSection(day)}
+                  <SaveToAlbum dayNumber={day.dayNumber} dayName={day.name} contentRef={dayContentRef} />
+                </div>
+              );
 
-      default:
-        return (
-          <div className="text-8xl">
-            {day.emoji}
-          </div>
-        );
-    }
+            case 3: // Chocolate Day - Make-a-Choc Mini-Game
+              return (
+                <div>
+                  <ChocolateGame dayNumber={day.dayNumber} />
+                  {renderAnswerSection(day)}
+                  <SaveToAlbum dayNumber={day.dayNumber} dayName={day.name} contentRef={dayContentRef} />
+                </div>
+              );
+
+            case 4: // Teddy Day - 3D Teddy Bears
+              return (
+                <div>
+                  <TeddyBears3D />
+                  {renderAnswerSection(day)}
+                  <SaveToAlbum dayNumber={day.dayNumber} dayName={day.name} contentRef={dayContentRef} />
+                </div>
+              );
+
+            case 5: // Promise Day - Sealed Promise Vault
+              return (
+                <div>
+                  <PromiseVault dayNumber={day.dayNumber} />
+                  {renderAnswerSection(day)}
+                  <SaveToAlbum dayNumber={day.dayNumber} dayName={day.name} contentRef={dayContentRef} />
+                </div>
+              );
+
+            case 6: // Hug Day - Hold-to-Hug
+              return (
+                <div>
+                  <HoldToHug />
+                  {renderAnswerSection(day)}
+                  <SaveToAlbum dayNumber={day.dayNumber} dayName={day.name} contentRef={dayContentRef} />
+                </div>
+              );
+
+            case 7: // Kiss Day - Kiss Ripples
+              return (
+                <div>
+                  <KissRipples dayNumber={day.dayNumber} />
+                  {renderAnswerSection(day)}
+                  <SaveToAlbum dayNumber={day.dayNumber} dayName={day.name} contentRef={dayContentRef} />
+                </div>
+              );
+
+            case 8: // Valentine's Day - Mini Storybook
+              return (
+                <div>
+                  <div className="relative mb-8">
+                    {showConfetti && (
+                      <div className="absolute inset-0 pointer-events-none">
+                        {[...Array(30)].map((_, i) => (
+                          <motion.div
+                            key={i}
+                            initial={{ 
+                              x: Math.random() * 400 - 200,
+                              y: -50,
+                              rotate: 0
+                            }}
+                            animate={{ 
+                              y: 600,
+                              rotate: 360
+                            }}
+                            transition={{ 
+                              duration: 2 + Math.random(),
+                              delay: Math.random() * 0.5
+                            }}
+                            className="absolute text-3xl"
+                            style={{ left: '50%' }}
+                          >
+                            {['❤️', '💕', '💖', '💗', '💝'][Math.floor(Math.random() * 5)]}
+                          </motion.div>
+                        ))}
+                      </div>
+                    )}
+                    <motion.div
+                      animate={{ scale: [1, 1.2, 1] }}
+                      transition={{ duration: 1, repeat: Infinity }}
+                      className="text-9xl mb-8 relative z-10"
+                    >
+                      ❤️
+                    </motion.div>
+                    <h2 className="text-4xl font-bold mb-4">Happy Valentine's Day! 💝</h2>
+                    <p className="text-xl mb-8">Celebrating our beautiful love story</p>
+                  </div>
+                  <StorybookPDF />
+                  {renderAnswerSection(day)}
+                  <SaveToAlbum dayNumber={day.dayNumber} dayName={day.name} contentRef={dayContentRef} />
+                </div>
+              );
+
+            default:
+              return (
+                <div className="text-8xl">
+                  {day.emoji}
+                </div>
+              );
+          }
+        })()}
+      </div>
+    );
   };
 
   // Status message
