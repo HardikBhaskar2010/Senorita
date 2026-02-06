@@ -830,3 +830,16 @@
   left: 40%;
   transform: rotate(30deg) scaleX(-1);
 }
+
+/* Interactive Rose - Falling petal animation */
+@keyframes fall {
+  to {
+    transform: translateY(200px) rotate(120deg);
+    opacity: 0;
+  }
+}
+
+.animate-fall {
+  animation: fall 1s forwards;
+  pointer-events: none;
+}
