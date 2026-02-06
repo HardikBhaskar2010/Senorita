@@ -50,6 +50,7 @@ const App = () => (
                   <Route path="/mood" element={<MoodEnhanced />} />
                   <Route path="/chat" element={<Chat />} />
                   <Route path="/milestones" element={<Milestones />} />
+                  <Route path="/valentines-special" element={<ValentinesSpecial />} />
                   <Route path="/settings" element={<Settings />} />
                   {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                   <Route path="*" element={<NotFound />} />
