@@ -57,7 +57,6 @@ const AnimatedRose: React.FC = () => {
           />
         ))}
       </div>
-      {/* Title - Ensure no duplicates */}
       <h1 className="text-6xl font-extrabold mb-1 tracking-wider" style={{ fontFamily: 'cursive' }}>Rose Day</h1>
       <p className="opacity-90 mb-8 text-xl font-light">Beauty & Admiration</p>
       
