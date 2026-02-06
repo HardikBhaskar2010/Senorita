@@ -468,7 +468,25 @@ If you're upgrading from the previous version, follow these steps:
 
 ## 🗃️ Database Schema
 
-### Latest Migration (v7.2)
+### Latest Migration (v7.3)
+
+**File:** `/app/valentines-special-migration.sql`
+
+Run this migration in Supabase SQL Editor to enable Valentine's Special 2025:
+- Valentine's progress tracking table
+- Real-time sync for unlock status
+- Support for custom messages per day
+
+```bash
+# View migration file
+cat /app/valentines-special-migration.sql
+```
+
+Copy the entire content and run in Supabase SQL Editor.
+
+---
+
+### Previous Migration (v7.2)
 
 **File:** `/app/fix-chat-improvements.sql`
 
