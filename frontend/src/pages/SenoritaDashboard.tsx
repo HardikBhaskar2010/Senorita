@@ -29,6 +29,60 @@ const SenoritaDashboard = () => {
   const { currentSpace, logout, displayName, partnerName } = useSpace();
   const { anniversaryDate, relationshipStart } = useCouple();
   const { dashboardBackgroundSenorita } = useTheme();
+  const [unlockedDaysCount, setUnlockedDaysCount] = useState(0);
+  const [hasNewUnlock, setHasNewUnlock] = useState(false);
+  
+  // Check for new unlocked days
+  useEffect(() => {
+    const checkValentineProgress = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('valentines_progress')
+          .select('day_number')
+          .eq('user_name', 'Senorita');
+
+        if (!error && data) {
+          setUnlockedDaysCount(data.length);
+          
+          // Check if there's a day available to unlock today
+          const now = new Date();
+          const currentYear = 2025;
+          
+          // Valentine's Week: Feb 7-14
+          if (now >= new Date(currentYear, 1, 7) && now <= new Date(currentYear, 1, 14)) {
+            const dayNumber = Math.floor((now.getTime() - new Date(currentYear, 1, 7).getTime()) / (1000 * 60 * 60 * 24)) + 1;
+            const isUnlocked = data.some(d => d.day_number === dayNumber);
+            setHasNewUnlock(!isUnlocked && dayNumber <= 8);
+          }
+        }
+      } catch (err) {
+        console.error('Error checking valentine progress:', err);
+      }
+    };
+
+    checkValentineProgress();
+
+    // Subscribe to updates
+    const subscription = supabase
+      .channel('valentine-dashboard-updates')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'valentines_progress',
+          filter: 'user_name=eq.Senorita'
+        },
+        () => {
+          checkValentineProgress();
+        }
+      )
+      .subscribe();
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, []);
   
   // Only redirect if space is explicitly set to something else (not null/loading)
   useEffect(() => {
