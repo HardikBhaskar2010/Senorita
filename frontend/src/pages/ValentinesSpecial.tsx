@@ -729,7 +729,7 @@ const ValentinesSpecial = () => {
                   <p className="text-sm opacity-70">{day.description}</p>
 
                   {/* Status Badge */}
-                  <div className="mt-4">
+                  <div className="mt-4 flex flex-col gap-2">
                     {isUnlocked ? (
                       <span className="inline-flex items-center gap-2 bg-green-500/20 text-green-300 px-4 py-2 rounded-full text-sm font-medium">
                         <Check className="w-4 h-4" />
@@ -745,6 +745,21 @@ const ValentinesSpecial = () => {
                         <Lock className="w-4 h-4" />
                         Coming Soon
                       </span>
+                    )}
+                    
+                    {/* Test Button - Always visible for testing */}
+                    {!isUnlocked && (
+                      <Button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          unlockDay(day);
+                        }}
+                        size="sm"
+                        variant="outline"
+                        className="bg-blue-500/20 text-blue-300 border-blue-400/30 hover:bg-blue-500/30 text-xs"
+                      >
+                        🧪 Test Unlock
+                      </Button>
                     )}
                   </div>
                 </div>
