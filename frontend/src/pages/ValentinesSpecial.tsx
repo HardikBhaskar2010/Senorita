@@ -18,6 +18,7 @@ import KissRipples from '@/components/valentine/KissRipples';
 import StorybookPDF from '@/components/valentine/StorybookPDF';
 import EasterEggHunt from '@/components/valentine/EasterEggHunt';
 import SaveToAlbum from '@/components/valentine/SaveToAlbum';
+import ConfettiSystem from '@/components/valentine/ConfettiSystem';
 
 interface ValentineDay {
   dayNumber: number;
@@ -129,6 +130,7 @@ const ValentinesSpecial = () => {
   const [currentAnswer, setCurrentAnswer] = useState('');
   const [easterEggsFound, setEasterEggsFound] = useState<Record<number, number>>({});
   const dayContentRef = useRef<HTMLDivElement>(null);
+  const [triggerConfetti, setTriggerConfetti] = useState(false);
 
   // Check if a day is available to unlock based on current date
   const isDayAvailable = (day: ValentineDay): boolean => {
@@ -313,7 +315,11 @@ const ValentinesSpecial = () => {
       setUnlockedDays(prev => new Set([...prev, day.dayNumber]));
       setSelectedDay(day);
       setShowConfetti(true);
-      setTimeout(() => setShowConfetti(false), 3000);
+      setTriggerConfetti(true);
+      setTimeout(() => {
+        setShowConfetti(false);
+        setTriggerConfetti(false);
+      }, 3000);
 
       toast({
         title: `💝 ${day.name} Unlocked!`,
@@ -640,6 +646,9 @@ const ValentinesSpecial = () => {
         backgroundAttachment: 'fixed'
       }}
     >
+      {/* Global Confetti System */}
+      <ConfettiSystem active={triggerConfetti} duration={3000} particleCount={50} />
+      
       {/* Audio Player */}
       <AudioPlayer />
       
@@ -689,12 +698,12 @@ const ValentinesSpecial = () => {
             animate={{ scale: [1, 1.05, 1] }}
             transition={{ duration: 2, repeat: Infinity }}
           >
-            <h1 className="text-5xl md:text-7xl font-bold mb-4 bg-gradient-to-r from-pink-300 via-rose-300 to-red-300 bg-clip-text text-transparent">
+            <h1 className="text-5xl md:text-7xl font-bold mb-4 bg-gradient-to-r from-pink-300 via-rose-300 to-red-300 bg-clip-text text-transparent handwritten">
               Valentine's Week Mystery {new Date().getFullYear()}
             </h1>
           </motion.div>
           
-          <p className="text-xl md:text-2xl mb-8 text-white/90">
+          <p className="text-xl md:text-2xl mb-8 text-white/90 handwritten-playful">
             Unlock Love Day by Day ❤️
           </p>
 
