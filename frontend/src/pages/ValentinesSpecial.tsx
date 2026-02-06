@@ -154,16 +154,37 @@ const ValentinesSpecial = () => {
         if (error) throw error;
 
         if (data) {
-          const unlocked = new Set(data.map(d => d.day_number));
-          setUnlockedDays(unlocked);
-
+          // Only set as unlocked if the day is actually available OR after Valentine's Week
+          const now = new Date();
+          const isAfterValentinesWeek = now >= new Date(2025, 1, 15);
+          
+          const unlocked = new Set<number>();
           const messages: Record<number, string> = {};
+          const userAnswers: Record<number, string> = {};
+          
           data.forEach(d => {
+            // Check if this day should be unlocked based on date
+            const [month, date] = valentineDays.find(vd => vd.dayNumber === d.day_number)?.date.split('-').map(Number) || [0, 0];
+            const dayUnlockDate = new Date(2025, month - 1, date);
+            
+            // Only add to unlocked if:
+            // 1. It's after Valentine's Week (all unlocked), OR
+            // 2. Current date >= unlock date
+            if (isAfterValentinesWeek || now >= dayUnlockDate) {
+              unlocked.add(d.day_number);
+            }
+            
             if (d.custom_message) {
               messages[d.day_number] = d.custom_message;
             }
+            if (d.answer) {
+              userAnswers[d.day_number] = d.answer;
+            }
           });
+          
+          setUnlockedDays(unlocked);
           setCustomMessages(messages);
+          setAnswers(userAnswers);
         }
       } catch (err) {
         console.error('Error fetching progress:', err);
