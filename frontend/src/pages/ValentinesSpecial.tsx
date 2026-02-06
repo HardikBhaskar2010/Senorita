@@ -596,42 +596,45 @@ const ValentinesSpecial = () => {
 
       case 8: // Valentine's Day
         return (
-          <div className="relative">
-            {showConfetti && (
-              <div className="absolute inset-0 pointer-events-none">
-                {[...Array(30)].map((_, i) => (
-                  <motion.div
-                    key={i}
-                    initial={{ 
-                      x: Math.random() * 400 - 200,
-                      y: -50,
-                      rotate: 0
-                    }}
-                    animate={{ 
-                      y: 600,
-                      rotate: 360
-                    }}
-                    transition={{ 
-                      duration: 2 + Math.random(),
-                      delay: Math.random() * 0.5
-                    }}
-                    className="absolute text-3xl"
-                    style={{ left: '50%' }}
-                  >
-                    {['❤️', '💕', '💖', '💗', '💝'][Math.floor(Math.random() * 5)]}
-                  </motion.div>
-                ))}
-              </div>
-            )}
-            <motion.div
-              animate={{ scale: [1, 1.2, 1] }}
-              transition={{ duration: 1, repeat: Infinity }}
-              className="text-9xl mb-8 relative z-10"
-            >
-              ❤️
-            </motion.div>
-            <h2 className="text-4xl font-bold mb-4">Happy Valentine's Day! 💝</h2>
-            <p className="text-xl">Celebrating our beautiful love story</p>
+          <div>
+            <div className="relative mb-8">
+              {showConfetti && (
+                <div className="absolute inset-0 pointer-events-none">
+                  {[...Array(30)].map((_, i) => (
+                    <motion.div
+                      key={i}
+                      initial={{ 
+                        x: Math.random() * 400 - 200,
+                        y: -50,
+                        rotate: 0
+                      }}
+                      animate={{ 
+                        y: 600,
+                        rotate: 360
+                      }}
+                      transition={{ 
+                        duration: 2 + Math.random(),
+                        delay: Math.random() * 0.5
+                      }}
+                      className="absolute text-3xl"
+                      style={{ left: '50%' }}
+                    >
+                      {['❤️', '💕', '💖', '💗', '💝'][Math.floor(Math.random() * 5)]}
+                    </motion.div>
+                  ))}
+                </div>
+              )}
+              <motion.div
+                animate={{ scale: [1, 1.2, 1] }}
+                transition={{ duration: 1, repeat: Infinity }}
+                className="text-9xl mb-8 relative z-10"
+              >
+                ❤️
+              </motion.div>
+              <h2 className="text-4xl font-bold mb-4">Happy Valentine's Day! 💝</h2>
+              <p className="text-xl mb-8">Celebrating our beautiful love story</p>
+            </div>
+            {renderAnswerSection(day)}
           </div>
         );
 
