@@ -139,7 +139,8 @@ const ValentinesSpecial = () => {
   // Check if Valentine's Week hasn't started
   const isBeforeValentinesWeek = (): boolean => {
     const now = new Date();
-    const startDate = new Date(2025, 1, 7); // Feb 7, 2025
+    const currentYear = now.getFullYear();
+    const startDate = new Date(currentYear, 1, 7); // Feb 7, current year
     return now < startDate;
   };
 
