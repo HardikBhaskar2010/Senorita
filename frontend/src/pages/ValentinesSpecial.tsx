@@ -549,15 +549,18 @@ const ValentinesSpecial = () => {
 
       case 6: // Hug Day
         return (
-          <motion.div
-            initial={{ scale: 0.8 }}
-            animate={{ scale: [0.8, 1.1, 1] }}
-            transition={{ duration: 1, repeat: Infinity, repeatDelay: 1 }}
-            className="relative"
-          >
-            <div className="text-9xl mb-8">🤗</div>
-            <div className="text-2xl font-medium">Sending you a warm virtual hug 🫂</div>
-          </motion.div>
+          <div>
+            <motion.div
+              initial={{ scale: 0.8 }}
+              animate={{ scale: [0.8, 1.1, 1] }}
+              transition={{ duration: 1, repeat: Infinity, repeatDelay: 1 }}
+              className="relative"
+            >
+              <div className="text-9xl mb-8">🤗</div>
+              <div className="text-2xl font-medium mb-8">Sending you a warm virtual hug 🫂</div>
+            </motion.div>
+            {renderAnswerSection(day)}
+          </div>
         );
 
       case 7: // Kiss Day
