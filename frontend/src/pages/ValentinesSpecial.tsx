@@ -509,38 +509,41 @@ const ValentinesSpecial = () => {
 
       case 5: // Promise Day
         return (
-          <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20 max-w-md">
-            <h3 className="text-2xl font-bold mb-6">My Promises to You:</h3>
-            <ul className="space-y-4 text-lg text-left">
-              <motion.li 
-                initial={{ x: -20, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                transition={{ delay: 0.2 }}
-                className="flex items-start gap-3"
-              >
-                <Check className="w-6 h-6 text-green-400 flex-shrink-0 mt-1" />
-                <span>I promise to always love you unconditionally</span>
-              </motion.li>
-              <motion.li 
-                initial={{ x: -20, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                transition={{ delay: 0.4 }}
-                className="flex items-start gap-3"
-              >
-                <Check className="w-6 h-6 text-green-400 flex-shrink-0 mt-1" />
-                <span>I promise to support you in every dream</span>
-              </motion.li>
-              <motion.li 
-                initial={{ x: -20, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                transition={{ delay: 0.6 }}
-                className="flex items-start gap-3"
-              >
-                <Check className="w-6 h-6 text-green-400 flex-shrink-0 mt-1" />
-                <span>I promise to cherish every moment together</span>
-              </motion.li>
-            </ul>
-            <div className="mt-8 text-4xl">🤝</div>
+          <div>
+            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20 max-w-md mb-6">
+              <h3 className="text-2xl font-bold mb-6">My Promises to You:</h3>
+              <ul className="space-y-4 text-lg text-left">
+                <motion.li 
+                  initial={{ x: -20, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  transition={{ delay: 0.2 }}
+                  className="flex items-start gap-3"
+                >
+                  <Check className="w-6 h-6 text-green-400 flex-shrink-0 mt-1" />
+                  <span>I promise to always love you unconditionally</span>
+                </motion.li>
+                <motion.li 
+                  initial={{ x: -20, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  transition={{ delay: 0.4 }}
+                  className="flex items-start gap-3"
+                >
+                  <Check className="w-6 h-6 text-green-400 flex-shrink-0 mt-1" />
+                  <span>I promise to support you in every dream</span>
+                </motion.li>
+                <motion.li 
+                  initial={{ x: -20, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  transition={{ delay: 0.6 }}
+                  className="flex items-start gap-3"
+                >
+                  <Check className="w-6 h-6 text-green-400 flex-shrink-0 mt-1" />
+                  <span>I promise to cherish every moment together</span>
+                </motion.li>
+              </ul>
+              <div className="mt-8 text-4xl">🤝</div>
+            </div>
+            {renderAnswerSection(day)}
           </div>
         );
 
