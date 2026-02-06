@@ -42,6 +42,18 @@ const ChocolateGame = ({ dayNumber }: ChocolateGameProps) => {
     topping: ''
   });
   const [isComplete, setIsComplete] = useState(false);
+  const [showPlaylist, setShowPlaylist] = useState(false);
+
+  const dessertPlaylist = [
+    { title: "Sugar", artist: "Maroon 5", emoji: "🍬" },
+    { title: "Candy", artist: "Doja Cat", emoji: "🍭" },
+    { title: "Chocolate", artist: "The 1975", emoji: "🍫" },
+    { title: "Cake By The Ocean", artist: "DNCE", emoji: "🎂" },
+    { title: "Ice Cream", artist: "BLACKPINK & Selena Gomez", emoji: "🍦" },
+    { title: "Strawberry Fields Forever", artist: "The Beatles", emoji: "🍓" },
+    { title: "Brown Sugar", artist: "The Rolling Stones", emoji: "🍯" },
+    { title: "Honey", artist: "Kehlani", emoji: "🍯" }
+  ];
 
   useEffect(() => {
     // Load saved design
@@ -247,18 +259,57 @@ const ChocolateGame = ({ dayNumber }: ChocolateGameProps) => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="w-full bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 text-center"
+          className="w-full space-y-4"
         >
-          <h3 className="text-2xl font-bold mb-4">Your Chocolate is Ready! 🎉</h3>
-          <p className="mb-4">Filling: {design.filling} | Drizzle: {design.drizzle} | Topping: {design.topping}</p>
-          <Button
-            onClick={downloadCoupon}
-            className="w-full bg-white/20 hover:bg-white/30 text-white"
-          >
-            <Download className="w-4 h-4 mr-2" />
-            Download Chocolate Coupon
-          </Button>
-          <p className="text-sm mt-4 opacity-70">🎵 Enjoy with our dessert playlist!</p>
+          <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 text-center">
+            <h3 className="text-2xl font-bold mb-4">Your Chocolate is Ready! 🎉</h3>
+            <p className="mb-4">Filling: {design.filling} | Drizzle: {design.drizzle} | Topping: {design.topping}</p>
+            <Button
+              onClick={downloadCoupon}
+              className="w-full bg-white/20 hover:bg-white/30 text-white mb-3"
+            >
+              <Download className="w-4 h-4 mr-2" />
+              Download Chocolate Coupon
+            </Button>
+            <Button
+              onClick={() => setShowPlaylist(!showPlaylist)}
+              variant="outline"
+              className="w-full bg-white/10 hover:bg-white/20 text-white border-white/30"
+            >
+              🎵 {showPlaylist ? 'Hide' : 'Reveal'} Dessert Playlist
+            </Button>
+          </div>
+
+          {/* Playlist */}
+          {showPlaylist && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20"
+            >
+              <h4 className="text-xl font-bold mb-4 text-center">🍰 Sweet Treats Playlist 🍰</h4>
+              <div className="space-y-3">
+                {dessertPlaylist.map((song, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: index * 0.1 }}
+                    className="flex items-center gap-3 bg-white/5 rounded-xl p-3 hover:bg-white/10 transition-all"
+                  >
+                    <span className="text-2xl">{song.emoji}</span>
+                    <div className="flex-1 text-left">
+                      <div className="font-medium">{song.title}</div>
+                      <div className="text-sm opacity-70">{song.artist}</div>
+                    </div>
+                    <span className="text-sm opacity-50">#{index + 1}</span>
+                  </motion.div>
+                ))}
+              </div>
+              <p className="text-sm mt-4 opacity-70 text-center">💕 Enjoy these sweet songs with your sweet chocolate!</p>
+            </motion.div>
+          )}
         </motion.div>
       )}
     </div>
