@@ -613,6 +613,9 @@ const ValentinesSpecial = () => {
         backgroundAttachment: 'fixed'
       }}
     >
+      {/* Audio Player */}
+      <AudioPlayer />
+      
       {/* Overlay for better text readability */}
       <div className="absolute inset-0 bg-gradient-to-br from-pink-500/30 via-rose-500/30 to-red-500/30 dark:from-pink-900/50 dark:via-rose-900/50 dark:to-red-900/50" />
       
