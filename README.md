@@ -607,7 +607,7 @@ answers:
 Currently stores:
 - `shared_background_url` - Custom background image URL (synced)
 
-#### **valentines_progress** (New in v7.3)
+#### **valentines_progress** (New in v7.3, Updated in v7.3.1)
 ```sql
 - id                UUID PRIMARY KEY
 - user_name         TEXT ('Cookie' | 'Senorita')
@@ -615,10 +615,13 @@ Currently stores:
 - day_name          TEXT
 - unlocked_at       TIMESTAMPTZ
 - custom_message    TEXT
+- answer            TEXT (v7.3.1+) 🆕
 - created_at        TIMESTAMPTZ
 ```
 
 Tracks which Valentine's Week days have been unlocked by each user.
+- `custom_message`: Personal messages from Cookie to Senorita
+- `answer`: Senorita's answers to each day's question (v7.3.1)
 
 ---
 
