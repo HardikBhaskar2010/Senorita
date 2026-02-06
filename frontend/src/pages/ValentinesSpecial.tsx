@@ -492,16 +492,19 @@ const ValentinesSpecial = () => {
 
       case 4: // Teddy Day
         return (
-          <motion.div
-            animate={{ 
-              y: [0, -20, 0],
-              rotate: [0, 5, -5, 0]
-            }}
-            transition={{ duration: 2, repeat: Infinity }}
-            className="text-9xl mb-8 cursor-pointer"
-          >
-            🧸
-          </motion.div>
+          <div>
+            <motion.div
+              animate={{ 
+                y: [0, -20, 0],
+                rotate: [0, 5, -5, 0]
+              }}
+              transition={{ duration: 2, repeat: Infinity }}
+              className="text-9xl mb-8 cursor-pointer"
+            >
+              🧸
+            </motion.div>
+            {renderAnswerSection(day)}
+          </div>
         );
 
       case 5: // Promise Day
