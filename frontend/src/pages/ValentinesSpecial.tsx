@@ -7,6 +7,15 @@ import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/lib/supabase';
 import { useTheme } from '@/contexts/ThemeContext';
 import { toast } from '@/hooks/use-toast';
+import AudioPlayer from '@/components/valentine/AudioPlayer';
+import RosePetals from '@/components/valentine/RosePetals';
+import ProposalSlideshow from '@/components/valentine/ProposalSlideshow';
+import ChocolateGame from '@/components/valentine/ChocolateGame';
+import TeddyBears3D from '@/components/valentine/TeddyBears3D';
+import PromiseVault from '@/components/valentine/PromiseVault';
+import HoldToHug from '@/components/valentine/HoldToHug';
+import KissRipples from '@/components/valentine/KissRipples';
+import StorybookPDF from '@/components/valentine/StorybookPDF';
 
 interface ValentineDay {
   dayNumber: number;
