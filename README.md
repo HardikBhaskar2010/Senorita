@@ -29,7 +29,18 @@ All content syncs in real-time across both spaces via Supabase subscriptions.
 
 ---
 
-## 🔥 Recent Fixes & Improvements (v7.2)
+## 🔥 Recent Fixes & Improvements (v7.3)
+
+### ✅ Valentine's Special 2025 (Feb 2025)
+- **🎁 NEW: Valentine's Week Mystery** - Time-gated romantic experience (Feb 7-14, 2025)
+- **Daily Unlocks** - Each day unlocks a special surprise at midnight
+- **8 Unique Days** - Rose Day, Propose Day, Chocolate Day, Teddy Day, Promise Day, Hug Day, Kiss Day, Valentine's Day
+- **Interactive Content** - Type-to-unlock for Proposal & Promise days ("I Love You", "I Promise")
+- **Beautiful Animations** - Framer Motion effects, confetti, floating hearts, interactive elements
+- **Big Dashboard Button** - Prominent entry on Senorita's dashboard with unlock status
+- **One-Time 2025 Event** - Commemorative Valentine's Week experience
+
+**📋 Migration Required:** Run `/app/valentines-special-migration.sql` in Supabase SQL Editor to enable this feature.
 
 ### ✅ Relationship Date Updates (Feb 2025)
 - **Updated Relationship Start Date**: August 12, 2024 (first meeting date)
