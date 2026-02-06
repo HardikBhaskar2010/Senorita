@@ -1,11 +1,21 @@
-import { Suspense } from 'react';
-import { Canvas } from '@react-three/fiber';
+import { Suspense, useRef } from 'react';
+import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, useGLTF, PerspectiveCamera, Environment } from '@react-three/drei';
 import { motion } from 'framer-motion';
+import * as THREE from 'three';
 
 function TeddyModel() {
   const { scene } = useGLTF('/models/bears.glb');
-  return <primitive object={scene} scale={2} position={[0, -1, 0]} />;
+  const modelRef = useRef<THREE.Group>(null);
+  
+  // Rotate the model in place
+  useFrame(() => {
+    if (modelRef.current) {
+      modelRef.current.rotation.y += 0.01; // Rotate around Y-axis at fixed position
+    }
+  });
+  
+  return <primitive ref={modelRef} object={scene} scale={2} position={[0, -1, 0]} />;
 }
 
 const TeddyBears3D = () => {
