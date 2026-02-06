@@ -170,6 +170,150 @@ const SenoritaDashboard = () => {
             />
           </motion.div>
 
+          {/* Valentine's Special 2025 - BIG BUTTON (Full Width) */}
+          <motion.div 
+            className="md:col-span-2 lg:col-span-3"
+            variants={itemVariants}
+            whileHover={{ scale: 1.02 }}
+          >
+            <Link to="/valentines-special" className="block">
+              <div className="relative p-8 md:p-12 bg-gradient-to-br from-rose-500 via-pink-500 to-red-500 dark:from-rose-600 dark:via-pink-600 dark:to-red-600 rounded-3xl border-4 border-white/30 shadow-2xl shadow-pink-500/50 overflow-hidden group cursor-pointer">
+                {/* Animated background particles */}
+                <div className="absolute inset-0 opacity-30">
+                  {[...Array(20)].map((_, i) => (
+                    <motion.div
+                      key={i}
+                      className="absolute text-2xl"
+                      initial={{ 
+                        x: Math.random() * 100 + '%',
+                        y: Math.random() * 100 + '%',
+                        opacity: 0.5
+                      }}
+                      animate={{
+                        y: [null, '-100%'],
+                        opacity: [0.5, 0]
+                      }}
+                      transition={{
+                        duration: 3 + Math.random() * 2,
+                        repeat: Infinity,
+                        delay: Math.random() * 3
+                      }}
+                    >
+                      {['💕', '💖', '💗', '💝', '❤️', '🌹'][Math.floor(Math.random() * 6)]}
+                    </motion.div>
+                  ))}
+                </div>
+
+                {/* Glow effect */}
+                <motion.div
+                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+                  animate={{
+                    x: ['-100%', '200%']
+                  }}
+                  transition={{
+                    duration: 3,
+                    repeat: Infinity,
+                    repeatDelay: 2
+                  }}
+                />
+
+                <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6">
+                  <div className="flex items-center gap-6">
+                    <motion.div
+                      animate={{
+                        rotate: [0, -10, 10, -10, 0],
+                        scale: [1, 1.1, 1]
+                      }}
+                      transition={{
+                        duration: 2,
+                        repeat: Infinity,
+                        repeatDelay: 1
+                      }}
+                      className="text-6xl md:text-8xl"
+                    >
+                      💝
+                    </motion.div>
+                    
+                    <div className="text-left">
+                      <motion.h3 
+                        className="text-3xl md:text-5xl font-bold text-white mb-2"
+                        animate={{
+                          textShadow: [
+                            '0 0 20px rgba(255,255,255,0.5)',
+                            '0 0 30px rgba(255,255,255,0.8)',
+                            '0 0 20px rgba(255,255,255,0.5)'
+                          ]
+                        }}
+                        transition={{
+                          duration: 2,
+                          repeat: Infinity
+                        }}
+                      >
+                        Valentine's Week Mystery
+                      </motion.h3>
+                      <p className="text-white/90 text-lg md:text-xl font-medium">
+                        ✨ Unlock love day by day • Feb 7-14, 2025
+                      </p>
+                      
+                      {unlockedDaysCount > 0 && (
+                        <motion.div
+                          initial={{ opacity: 0, y: -10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          className="mt-3 inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full"
+                        >
+                          <Gift className="w-5 h-5 text-white" />
+                          <span className="text-white font-semibold">
+                            {unlockedDaysCount}/8 Days Unlocked
+                          </span>
+                        </motion.div>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col items-center gap-3">
+                    {hasNewUnlock ? (
+                      <motion.div
+                        animate={{
+                          scale: [1, 1.1, 1],
+                          rotate: [0, 5, -5, 0]
+                        }}
+                        transition={{
+                          duration: 0.5,
+                          repeat: Infinity,
+                          repeatDelay: 0.5
+                        }}
+                        className="bg-yellow-400 text-yellow-900 px-6 py-3 rounded-full font-bold text-lg shadow-xl"
+                      >
+                        🎁 NEW UNLOCK!
+                      </motion.div>
+                    ) : (
+                      <motion.div
+                        whileHover={{ scale: 1.05 }}
+                        className="bg-white/20 backdrop-blur-sm text-white px-6 py-3 rounded-full font-bold text-lg border-2 border-white/30"
+                      >
+                        Click to Open 💕
+                      </motion.div>
+                    )}
+                    
+                    <p className="text-white/80 text-sm">
+                      {unlockedDaysCount === 8 ? '🎉 All unlocked!' : '🔒 Daily unlocks at midnight'}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Corner decoration */}
+                <div className="absolute top-4 right-4 opacity-50">
+                  <motion.div
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                  >
+                    <Sparkles className="w-8 h-8 text-white" />
+                  </motion.div>
+                </div>
+              </div>
+            </Link>
+          </motion.div>
+
           {/* Senorita's Dashboard Header - Full Width */}
           <motion.div 
             className="md:col-span-2 lg:col-span-3"
