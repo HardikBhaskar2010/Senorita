@@ -423,10 +423,13 @@ If you're upgrading from the previous version, follow these steps:
 - ✅ Fixed header and footer in chat
 - ✅ Image preview modal
 
-**Latest Updates (v7.3 - Feb 2025):**
+**Latest Updates (v7.3.1 - Feb 2025):**
 - 🆕 **Valentine's Special 2025** - Time-gated mystery week with 8 romantic days
+- 🆕 **Interactive Questions** - All 8 days now have unique questions with text input
+- 🆕 **Answer System** - Save and edit answers for each day, stored in Supabase
+- 🆕 **Date Validation Fix** - Days only unlock on their correct dates (bug fixed)
 - 🆕 **Daily Unlock System** - Each day unlocks at midnight with unique content
-- 🆕 **Interactive Experiences** - Type-to-unlock for Proposal & Promise days
+- 🆕 **Type-to-unlock** - Propose Day ("I Love You") & Promise Day ("I Promise")
 - 🆕 **Big Dashboard Button** - Prominent Valentine's Week entry on Senorita's dashboard
 - 🆕 **Progress Tracking** - Visual counter showing unlocked days (X/8)
 
