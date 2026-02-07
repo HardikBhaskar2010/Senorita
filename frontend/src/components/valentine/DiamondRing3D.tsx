@@ -83,7 +83,7 @@ export default function DiamondRing3D({ transparent = false }: { transparent?: b
       initial={{ opacity: 0, scale: 0.8 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 1 }}
-      className={`w-full h-[400px] rounded-2xl overflow-hidden ${
+      className={`w-full h-full rounded-2xl overflow-hidden ${
         transparent 
           ? 'bg-transparent' 
           : 'bg-gradient-to-br from-purple-900/20 via-pink-900/20 to-red-900/20 backdrop-blur-sm border border-white/10'
@@ -129,16 +129,18 @@ export default function DiamondRing3D({ transparent = false }: { transparent?: b
         />
       </Canvas>
       
-      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-center">
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1 }}
-          className="text-white/80 text-sm"
-        >
-          ✨ Drag to rotate • Scroll to zoom ✨
-        </motion.p>
-      </div>
+      {!transparent && (
+        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-center">
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1 }}
+            className="text-white/80 text-sm"
+          >
+            ✨ Drag to rotate • Scroll to zoom ✨
+          </motion.p>
+        </div>
+      )}
     </motion.div>
   );
 }
