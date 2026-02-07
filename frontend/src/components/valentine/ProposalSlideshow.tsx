@@ -148,18 +148,18 @@ const ProposalSlideshow = ({ dayNumber }: ProposalSlideshowProps) => {
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 0.5 }}
-        className="flex flex-col items-center justify-center min-h-[600px] px-4"
+        className="flex flex-col items-center justify-start min-h-[600px] max-h-screen overflow-y-auto px-4 py-8 relative"
       >
-        <ParticleMagic intensity="medium" />
+        <ParticleMagic intensity="low" />
         
         <motion.div
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="w-full max-w-3xl"
+          className="w-full max-w-2xl relative z-20"
         >
           {/* Ring with transparent background */}
-          <div className="relative">
+          <div className="relative h-[350px] mb-4">
             <DiamondRing3D transparent={true} />
           </div>
 
@@ -168,15 +168,15 @@ const ProposalSlideshow = ({ dayNumber }: ProposalSlideshowProps) => {
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.8 }}
-            className="text-center mt-8"
+            className="text-center mt-6 mb-6"
           >
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-pink-400 via-rose-400 to-red-400 bg-clip-text text-transparent">
+            <h2 className="text-2xl md:text-3xl font-bold mb-3 bg-gradient-to-r from-pink-400 via-rose-400 to-red-400 bg-clip-text text-transparent">
               From Cookie to Senorita
             </h2>
-            <p className="text-xl md:text-2xl text-white/90 mb-2">
+            <p className="text-lg md:text-xl text-white/90 mb-2">
               💍 A Promise in 3D 💍
             </p>
-            <p className="text-lg text-white/70 italic">
+            <p className="text-base text-white/70 italic px-4">
               (Real One Will be In Your Hand after Boards tho)
             </p>
           </motion.div>
@@ -186,11 +186,11 @@ const ProposalSlideshow = ({ dayNumber }: ProposalSlideshowProps) => {
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.8, delay: 1.2 }}
-            className="flex justify-center mt-8"
+            className="flex justify-center mt-4 mb-8"
           >
             <Button
               onClick={handleOkayClick}
-              className="py-6 px-12 text-xl bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white border-2 border-white/30 rounded-full shadow-2xl transform hover:scale-105 transition-all"
+              className="py-6 px-12 text-xl bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white border-2 border-white/30 rounded-full shadow-2xl transform hover:scale-105 transition-all relative z-30"
             >
               Okay 💕
             </Button>
