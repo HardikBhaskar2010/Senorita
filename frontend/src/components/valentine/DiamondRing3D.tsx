@@ -18,10 +18,10 @@ function RingModel() {
       ringRef.current.rotation.y += 0.01;
       
       // Add subtle floating animation
-      ringRef.current.position.y = Math.sin(state.clock.elapsedTime * 0.5) * 0.15;
+      ringRef.current.position.y = Math.sin(state.clock.elapsedTime * 0.5) * 0.1;
       
       // Scale up on hover
-      const targetScale = hovered ? 1.15 : 1;
+      const targetScale = hovered ? 1.1 : 1;
       ringRef.current.scale.x = THREE.MathUtils.lerp(ringRef.current.scale.x, targetScale, 0.1);
       ringRef.current.scale.y = THREE.MathUtils.lerp(ringRef.current.scale.y, targetScale, 0.1);
       ringRef.current.scale.z = THREE.MathUtils.lerp(ringRef.current.scale.z, targetScale, 0.1);
@@ -31,11 +31,11 @@ function RingModel() {
   return (
     <group
       ref={ringRef}
-      position={[0, -0.5, 0]}
+      position={[0, -0.8, 0]}
       onPointerOver={() => setHovered(true)}
       onPointerOut={() => setHovered(false)}
     >
-      <primitive object={gltf.scene} scale={1.8} />
+      <primitive object={gltf.scene} scale={1.4} />
     </group>
   );
 }
