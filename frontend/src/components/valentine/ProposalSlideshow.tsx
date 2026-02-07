@@ -1,12 +1,6 @@
-import { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Button } from '@/components/ui/button';
-import { supabase } from '@/lib/supabase';
-import { Heart, Sparkles, Download, Play, Pause } from 'lucide-react';
-import html2canvas from 'html2canvas';
-import DiamondRing3D from './DiamondRing3D';
-import FireworksCanvas from './FireworksCanvas';
-import ParticleMagic from './ParticleMagic';
+import { useState } from 'react';
+import RingPreSlide from './RingPreSlide';
+import ProposalMainSlides from './ProposalMainSlides';
 
 interface ProposalSlideshowProps {
   dayNumber: number;
