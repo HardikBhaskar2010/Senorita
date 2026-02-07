@@ -265,9 +265,9 @@ const ProposalSlideshow = ({ dayNumber }: ProposalSlideshowProps) => {
 
   return (
     <>
-      <ParticleMagic intensity="medium" />
+      <ParticleMagic intensity="low" />
       
-      <div className="flex flex-col items-center justify-center min-h-[500px] relative z-10">
+      <div className="flex flex-col items-center justify-center min-h-[500px] relative z-20">
         <AnimatePresence mode="wait">
           <motion.div
             key={currentSlide}
