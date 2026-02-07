@@ -5,7 +5,7 @@
 1. **Date Bug Fixed:** Days now only unlock on their actual dates (no more unlocking Hug Day on Feb 5!)
 2. **Interactive Questions Added:** All 8 days now have text inputs where Senorita can write and save her answers
 3. **Propose Day Updated:** Question changed to "Will You Marry Me Senorita?"
-
+ 
 ---
 
 ## 📋 STEP-BY-STEP INSTRUCTIONS
