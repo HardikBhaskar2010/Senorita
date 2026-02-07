@@ -12,6 +12,7 @@ const AudioPlayer = () => {
     const audio = new Audio('/audio/background-music.mp3');
     audio.loop = true;
     audio.volume = 0.3; // Set to 30% volume
+    audio.setAttribute('data-bg-music', 'true'); // Add identifier for pausing
     audioRef.current = audio;
 
     // Try to autoplay (browsers may block this)
