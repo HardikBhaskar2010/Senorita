@@ -25,7 +25,7 @@ const RingPreSlide = ({ onContinue }: RingPreSlideProps) => {
         className="w-full max-w-xl relative z-20"
       >
         {/* Ring Container - Smaller and better positioned */}
-        <div className="relative h-[400px] sm:h-[450px] w-full mb-8">
+        <div className="relative h-[350px] sm:h-[400px] w-full mb-8">
           <DiamondRing3D transparent={true} />
         </div>
 
