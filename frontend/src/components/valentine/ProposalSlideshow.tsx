@@ -295,7 +295,7 @@ const ProposalSlideshow = ({ dayNumber }: ProposalSlideshowProps) => {
               initial={{ opacity: 0, y: -50 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1 }}
-              className={`text-4xl md:text-5xl font-bold mb-8 bg-gradient-to-r ${slide.color} bg-clip-text text-transparent`}
+              className={`text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-8 bg-gradient-to-r ${slide.color} bg-clip-text text-transparent px-4`}
             >
               {slide.text}
             </motion.h2>
@@ -306,13 +306,13 @@ const ProposalSlideshow = ({ dayNumber }: ProposalSlideshowProps) => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5 }}
-                className="mb-6"
+                className="mb-6 px-4"
               >
                 <div className="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/20">
                   <p className="text-sm text-white/70 mb-2">💌 Cookie's Voice Message</p>
                   <Button
                     onClick={toggleVoiceNote}
-                    className="bg-pink-500/80 hover:bg-pink-600 text-white"
+                    className="bg-pink-500/80 hover:bg-pink-600 text-white w-full sm:w-auto"
                   >
                     {isPlayingVoice ? (
                       <>
@@ -331,12 +331,12 @@ const ProposalSlideshow = ({ dayNumber }: ProposalSlideshowProps) => {
             )}
 
             {slide.choices ? (
-              <div className="flex flex-col gap-4 mt-8">
+              <div className="flex flex-col gap-4 mt-8 px-4">
                 {slide.choices.map((choice, index) => (
                   <Button
                     key={index}
                     onClick={() => handleChoice(choice)}
-                    className="py-6 text-xl bg-white/20 hover:bg-white/30 text-white border-2 border-white/30 hover:border-white/50 transform hover:scale-105 transition-all"
+                    className="py-4 sm:py-6 text-lg sm:text-xl bg-white/20 hover:bg-white/30 text-white border-2 border-white/30 hover:border-white/50 transform hover:scale-105 transition-all"
                   >
                     {choice}
                   </Button>
@@ -345,9 +345,9 @@ const ProposalSlideshow = ({ dayNumber }: ProposalSlideshowProps) => {
             ) : (
               <Button
                 onClick={nextSlide}
-                className="mt-8 py-6 px-12 text-lg bg-white/20 hover:bg-white/30 text-white transform hover:scale-105 transition-all"
+                className="mt-8 py-4 sm:py-6 px-8 sm:px-12 text-base sm:text-lg bg-white/20 hover:bg-white/30 text-white transform hover:scale-105 transition-all"
               >
-                Continue <Sparkles className="ml-2 w-5 h-5" />
+                Continue <Sparkles className="ml-2 w-4 sm:w-5 h-4 sm:h-5" />
               </Button>
             )}
           </motion.div>
