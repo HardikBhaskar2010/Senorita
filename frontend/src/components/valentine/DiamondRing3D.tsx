@@ -77,15 +77,19 @@ function Sparkles() {
   );
 }
 
-export default function DiamondRing3D() {
+export default function DiamondRing3D({ transparent = false }: { transparent?: boolean }) {
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.8 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 1 }}
-      className="w-full h-[400px] rounded-2xl overflow-hidden bg-gradient-to-br from-purple-900/20 via-pink-900/20 to-red-900/20 backdrop-blur-sm border border-white/10"
+      className={`w-full h-[400px] rounded-2xl overflow-hidden ${
+        transparent 
+          ? 'bg-transparent' 
+          : 'bg-gradient-to-br from-purple-900/20 via-pink-900/20 to-red-900/20 backdrop-blur-sm border border-white/10'
+      }`}
     >
-      <Canvas>
+      <Canvas style={{ background: 'transparent' }}>
         <PerspectiveCamera makeDefault position={[0, 0, 5]} />
         
         {/* Lighting */}
