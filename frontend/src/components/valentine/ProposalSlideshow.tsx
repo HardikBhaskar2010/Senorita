@@ -2,14 +2,17 @@ import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { supabase } from '@/lib/supabase';
-import { Heart, Sparkles, Download } from 'lucide-react';
+import { Heart, Sparkles, Download, Play, Pause } from 'lucide-react';
 import html2canvas from 'html2canvas';
+import DiamondRing3D from './DiamondRing3D';
+import FireworksCanvas from './FireworksCanvas';
+import ParticleMagic from './ParticleMagic';
 
 interface ProposalSlideshowProps {
   dayNumber: number;
 }
 
-const slides = [
+const mainSlides = [
   {
     text: "From the moment I met you...",
     emoji: "✨",
@@ -34,19 +37,50 @@ const slides = [
 ];
 
 const ProposalSlideshow = ({ dayNumber }: ProposalSlideshowProps) => {
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const [showConfetti, setShowConfetti] = useState(false);
+  // -1 = ring pre-slide, 0-3 = main slides
+  const [currentSlide, setCurrentSlide] = useState(-1);
+  const [showFireworks, setShowFireworks] = useState(false);
   const [selectedChoice, setSelectedChoice] = useState<string | null>(null);
   const [isComplete, setIsComplete] = useState(false);
+  const [showRingSlide, setShowRingSlide] = useState(true);
+  const [voiceNoteUrl, setVoiceNoteUrl] = useState<string | null>(null);
+  const [isPlayingVoice, setIsPlayingVoice] = useState(false);
+  
   const celebrationRef = useRef<HTMLDivElement>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
+  // Fetch voice note if available
   useEffect(() => {
-    // Simple animation on slide change - using Framer Motion instead
-  }, [currentSlide]);
+    fetchVoiceNote();
+  }, []);
+
+  const fetchVoiceNote = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('valentines_progress')
+        .select('voice_message_url')
+        .eq('user_name', 'Cookie')
+        .eq('day_number', dayNumber)
+        .single();
+
+      if (data?.voice_message_url) {
+        setVoiceNoteUrl(data.voice_message_url);
+      }
+    } catch (err) {
+      console.error('Error fetching voice note:', err);
+    }
+  };
+
+  const handleOkayClick = () => {
+    setShowRingSlide(false);
+    setTimeout(() => {
+      setCurrentSlide(0);
+    }, 500);
+  };
 
   const handleChoice = async (choice: string) => {
     setSelectedChoice(choice);
-    setShowConfetti(true);
+    setShowFireworks(true);
 
     // Save choice to database
     await supabase
@@ -62,7 +96,7 @@ const ProposalSlideshow = ({ dayNumber }: ProposalSlideshowProps) => {
   };
 
   const nextSlide = () => {
-    if (currentSlide < slides.length - 1) {
+    if (currentSlide < mainSlides.length - 1) {
       setCurrentSlide(prev => prev + 1);
     }
   };
@@ -86,131 +120,268 @@ const ProposalSlideshow = ({ dayNumber }: ProposalSlideshowProps) => {
     }
   };
 
-  if (isComplete) {
+  const toggleVoiceNote = () => {
+    if (!audioRef.current) return;
+    
+    if (isPlayingVoice) {
+      audioRef.current.pause();
+      setIsPlayingVoice(false);
+      
+      // Resume background music if available
+      const bgMusic = document.querySelector('audio[data-bg-music]') as HTMLAudioElement;
+      if (bgMusic) bgMusic.play();
+    } else {
+      // Pause background music
+      const bgMusic = document.querySelector('audio[data-bg-music]') as HTMLAudioElement;
+      if (bgMusic) bgMusic.pause();
+      
+      audioRef.current.play();
+      setIsPlayingVoice(true);
+    }
+  };
+
+  // Ring Pre-slide
+  if (showRingSlide && currentSlide === -1) {
     return (
       <motion.div
-        ref={celebrationRef}
-        initial={{ scale: 0 }}
-        animate={{ scale: 1 }}
-        className="text-center py-12 relative"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.5 }}
+        className="flex flex-col items-center justify-center min-h-[600px] px-4"
       >
+        <ParticleMagic intensity="medium" />
+        
         <motion.div
-          animate={{ scale: [1, 1.2, 1] }}
-          transition={{ duration: 1, repeat: Infinity }}
-          className="text-8xl mb-6"
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="w-full max-w-3xl"
         >
-          💕
-        </motion.div>
-        <h2 className="text-4xl font-bold mb-4">You said {selectedChoice}!</h2>
-        <p className="text-xl opacity-90 mb-6">My heart is overflowing with joy 💖</p>
-        
-        <Button
-          onClick={downloadImage}
-          className="bg-white/20 hover:bg-white/30 text-white border-2 border-white/30 mt-4"
-        >
-          <Download className="w-4 h-4 mr-2" />
-          Save This Moment
-        </Button>
-        
-        {showConfetti && (
-          <div className="absolute inset-0 pointer-events-none">
-            {[...Array(50)].map((_, i) => (
-              <motion.div
-                key={i}
-                initial={{ 
-                  x: Math.random() * window.innerWidth,
-                  y: -50,
-                  rotate: 0
-                }}
-                animate={{ 
-                  y: window.innerHeight + 50,
-                  rotate: 360
-                }}
-                transition={{ 
-                  duration: 2 + Math.random() * 2,
-                  delay: Math.random() * 0.5,
-                  ease: "linear"
-                }}
-                className="absolute text-3xl"
-              >
-                {['❤️', '💕', '💖', '💗', '✨', '⭐'][Math.floor(Math.random() * 6)]}
-              </motion.div>
-            ))}
+          {/* Ring with transparent background */}
+          <div className="relative">
+            <DiamondRing3D transparent={true} />
           </div>
-        )}
+
+          {/* Note */}
+          <motion.div
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.8 }}
+            className="text-center mt-8"
+          >
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-pink-400 via-rose-400 to-red-400 bg-clip-text text-transparent">
+              From Cookie to Senorita
+            </h2>
+            <p className="text-xl md:text-2xl text-white/90 mb-2">
+              💍 A Promise in 3D 💍
+            </p>
+            <p className="text-lg text-white/70 italic">
+              (Real One Will be In Your Hand after Boards tho)
+            </p>
+          </motion.div>
+
+          {/* Okay Button */}
+          <motion.div
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.8, delay: 1.2 }}
+            className="flex justify-center mt-8"
+          >
+            <Button
+              onClick={handleOkayClick}
+              className="py-6 px-12 text-xl bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white border-2 border-white/30 rounded-full shadow-2xl transform hover:scale-105 transition-all"
+            >
+              Okay 💕
+            </Button>
+          </motion.div>
+        </motion.div>
       </motion.div>
     );
   }
 
-  const slide = slides[currentSlide];
-
-  return (
-    <div className="flex flex-col items-center justify-center min-h-[400px]">
-      <AnimatePresence mode="wait">
+  // Completion slide
+  if (isComplete) {
+    return (
+      <>
         <motion.div
-          key={currentSlide}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="text-center max-w-2xl px-8"
+          ref={celebrationRef}
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          className="text-center py-12 relative z-20"
         >
           <motion.div
-            initial={{ scale: 0, rotate: -180 }}
-            animate={{ scale: 1, rotate: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="text-8xl mb-8"
+            animate={{ scale: [1, 1.2, 1] }}
+            transition={{ duration: 1, repeat: Infinity }}
+            className="text-8xl mb-6"
           >
-            {slide.emoji}
+            💕
           </motion.div>
+          <h2 className="text-4xl font-bold mb-4">You said {selectedChoice}!</h2>
+          <p className="text-xl opacity-90 mb-6">My heart is overflowing with joy 💖</p>
           
-          <motion.h2
-            initial={{ opacity: 0, y: -50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1 }}
-            className={`text-4xl md:text-5xl font-bold mb-8 bg-gradient-to-r ${slide.color} bg-clip-text text-transparent`}
+          <Button
+            onClick={downloadImage}
+            className="bg-white/20 hover:bg-white/30 text-white border-2 border-white/30 mt-4"
           >
-            {slide.text}
-          </motion.h2>
-
-          {slide.choices ? (
-            <div className="flex flex-col gap-4 mt-8">
-              {slide.choices.map((choice, index) => (
-                <Button
-                  key={index}
-                  onClick={() => handleChoice(choice)}
-                  className="py-6 text-xl bg-white/20 hover:bg-white/30 text-white border-2 border-white/30 hover:border-white/50"
+            <Download className="w-4 h-4 mr-2" />
+            Save This Moment
+          </Button>
+          
+          {showFireworks && (
+            <div className="absolute inset-0 pointer-events-none">
+              {[...Array(50)].map((_, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ 
+                    x: Math.random() * (typeof window !== 'undefined' ? window.innerWidth : 800),
+                    y: -50,
+                    rotate: 0
+                  }}
+                  animate={{ 
+                    y: (typeof window !== 'undefined' ? window.innerHeight : 800) + 50,
+                    rotate: 360
+                  }}
+                  transition={{ 
+                    duration: 2 + Math.random() * 2,
+                    delay: Math.random() * 0.5,
+                    ease: "linear"
+                  }}
+                  className="absolute text-3xl"
                 >
-                  {choice}
-                </Button>
+                  {['❤️', '💕', '💖', '💗', '✨', '⭐'][Math.floor(Math.random() * 6)]}
+                </motion.div>
               ))}
             </div>
-          ) : (
-            <Button
-              onClick={nextSlide}
-              className="mt-8 py-6 px-12 text-lg bg-white/20 hover:bg-white/30 text-white"
-            >
-              Continue <Sparkles className="ml-2 w-5 h-5" />
-            </Button>
           )}
         </motion.div>
-      </AnimatePresence>
+        <FireworksCanvas active={showFireworks} duration={10000} />
+        <ParticleMagic intensity="high" />
+      </>
+    );
+  }
 
-      {/* Progress dots */}
-      <div className="flex gap-2 mt-8">
-        {slides.map((_, index) => (
-          <div
-            key={index}
-            className={`w-3 h-3 rounded-full transition-all ${
-              index === currentSlide 
-                ? 'bg-white w-8' 
-                : index < currentSlide 
-                ? 'bg-white/60' 
-                : 'bg-white/20'
-            }`}
-          />
-        ))}
+  const slide = mainSlides[currentSlide];
+
+  return (
+    <>
+      <ParticleMagic intensity="medium" />
+      
+      <div className="flex flex-col items-center justify-center min-h-[500px] relative z-10">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentSlide}
+            initial={{ opacity: 0, x: 100 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -100 }}
+            transition={{ duration: 0.5 }}
+            className="text-center max-w-2xl px-8"
+          >
+            <motion.div
+              initial={{ scale: 0, rotate: -180 }}
+              animate={{ scale: 1, rotate: 0 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+              className="text-8xl mb-8"
+            >
+              {slide.emoji}
+            </motion.div>
+            
+            <motion.h2
+              initial={{ opacity: 0, y: -50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1 }}
+              className={`text-4xl md:text-5xl font-bold mb-8 bg-gradient-to-r ${slide.color} bg-clip-text text-transparent`}
+            >
+              {slide.text}
+            </motion.h2>
+
+            {/* Voice Note Player - Show on all slides */}
+            {voiceNoteUrl && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5 }}
+                className="mb-6"
+              >
+                <div className="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/20">
+                  <p className="text-sm text-white/70 mb-2">💌 Cookie's Voice Message</p>
+                  <Button
+                    onClick={toggleVoiceNote}
+                    className="bg-pink-500/80 hover:bg-pink-600 text-white"
+                  >
+                    {isPlayingVoice ? (
+                      <>
+                        <Pause className="w-4 h-4 mr-2" />
+                        Pause
+                      </>
+                    ) : (
+                      <>
+                        <Play className="w-4 h-4 mr-2" />
+                        Play Voice Note
+                      </>
+                    )}
+                  </Button>
+                </div>
+              </motion.div>
+            )}
+
+            {slide.choices ? (
+              <div className="flex flex-col gap-4 mt-8">
+                {slide.choices.map((choice, index) => (
+                  <Button
+                    key={index}
+                    onClick={() => handleChoice(choice)}
+                    className="py-6 text-xl bg-white/20 hover:bg-white/30 text-white border-2 border-white/30 hover:border-white/50 transform hover:scale-105 transition-all"
+                  >
+                    {choice}
+                  </Button>
+                ))}
+              </div>
+            ) : (
+              <Button
+                onClick={nextSlide}
+                className="mt-8 py-6 px-12 text-lg bg-white/20 hover:bg-white/30 text-white transform hover:scale-105 transition-all"
+              >
+                Continue <Sparkles className="ml-2 w-5 h-5" />
+              </Button>
+            )}
+          </motion.div>
+        </AnimatePresence>
+
+        {/* Progress dots */}
+        <div className="flex gap-2 mt-8">
+          {mainSlides.map((_, index) => (
+            <div
+              key={index}
+              className={`w-3 h-3 rounded-full transition-all ${
+                index === currentSlide 
+                  ? 'bg-white w-8' 
+                  : index < currentSlide 
+                  ? 'bg-white/60' 
+                  : 'bg-white/20'
+              }`}
+            />
+          ))}
+        </div>
       </div>
-    </div>
+
+      {/* Hidden audio element for voice note */}
+      {voiceNoteUrl && (
+        <audio
+          ref={audioRef}
+          src={voiceNoteUrl}
+          onEnded={() => {
+            setIsPlayingVoice(false);
+            // Resume background music
+            const bgMusic = document.querySelector('audio[data-bg-music]') as HTMLAudioElement;
+            if (bgMusic) bgMusic.play();
+          }}
+        />
+      )}
+
+      {/* Fireworks on choice selection */}
+      <FireworksCanvas active={showFireworks} duration={5000} />
+    </>
   );
 };
 
