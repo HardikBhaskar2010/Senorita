@@ -261,7 +261,12 @@ const ProposalSlideshow = ({ dayNumber }: ProposalSlideshowProps) => {
     );
   }
 
+  // Null check to prevent error
   const slide = mainSlides[currentSlide];
+  
+  if (!slide) {
+    return null;
+  }
 
   return (
     <>
@@ -275,13 +280,13 @@ const ProposalSlideshow = ({ dayNumber }: ProposalSlideshowProps) => {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -100 }}
             transition={{ duration: 0.5 }}
-            className="text-center max-w-2xl px-8"
+            className="text-center max-w-2xl px-4 sm:px-8"
           >
             <motion.div
               initial={{ scale: 0, rotate: -180 }}
               animate={{ scale: 1, rotate: 0 }}
               transition={{ duration: 0.8, delay: 0.3 }}
-              className="text-8xl mb-8"
+              className="text-6xl sm:text-7xl md:text-8xl mb-8"
             >
               {slide.emoji}
             </motion.div>
