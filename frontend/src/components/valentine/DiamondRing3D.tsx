@@ -31,11 +31,11 @@ function RingModel() {
   return (
     <group
       ref={ringRef}
-      position={[0, -0.8, 0]}
+      position={[0, 0, 0]}
       onPointerOver={() => setHovered(true)}
       onPointerOut={() => setHovered(false)}
     >
-      <primitive object={gltf.scene} scale={1.4} />
+      <primitive object={gltf.scene} scale={0.5} />
     </group>
   );
 }
@@ -91,7 +91,7 @@ export default function DiamondRing3D({ transparent = false }: { transparent?: b
       }`}
     >
       <Canvas style={{ background: 'transparent', width: '100%', height: '100%' }}>
-        <PerspectiveCamera makeDefault position={[0, 0.5, 7]} fov={45} />
+        <PerspectiveCamera makeDefault position={[0, 0, 4]} fov={50} />
         
         {/* Lighting */}
         <ambientLight intensity={0.6} />
@@ -124,10 +124,10 @@ export default function DiamondRing3D({ transparent = false }: { transparent?: b
         <OrbitControls
           enableZoom={true}
           enablePan={false}
-          minDistance={5}
-          maxDistance={12}
+          minDistance={3}
+          maxDistance={8}
           autoRotate={false}
-          target={[0, -0.8, 0]}
+          target={[0, 0, 0]}
         />
       </Canvas>
       
