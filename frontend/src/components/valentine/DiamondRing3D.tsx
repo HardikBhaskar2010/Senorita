@@ -89,8 +89,8 @@ export default function DiamondRing3D({ transparent = false }: { transparent?: b
           : 'bg-gradient-to-br from-purple-900/20 via-pink-900/20 to-red-900/20 backdrop-blur-sm border border-white/10'
       }`}
     >
-      <Canvas style={{ background: 'transparent' }}>
-        <PerspectiveCamera makeDefault position={[0, 0, 5]} />
+      <Canvas style={{ background: 'transparent', width: '100%', height: '100%' }}>
+        <PerspectiveCamera makeDefault position={[0, 1, 6]} fov={50} />
         
         {/* Lighting */}
         <ambientLight intensity={0.5} />
@@ -123,9 +123,10 @@ export default function DiamondRing3D({ transparent = false }: { transparent?: b
         <OrbitControls
           enableZoom={true}
           enablePan={false}
-          minDistance={3}
-          maxDistance={8}
+          minDistance={4}
+          maxDistance={10}
           autoRotate={false}
+          target={[0, 0, 0]}
         />
       </Canvas>
       
