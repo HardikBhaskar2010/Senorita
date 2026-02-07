@@ -59,11 +59,18 @@ const VoiceNoteVisualizer = ({ audioUrl, onPlayStateChange }: VoiceNoteVisualize
       setIsPlaying(false);
       onPlayStateChange?.(false);
       
-      // Resume background music
-      const bgMusic = document.querySelector('audio[data-bg-music]') as HTMLAudioElement;
+      // Resume background music to normal volume - try multiple selectors
+      const bgMusic = document.querySelector('audio[data-bg-music]') as HTMLAudioElement || 
+                      document.getElementById('valentine-bg-music') as HTMLAudioElement;
+      
       if (bgMusic) {
+        console.log('🎵 Voice note ended, restoring background music to 30%');
         bgMusic.volume = 0.3;
-        bgMusic.play();
+        if (bgMusic.paused) {
+          bgMusic.play().catch(err => console.error('Error resuming bg music:', err));
+        }
+      } else {
+        console.error('❌ Background music element not found on voice end');
       }
     });
 
@@ -192,22 +199,59 @@ const VoiceNoteVisualizer = ({ audioUrl, onPlayStateChange }: VoiceNoteVisualize
       setIsPlaying(false);
       onPlayStateChange?.(false);
       
-      // Resume background music
-      const bgMusic = document.querySelector('audio[data-bg-music]') as HTMLAudioElement;
+      // Resume background music to normal volume - try multiple selectors
+      const bgMusic = document.querySelector('audio[data-bg-music]') as HTMLAudioElement || 
+                      document.getElementById('valentine-bg-music') as HTMLAudioElement;
+      
       if (bgMusic) {
+        console.log('✅ Restoring background music to 30% volume');
         bgMusic.volume = 0.3;
-        bgMusic.play();
+        if (bgMusic.paused) {
+          bgMusic.play().catch(err => console.error('Error playing bg music:', err));
+        }
+      } else {
+        console.error('❌ Background music element not found!');
+        // Try to find any audio element
+        const allAudio = document.querySelectorAll('audio');
+        console.log(`Found ${allAudio.length} audio elements:`, allAudio);
       }
     } else {
-      // Pause background music and reduce volume
-      const bgMusic = document.querySelector('audio[data-bg-music]') as HTMLAudioElement;
+      // Reduce background music volume significantly - try multiple selectors
+      const bgMusic = document.querySelector('audio[data-bg-music]') as HTMLAudioElement || 
+                      document.getElementById('valentine-bg-music') as HTMLAudioElement;
+      
       if (bgMusic) {
-        bgMusic.volume = 0.1; // Drop to 10%
+        console.log('✅ Reducing background music to 5% volume');
+        const previousVolume = bgMusic.volume;
+        bgMusic.volume = 0.05; // Drop to 5% for better voice clarity
+        console.log(`Volume changed from ${previousVolume} to ${bgMusic.volume}`);
+      } else {
+        console.error('❌ Background music element not found!');
+        // Try to find any audio element
+        const allAudio = document.querySelectorAll('audio');
+        console.log(`Found ${allAudio.length} audio elements:`, allAudio);
+        
+        // If we find any audio element playing, reduce its volume
+        allAudio.forEach((audio, index) => {
+          if (!audio.paused) {
+            console.log(`Reducing volume of audio element ${index}`);
+            audio.volume = 0.05;
+          }
+        });
       }
       
-      await audioRef.current.play();
-      setIsPlaying(true);
-      onPlayStateChange?.(true);
+      // Set voice note to full volume
+      audioRef.current.volume = 1.0;
+      console.log('🎤 Playing voice note at 100% volume');
+      
+      try {
+        await audioRef.current.play();
+        setIsPlaying(true);
+        onPlayStateChange?.(true);
+        console.log('✅ Voice note playing successfully');
+      } catch (err) {
+        console.error('❌ Error playing voice note:', err);
+      }
     }
   };
 
