@@ -72,10 +72,11 @@ export default function ParticleMagic({
       createBurst(touch.clientX, touch.clientY);
     };
 
-    canvas.addEventListener('mousemove', handleMouseMove);
-    canvas.addEventListener('click', handleClick);
-    canvas.addEventListener('touchmove', handleTouchMove);
-    canvas.addEventListener('touchstart', handleTouchStart);
+    // Use window for events instead of canvas to avoid blocking
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('click', handleClick);
+    window.addEventListener('touchmove', handleTouchMove, { passive: true });
+    window.addEventListener('touchstart', handleTouchStart, { passive: true });
 
     // Create a single particle
     const createParticle = (x: number, y: number, type: 'follow' | 'auto' | 'burst') => {
@@ -212,10 +213,10 @@ export default function ParticleMagic({
     // Cleanup
     return () => {
       window.removeEventListener('resize', resizeCanvas);
-      canvas.removeEventListener('mousemove', handleMouseMove);
-      canvas.removeEventListener('click', handleClick);
-      canvas.removeEventListener('touchmove', handleTouchMove);
-      canvas.removeEventListener('touchstart', handleTouchStart);
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('click', handleClick);
+      window.removeEventListener('touchmove', handleTouchMove);
+      window.removeEventListener('touchstart', handleTouchStart);
       
       if (animationFrameRef.current) {
         cancelAnimationFrame(animationFrameRef.current);
@@ -229,10 +230,9 @@ export default function ParticleMagic({
       initial={{ opacity: 0 }}
       animate={{ opacity: isActive ? 1 : 0 }}
       transition={{ duration: 0.5 }}
-      className="fixed inset-0 pointer-events-auto z-10"
+      className="fixed inset-0 pointer-events-none z-10"
       style={{ 
-        mixBlendMode: 'screen',
-        cursor: 'crosshair'
+        mixBlendMode: 'screen'
       }}
     />
   );
