@@ -2,10 +2,11 @@ import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { supabase } from '@/lib/supabase';
-import { Heart, Sparkles, Download, Play, Pause } from 'lucide-react';
+import { Heart, Sparkles, Download } from 'lucide-react';
 import html2canvas from 'html2canvas';
 import FireworksCanvas from './FireworksCanvas';
 import ParticleMagic from './ParticleMagic';
+import VoiceNoteVisualizer from './VoiceNoteVisualizer';
 
 interface ProposalMainSlidesProps {
   dayNumber: number;
@@ -13,25 +14,82 @@ interface ProposalMainSlidesProps {
 
 const mainSlides = [
   {
-    text: "From the moment I met you...",
+    text: "From the moment I met you, My Jaan...",
+    subtext: "My world changed forever ✨",
     emoji: "✨",
     color: "from-pink-400 to-rose-500"
   },
   {
-    text: "Every day with you is magical",
-    emoji: "💫",
+    text: "Your smile, Senorita, lights up my entire universe",
+    subtext: "Every single day with you is a blessing 🌟",
+    emoji: "😊",
     color: "from-purple-400 to-pink-500"
   },
   {
-    text: "You make my heart skip a beat",
+    text: "You are my safe place, Reina",
+    subtext: "In your arms, I found my home 🏡",
+    emoji: "🤗",
+    color: "from-rose-400 to-pink-400"
+  },
+  {
+    type: 'photo',
+    photoIndex: 1,
+    text: "This moment... when I realized you were everything",
+    emoji: "📸",
+    color: "from-amber-400 to-pink-500"
+  },
+  {
+    type: 'photo',
+    photoIndex: 2,
+    text: "Every memory with you is a treasure I hold close to my heart",
+    emoji: "💝",
+    color: "from-pink-500 to-rose-600"
+  },
+  {
+    type: 'voice',
+    text: "I have something special to tell you...",
+    subtext: "Listen to my heart, Darling 💕",
+    emoji: "💌",
+    color: "from-red-400 to-pink-500"
+  },
+  {
+    type: 'photo',
+    photoIndex: 3,
+    text: "Your laughter is the most beautiful sound in the world, Honey",
+    emoji: "🎵",
+    color: "from-purple-500 to-pink-500"
+  },
+  {
+    type: 'photo',
+    photoIndex: 4,
+    text: "With you, every moment becomes a cherished memory, My Jaan",
+    emoji: "⭐",
+    color: "from-pink-400 to-red-400"
+  },
+  {
+    text: "You make my heart skip a beat, Senorita",
+    subtext: "Every single time I see you 💓",
     emoji: "💓",
     color: "from-red-400 to-pink-500"
   },
   {
-    text: "Will you be mine forever?",
+    text: "I promise to love you more each day, Reina",
+    subtext: "Through every sunrise and sunset 🌅",
+    emoji: "🌅",
+    color: "from-orange-400 to-pink-500"
+  },
+  {
+    text: "You are my forever, Honey",
+    subtext: "My today, my tomorrow, my always 💫",
+    emoji: "♾️",
+    color: "from-purple-400 to-rose-500"
+  },
+  {
+    text: "Will you marry me, My Senorita?",
+    subtext: "Make me the happiest person alive 💍",
     emoji: "💍",
     color: "from-rose-400 to-red-500",
-    choices: ["Yes, Forever! 💕", "Always & Forever! ❤️"]
+    choices: ["Yes, Forever! 💕", "Always & Forever! ❤️", "A Thousand Times Yes! 💖"]
   }
 ];
 
@@ -40,33 +98,9 @@ const ProposalMainSlides = ({ dayNumber }: ProposalMainSlidesProps) => {
   const [showFireworks, setShowFireworks] = useState(false);
   const [selectedChoice, setSelectedChoice] = useState<string | null>(null);
   const [isComplete, setIsComplete] = useState(false);
-  const [voiceNoteUrl, setVoiceNoteUrl] = useState<string | null>(null);
-  const [isPlayingVoice, setIsPlayingVoice] = useState(false);
+  const [voiceNoteUrl, setVoiceNoteUrl] = useState<string>('/audio/proposal-voice-note.mp3');
   
   const celebrationRef = useRef<HTMLDivElement>(null);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
-
-  // Fetch voice note if available
-  useEffect(() => {
-    fetchVoiceNote();
-  }, []);
-
-  const fetchVoiceNote = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('valentines_progress')
-        .select('voice_message_url')
-        .eq('user_name', 'Cookie')
-        .eq('day_number', dayNumber)
-        .single();
-
-      if (data?.voice_message_url) {
-        setVoiceNoteUrl(data.voice_message_url);
-      }
-    } catch (err) {
-      console.error('Error fetching voice note:', err);
-    }
-  };
 
   const handleChoice = async (choice: string) => {
     setSelectedChoice(choice);
@@ -110,24 +144,6 @@ const ProposalMainSlides = ({ dayNumber }: ProposalMainSlidesProps) => {
     }
   };
 
-  const toggleVoiceNote = () => {
-    if (!audioRef.current) return;
-    
-    if (isPlayingVoice) {
-      audioRef.current.pause();
-      setIsPlayingVoice(false);
-      
-      const bgMusic = document.querySelector('audio[data-bg-music]') as HTMLAudioElement;
-      if (bgMusic) bgMusic.play();
-    } else {
-      const bgMusic = document.querySelector('audio[data-bg-music]') as HTMLAudioElement;
-      if (bgMusic) bgMusic.pause();
-      
-      audioRef.current.play();
-      setIsPlayingVoice(true);
-    }
-  };
-
   // Completion slide
   if (isComplete) {
     return (
@@ -149,7 +165,10 @@ const ProposalMainSlides = ({ dayNumber }: ProposalMainSlidesProps) => {
             You said {selectedChoice}!
           </h2>
           <p className="text-xl opacity-90 mb-6 text-white drop-shadow-md">
-            My heart is overflowing with joy 💖
+            My heart is overflowing with joy, My Senorita 💖
+          </p>
+          <p className="text-lg opacity-80 mb-6 text-white drop-shadow-md italic">
+            "You've made me the happiest Cookie in the world!" 🍪✨
           </p>
           
           <Button
@@ -181,7 +200,7 @@ const ProposalMainSlides = ({ dayNumber }: ProposalMainSlidesProps) => {
                   }}
                   className="absolute text-3xl"
                 >
-                  {['❤️', '💕', '💖', '💗', '✨', '⭐'][Math.floor(Math.random() * 6)]}
+                  {['❤️', '💕', '💖', '💗', '✨', '⭐', '💍', '🌹'][Math.floor(Math.random() * 8)]}
                 </motion.div>
               ))}
             </div>
@@ -195,6 +214,176 @@ const ProposalMainSlides = ({ dayNumber }: ProposalMainSlidesProps) => {
 
   const slide = mainSlides[currentSlide];
 
+  // Render photo slide
+  if (slide.type === 'photo') {
+    return (
+      <>
+        <ParticleMagic intensity="low" />
+        
+        <div className="flex flex-col items-center justify-center min-h-[500px] relative z-20 px-4">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentSlide}
+              initial={{ opacity: 0, rotateY: -90 }}
+              animate={{ opacity: 1, rotateY: 0 }}
+              exit={{ opacity: 0, rotateY: 90 }}
+              transition={{ duration: 0.6 }}
+              className="text-center max-w-2xl w-full"
+            >
+              {/* Polaroid-style photo frame */}
+              <motion.div
+                initial={{ scale: 0.8, rotate: -5 }}
+                animate={{ scale: 1, rotate: [2, -2, 2] }}
+                transition={{ 
+                  scale: { duration: 0.5 },
+                  rotate: { duration: 3, repeat: Infinity, ease: "easeInOut" }
+                }}
+                className="bg-white p-4 rounded-lg shadow-2xl mb-6 mx-auto max-w-md"
+                style={{
+                  transform: `rotate(${(slide.photoIndex || 0) % 2 === 0 ? '2deg' : '-2deg'})`
+                }}
+              >
+                <div className="relative aspect-square mb-4 bg-gradient-to-br from-pink-100 to-rose-100 rounded overflow-hidden">
+                  <img
+                    src={`/images/senorita/photo${slide.photoIndex}.jpg`}
+                    alt={`Memory ${slide.photoIndex}`}
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      // Fallback if image not found
+                      (e.target as HTMLImageElement).style.display = 'none';
+                      const parent = (e.target as HTMLImageElement).parentElement;
+                      if (parent) {
+                        parent.innerHTML = `
+                          <div class="flex items-center justify-center h-full">
+                            <div class="text-center">
+                              <p class="text-6xl mb-4">📸</p>
+                              <p class="text-gray-600 text-sm">Photo ${slide.photoIndex}</p>
+                              <p class="text-gray-500 text-xs mt-2">Place photo${slide.photoIndex}.jpg in /images/senorita/</p>
+                            </div>
+                          </div>
+                        `;
+                      }
+                    }}
+                  />
+                </div>
+                <p className="text-gray-700 text-sm font-handwriting italic">
+                  Memory #{slide.photoIndex}
+                </p>
+              </motion.div>
+
+              {/* Text below photo */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+              >
+                <motion.div
+                  className="text-5xl mb-4"
+                  animate={{ scale: [1, 1.1, 1] }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                >
+                  {slide.emoji}
+                </motion.div>
+                
+                <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 text-white drop-shadow-lg px-4">
+                  {slide.text}
+                </h2>
+
+                <Button
+                  onClick={nextSlide}
+                  className="mt-6 py-4 sm:py-6 px-8 sm:px-12 text-base sm:text-lg font-bold bg-white text-pink-600 hover:bg-pink-50 transform hover:scale-105 transition-all shadow-xl"
+                >
+                  Continue <Sparkles className="ml-2 w-4 sm:w-5 h-4 sm:h-5" />
+                </Button>
+              </motion.div>
+            </motion.div>
+          </AnimatePresence>
+
+          {/* Progress dots */}
+          <div className="flex gap-2 mt-8">
+            {mainSlides.map((_, index) => (
+              <div
+                key={index}
+                className={`h-3 rounded-full transition-all ${
+                  index === currentSlide 
+                    ? 'bg-white w-8 shadow-lg' 
+                    : index < currentSlide 
+                    ? 'bg-white/70 w-3' 
+                    : 'bg-white/30 w-3'
+                }`}
+              />
+            ))}
+          </div>
+        </div>
+      </>
+    );
+  }
+
+  // Render voice note slide
+  if (slide.type === 'voice') {
+    return (
+      <>
+        <ParticleMagic intensity="medium" />
+        
+        <div className="flex flex-col items-center justify-center min-h-[500px] relative z-20 px-4">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentSlide}
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+              transition={{ duration: 0.5 }}
+              className="text-center max-w-2xl w-full"
+            >
+              <motion.div
+                className="text-6xl mb-4"
+                animate={{ scale: [1, 1.2, 1], rotate: [0, 5, -5, 0] }}
+                transition={{ duration: 2, repeat: Infinity }}
+              >
+                {slide.emoji}
+              </motion.div>
+              
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 text-white drop-shadow-lg px-4">
+                {slide.text}
+              </h2>
+              
+              <p className="text-lg sm:text-xl text-white/90 mb-8 drop-shadow-md">
+                {slide.subtext}
+              </p>
+
+              {/* Voice Note Visualizer */}
+              <VoiceNoteVisualizer audioUrl={voiceNoteUrl} />
+
+              <Button
+                onClick={nextSlide}
+                className="mt-8 py-4 sm:py-6 px-8 sm:px-12 text-base sm:text-lg font-bold bg-white text-pink-600 hover:bg-pink-50 transform hover:scale-105 transition-all shadow-xl"
+              >
+                Continue <Sparkles className="ml-2 w-4 sm:w-5 h-4 sm:h-5" />
+              </Button>
+            </motion.div>
+          </AnimatePresence>
+
+          {/* Progress dots */}
+          <div className="flex gap-2 mt-8">
+            {mainSlides.map((_, index) => (
+              <div
+                key={index}
+                className={`h-3 rounded-full transition-all ${
+                  index === currentSlide 
+                    ? 'bg-white w-8 shadow-lg' 
+                    : index < currentSlide 
+                    ? 'bg-white/70 w-3' 
+                    : 'bg-white/30 w-3'
+                }`}
+              />
+            ))}
+          </div>
+        </div>
+      </>
+    );
+  }
+
+  // Render regular text slide
   return (
     <>
       <ParticleMagic intensity="low" />
@@ -222,41 +411,20 @@ const ProposalMainSlides = ({ dayNumber }: ProposalMainSlidesProps) => {
               initial={{ opacity: 0, y: -50 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1 }}
-              className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-8 text-white drop-shadow-lg px-4"
+              className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-white drop-shadow-lg px-4"
             >
               {slide.text}
             </motion.h2>
 
-            {/* Voice Note Player */}
-            {voiceNoteUrl && (
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
+            {slide.subtext && (
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
                 transition={{ delay: 0.5 }}
-                className="mb-6"
+                className="text-lg sm:text-xl text-white/90 mb-8 drop-shadow-md"
               >
-                <div className="bg-white/20 backdrop-blur-md rounded-2xl p-4 border-2 border-white/40">
-                  <p className="text-sm text-white font-semibold mb-2 drop-shadow">
-                    💌 Cookie's Voice Message
-                  </p>
-                  <Button
-                    onClick={toggleVoiceNote}
-                    className="bg-white text-pink-600 hover:bg-pink-50 font-semibold w-full sm:w-auto"
-                  >
-                    {isPlayingVoice ? (
-                      <>
-                        <Pause className="w-4 h-4 mr-2" />
-                        Pause
-                      </>
-                    ) : (
-                      <>
-                        <Play className="w-4 h-4 mr-2" />
-                        Play Voice Note
-                      </>
-                    )}
-                  </Button>
-                </div>
-              </motion.div>
+                {slide.subtext}
+              </motion.p>
             )}
 
             {slide.choices ? (
@@ -298,19 +466,6 @@ const ProposalMainSlides = ({ dayNumber }: ProposalMainSlidesProps) => {
           ))}
         </div>
       </div>
-
-      {/* Hidden audio element */}
-      {voiceNoteUrl && (
-        <audio
-          ref={audioRef}
-          src={voiceNoteUrl}
-          onEnded={() => {
-            setIsPlayingVoice(false);
-            const bgMusic = document.querySelector('audio[data-bg-music]') as HTMLAudioElement;
-            if (bgMusic) bgMusic.play();
-          }}
-        />
-      )}
 
       <FireworksCanvas active={showFireworks} duration={5000} />
     </>
