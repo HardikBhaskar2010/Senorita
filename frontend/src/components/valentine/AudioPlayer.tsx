@@ -13,7 +13,11 @@ const AudioPlayer = () => {
     audio.loop = true;
     audio.volume = 0.3; // Set to 30% volume
     audio.setAttribute('data-bg-music', 'true'); // Add identifier for pausing
+    audio.id = 'valentine-bg-music'; // Add ID for easier selection
     audioRef.current = audio;
+
+    // Append to body to ensure it's accessible
+    document.body.appendChild(audio);
 
     // Try to autoplay (browsers may block this)
     const playPromise = audio.play();
@@ -22,6 +26,7 @@ const AudioPlayer = () => {
       playPromise
         .then(() => {
           setIsPlaying(true);
+          console.log('Background music started at 30% volume');
         })
         .catch(error => {
           console.log('Autoplay prevented:', error);
@@ -33,6 +38,7 @@ const AudioPlayer = () => {
     return () => {
       if (audioRef.current) {
         audioRef.current.pause();
+        document.body.removeChild(audioRef.current);
         audioRef.current = null;
       }
     };
