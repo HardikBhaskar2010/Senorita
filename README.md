@@ -29,7 +29,40 @@ All content syncs in real-time across both spaces via Supabase subscriptions.
 
 ---
 
-## 🔥 Recent Fixes & Improvements (v7.3.1)
+## 🔥 Recent Fixes & Improvements (v7.3.3)
+
+### 🎨 **NEW: Anime.js Motion Path Animations** (Feb 2025)
+Advanced animation system added to Valentine's Special page:
+
+**Animation Features:**
+- ✅ **6 Animated Hearts** following unique SVG motion paths
+- ✅ **Motion Path Types:**
+  - 🔄 Circular motion - Looping patterns in top left
+  - 〰️ Wave motion - Horizontal flowing waves
+  - ↘️ Diagonal swoosh - Corner-to-corner movement
+  - ♾️ Figure-8 pattern - Infinity loop shapes
+  - 🔁 Vertical loop - Up and down circular motion
+  - 〰️ Bottom wave - Lower horizontal waves
+- ✅ **Dynamic Effects:**
+  - Smooth rotation following path direction
+  - Pulsing scale effect (1 → 1.3 → 1)
+  - Opacity breathing (0.6 → 1 → 0.6)
+  - Staggered animation delays for visual interest
+- ✅ **Performance Optimized:**
+  - GPU-accelerated transforms
+  - Proper cleanup with React hooks
+  - No memory leaks
+  - 60fps smooth animations
+
+**Technical Implementation:**
+- Uses Anime.js v4 `svg.createMotionPath()` API
+- Proper React integration with `createScope()`
+- 6 invisible SVG paths for coordinate mapping
+- Quadratic Bézier curves for smooth trajectories
+
+**📖 Documentation:**
+- Technical Guide: `/app/ANIMEJS_MOTION_PATH_IMPLEMENTATION.md`
+- Screenshots & Demo: `/app/MOTION_PATH_SCREENSHOTS.md`
 
 ### 🐛 **FIXED: Valentine's Special Interactive Enhancement** (Feb 2025)
 Two critical fixes applied to Valentine's Week feature:
