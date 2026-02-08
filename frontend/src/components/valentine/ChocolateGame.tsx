@@ -198,7 +198,7 @@ const ChocolateGame = ({ dayNumber }: ChocolateGameProps) => {
       </motion.div>
 
       {/* Chocolate Box Grid */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 w-full">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 w-full max-w-6xl">
         {chocolates.map((chocolate, index) => {
           const isOpened = openedChocolates.has(chocolate.id);
           
@@ -211,62 +211,120 @@ const ChocolateGame = ({ dayNumber }: ChocolateGameProps) => {
               whileHover={{ scale: 1.05, y: -5 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => openChocolate(chocolate)}
-              className={`
-                relative cursor-pointer group
-                bg-gradient-to-br ${chocolate.gradient}
-                rounded-2xl p-6 md:p-8
-                border-2 ${isOpened ? 'border-yellow-300' : 'border-white/30'}
-                shadow-xl hover:shadow-2xl
-                transition-all duration-300
-                ${chocolate.isSpecial ? 'ring-4 ring-yellow-400/50' : ''}
-              `}
+              className="relative cursor-pointer group"
+              style={{ perspective: '1000px' }}
             >
-              {/* Special Badge */}
-              {chocolate.isSpecial && (
-                <motion.div
-                  animate={{ scale: [1, 1.2, 1] }}
-                  transition={{ duration: 1.5, repeat: Infinity }}
-                  className="absolute -top-2 -right-2 bg-yellow-400 text-yellow-900 rounded-full px-2 py-1 text-xs font-bold shadow-lg"
-                >
-                  ⭐ FAV
-                </motion.div>
-              )}
-
-              {/* Opened Badge */}
-              {isOpened && (
-                <motion.div
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  className="absolute -top-2 -left-2 bg-green-500 text-white rounded-full w-8 h-8 flex items-center justify-center shadow-lg"
-                >
-                  ✓
-                </motion.div>
-              )}
-
-              {/* Chocolate Icon */}
-              <motion.div
-                animate={isOpened ? { rotate: [0, 10, -10, 0] } : {}}
-                transition={{ duration: 0.5 }}
-                className="text-6xl md:text-7xl mb-3 text-center"
+              {/* Chocolate Card */}
+              <div
+                className={`
+                  relative w-full min-h-[280px]
+                  bg-gradient-to-br ${chocolate.gradient}
+                  rounded-3xl p-6 md:p-8
+                  border-3 ${isOpened ? 'border-yellow-400/70' : 'border-white/40'}
+                  shadow-xl hover:shadow-2xl
+                  transition-all duration-300
+                  ${chocolate.isSpecial ? 'ring-4 ring-yellow-400/50' : ''}
+                  flex flex-col items-center justify-center
+                `}
+                style={{
+                  clipPath: isOpened 
+                    ? 'polygon(18% 0%, 100% 0%, 100% 100%, 0% 100%, 0% 18%)' 
+                    : 'none',
+                  borderWidth: '3px'
+                }}
               >
-                {chocolate.emoji}
-              </motion.div>
+                {/* Bite Mark Shadow & Texture (only when opened) */}
+                {isOpened && (
+                  <>
+                    {/* Bite shadow overlay */}
+                    <div 
+                      className="absolute top-0 left-0 w-24 h-24 pointer-events-none z-0"
+                      style={{
+                        background: 'radial-gradient(circle at 35% 35%, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.3) 35%, rgba(0,0,0,0.1) 60%, transparent 80%)',
+                        clipPath: 'polygon(0% 0%, 35% 0%, 0% 35%)'
+                      }}
+                    />
+                    
+                    {/* Bite texture marks */}
+                    <div className="absolute top-0 left-0 w-20 h-20 pointer-events-none opacity-40 z-0">
+                      <svg width="100%" height="100%" viewBox="0 0 80 80">
+                        {/* Bite indentations */}
+                        <circle cx="12" cy="8" r="3" fill="rgba(0,0,0,0.3)" />
+                        <circle cx="8" cy="12" r="2.5" fill="rgba(0,0,0,0.25)" />
+                        <circle cx="16" cy="12" r="2" fill="rgba(0,0,0,0.2)" />
+                        <circle cx="12" cy="16" r="2" fill="rgba(0,0,0,0.2)" />
+                        <circle cx="20" cy="16" r="1.5" fill="rgba(0,0,0,0.15)" />
+                      </svg>
+                    </div>
+                  </>
+                )}
 
-              {/* Chocolate Name */}
-              <h3 className="text-sm md:text-base font-bold text-center text-white">
-                {chocolate.name}
-              </h3>
+                {/* Special Badge */}
+                {chocolate.isSpecial && (
+                  <motion.div
+                    animate={{ scale: [1, 1.15, 1] }}
+                    transition={{ duration: 1.5, repeat: Infinity }}
+                    className="absolute top-3 right-3 bg-yellow-400 text-yellow-900 rounded-full px-3 py-1.5 text-xs font-bold shadow-lg z-10 flex items-center gap-1"
+                  >
+                    ⭐ FAV
+                  </motion.div>
+                )}
 
-              {/* Sparkle Effect */}
-              {!isOpened && (
+                {/* Opened Badge */}
+                {isOpened && (
+                  <motion.div
+                    initial={{ scale: 0, rotate: -180 }}
+                    animate={{ scale: 1, rotate: 0 }}
+                    transition={{ type: 'spring', stiffness: 200, damping: 15 }}
+                    className="absolute top-3 left-20 bg-green-500 text-white rounded-full w-10 h-10 flex items-center justify-center shadow-lg font-bold text-lg z-10"
+                  >
+                    ✓
+                  </motion.div>
+                )}
+
+                {/* Chocolate Icon */}
                 <motion.div
-                  animate={{ opacity: [0.5, 1, 0.5] }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                  className="absolute top-2 right-2"
+                  animate={isOpened ? { 
+                    rotate: [0, 5, -5, 0],
+                    scale: [1, 1.05, 1]
+                  } : {}}
+                  transition={{ duration: 0.5 }}
+                  className="text-7xl md:text-8xl mb-4 text-center drop-shadow-2xl relative z-5"
                 >
-                  <Sparkles className="w-5 h-5 text-yellow-300" />
+                  {chocolate.emoji}
                 </motion.div>
-              )}
+
+                {/* Chocolate Name */}
+                <h3 className="text-base md:text-lg font-bold text-center text-white drop-shadow-md leading-tight relative z-5">
+                  {chocolate.name}
+                </h3>
+
+                {/* Sparkle Effect for unopened */}
+                {!isOpened && (
+                  <motion.div
+                    animate={{ 
+                      opacity: [0.4, 1, 0.4],
+                      rotate: [0, 10, 0],
+                      scale: [1, 1.2, 1]
+                    }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                    className="absolute top-3 right-3 z-10"
+                  >
+                    <Sparkles className="w-6 h-6 text-yellow-300 drop-shadow-lg" />
+                  </motion.div>
+                )}
+
+                {/* Glossy shine effect */}
+                <div 
+                  className="absolute inset-0 rounded-3xl pointer-events-none z-0"
+                  style={{
+                    background: 'linear-gradient(135deg, rgba(255,255,255,0.25) 0%, transparent 50%)',
+                    clipPath: isOpened 
+                      ? 'polygon(18% 0%, 100% 0%, 100% 100%, 0% 100%, 0% 18%)' 
+                      : 'none'
+                  }}
+                />
+              </div>
             </motion.div>
           );
         })}
