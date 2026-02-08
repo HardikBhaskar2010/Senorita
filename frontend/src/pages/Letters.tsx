@@ -169,6 +169,7 @@ const LettersEnhanced = () => {
   return (
     <div className="min-h-screen bg-background relative overflow-x-hidden p-4 md:p-8">
       <FloatingHearts />
+      <ThreeBackground variant="waves" />
       <div className="max-w-4xl mx-auto relative z-10">
         <Button 
           onClick={goBack}
