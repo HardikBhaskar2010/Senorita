@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import anime from 'animejs';
+import { animate } from 'animejs';
 
 const AnimatedHeartBg = () => {
   const heartRef = useRef<SVGSVGElement>(null);
@@ -8,7 +8,7 @@ const AnimatedHeartBg = () => {
     if (!heartRef.current) return;
 
     // Pumping heart animation - scale and opacity
-    anime({
+    animate({
       targets: heartRef.current,
       scale: [1, 1.15, 1],
       opacity: [0.15, 0.25, 0.15],
@@ -18,7 +18,7 @@ const AnimatedHeartBg = () => {
     });
 
     // Rotate the entire heart slowly
-    anime({
+    animate({
       targets: heartRef.current,
       rotate: '1turn',
       duration: 60000,
@@ -33,7 +33,7 @@ const AnimatedHeartBg = () => {
       (path as SVGPathElement).style.strokeDasharray = pathLength.toString();
       (path as SVGPathElement).style.strokeDashoffset = pathLength.toString();
       
-      anime({
+      animate({
         targets: path,
         strokeDashoffset: [pathLength, 0],
         easing: 'easeInOutSine',
@@ -45,7 +45,7 @@ const AnimatedHeartBg = () => {
     });
 
     // Add subtle position movement
-    anime({
+    animate({
       targets: heartRef.current,
       translateX: [-10, 10],
       translateY: [-10, 10],
