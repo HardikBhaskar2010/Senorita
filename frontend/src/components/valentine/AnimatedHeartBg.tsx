@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { animate, createScope } from 'animejs';
+import { animate, createScope, svg } from 'animejs';
 
 const AnimatedHeartBg = () => {
   const rootRef = useRef<HTMLDivElement>(null);
