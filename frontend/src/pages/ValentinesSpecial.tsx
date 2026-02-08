@@ -20,6 +20,7 @@ import StorybookPDF from '@/components/valentine/StorybookPDF';
 import EasterEggHunt from '@/components/valentine/EasterEggHunt';
 import SaveToAlbum from '@/components/valentine/SaveToAlbum';
 import ConfettiSystem from '@/components/valentine/ConfettiSystem';
+import AnimatedHeartBg from '@/components/valentine/AnimatedHeartBg';
 
 interface ValentineDay {
   dayNumber: number;
