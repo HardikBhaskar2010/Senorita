@@ -646,15 +646,20 @@ const ValentinesSpecial = () => {
         backgroundAttachment: 'fixed'
       }}
     >
-      {/* Animated Heart Background */}
-      <div className="valentine-heart-bg">
-        <div className="heart-bg-layer heart-1"></div>
-        <div className="heart-bg-layer heart-2"></div>
-        <div className="heart-bg-layer heart-3"></div>
-        <div className="heart-bg-layer heart-4"></div>
-        <div className="heart-bg-layer heart-5"></div>
-        <div className="heart-bg-layer heart-6"></div>
-      </div>
+      {/* Anime.js Animated Heart Background - Only if 3D effects enabled */}
+      {enable3DEffects && !dashboardBackgroundSenorita && <AnimatedHeartBg />}
+      
+      {/* Fallback Animated Heart Background - CSS only */}
+      {!enable3DEffects && !dashboardBackgroundSenorita && (
+        <div className="valentine-heart-bg">
+          <div className="heart-bg-layer heart-1"></div>
+          <div className="heart-bg-layer heart-2"></div>
+          <div className="heart-bg-layer heart-3"></div>
+          <div className="heart-bg-layer heart-4"></div>
+          <div className="heart-bg-layer heart-5"></div>
+          <div className="heart-bg-layer heart-6"></div>
+        </div>
+      )}
       
       {/* Global Confetti System */}
       <ConfettiSystem active={triggerConfetti} duration={3000} particleCount={50} />
