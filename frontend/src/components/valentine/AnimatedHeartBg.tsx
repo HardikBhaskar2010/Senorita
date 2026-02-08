@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import anime from 'animejs/lib/anime.es.js';
+import * as anime from 'animejs';
 
 const AnimatedHeartBg = () => {
   const heartRef = useRef<SVGSVGElement>(null);
