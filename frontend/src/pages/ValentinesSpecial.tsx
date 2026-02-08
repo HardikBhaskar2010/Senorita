@@ -121,7 +121,7 @@ const valentineDays: ValentineDay[] = [
 
 const ValentinesSpecial = () => {
   const navigate = useNavigate();
-  const { dashboardBackgroundSenorita } = useTheme();
+  const { dashboardBackgroundSenorita, enable3DEffects } = useTheme();
   const [unlockedDays, setUnlockedDays] = useState<Set<number>>(new Set());
   const [selectedDay, setSelectedDay] = useState<ValentineDay | null>(null);
   const [unlockInput, setUnlockInput] = useState('');
