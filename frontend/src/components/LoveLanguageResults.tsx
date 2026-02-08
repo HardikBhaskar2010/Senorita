@@ -56,17 +56,27 @@ const LoveLanguageResults = () => {
 
   const fetchResults = async () => {
     try {
-      const { data: myData } = await supabase
+      // Fetch my results
+      const { data: myData, error: myError } = await supabase
         .from('love_language_results')
         .select('*')
         .eq('user_name', displayName)
-        .single();
+        .maybeSingle();
 
-      const { data: partnerData } = await supabase
+      if (myError && myError.code !== 'PGRST116') {
+        console.error('Error fetching my love language results:', myError);
+      }
+
+      // Fetch partner results
+      const { data: partnerData, error: partnerError } = await supabase
         .from('love_language_results')
         .select('*')
         .eq('user_name', partnerName)
-        .single();
+        .maybeSingle();
+
+      if (partnerError && partnerError.code !== 'PGRST116') {
+        console.error('Error fetching partner love language results:', partnerError);
+      }
 
       setMyResults(myData);
       setPartnerResults(partnerData);
