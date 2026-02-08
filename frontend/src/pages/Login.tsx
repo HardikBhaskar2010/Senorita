@@ -68,7 +68,7 @@ const Login = () => {
             </div>
           </div>
           <h1 className="text-5xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-primary via-pink-500 to-primary bg-clip-text text-transparent">
-            Love OS 💕
+            HeartByte 💕
           </h1>
           <p className="text-xl text-muted-foreground">Welcome Back</p>
         </motion.div>
@@ -135,12 +135,6 @@ const Login = () => {
                   )}
                 </Button>
               </form>
-
-              <div className="mt-6 text-center space-y-2">
-                <p className="text-xs text-muted-foreground">
-                  💡 Hint: Use "Cookie" or "Senorita" as username
-                </p>
-              </div>
             </CardContent>
           </Card>
         </motion.div>

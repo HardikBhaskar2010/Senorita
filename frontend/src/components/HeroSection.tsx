@@ -76,7 +76,7 @@ const HeroSection = () => {
             animate={{ scale: 1 }}
             transition={{ duration: 0.5 }}
           >
-            Love OS
+            HeartByte
           </motion.h1>
           
           {/* Subtitle */}

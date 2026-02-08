@@ -290,7 +290,7 @@ const Settings = () => {
                 </div>
                 <div>
                   <CardTitle className="text-2xl">Settings</CardTitle>
-                  <CardDescription>Customize your Love OS experience</CardDescription>
+                  <CardDescription>Customize your HeartByte experience</CardDescription>
                 </div>
               </div>
             </CardHeader>
