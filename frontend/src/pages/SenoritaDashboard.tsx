@@ -198,6 +198,7 @@ const SenoritaDashboard = () => {
       }}
     >
       {!dashboardBackgroundSenorita && <FloatingHearts />}
+      <ThreeBackground variant="hearts" customBackground={dashboardBackgroundSenorita} />
       
       <HeroSection />
       
