@@ -135,6 +135,11 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     return (saved as AppearanceMode) || 'system';
   });
 
+  const [enable3DEffects, setEnable3DEffectsState] = useState<boolean>(() => {
+    const saved = localStorage.getItem('loveos-enable-3d-effects');
+    return saved === null ? true : saved === 'true'; // Default to true
+  });
+
   const [isDark, setIsDark] = useState(false);
   const [chatBackground, setChatBackgroundState] = useState<string>('');
   const [dashboardBackgroundCookie, setDashboardBackgroundCookie] = useState<string>('');
