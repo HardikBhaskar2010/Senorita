@@ -10,7 +10,7 @@
 **A personalized digital sanctuary for couples to share love, memories, and daily moments**  
  
 [Features](#-features) • [Tech Stack](#%EF%B8%8F-tech-stack) • [Quick Start](#-quick-start) • [Recent Fixes](#-recent-fixes--troubleshooting) • [Migration Guide](#-migration-guide) • [Project Structure](#-project-structure)
-  
+ 
 </div>
  
 ---
@@ -87,17 +87,22 @@ All issues fixed and working perfectly:
 
 ## 🎯 Features
 
-### 🆕 **NEW: Valentine's Special 2025** (v7.3.1)
+### 🆕 **NEW: Valentine's Special 2025** (v7.3.2)
 - **Mystery Week** - Daily time-gated surprises from Feb 7-14, 2025
 - **8 Valentine Days** - Each day with unique theme, animation, and content
-  - 🌹 Rose Day (Feb 7) - "What does love mean to you?"
-  - 💍 Propose Day (Feb 8) - "Will You Marry Me Senorita?" 
-  - 🍫 Chocolate Day (Feb 9) - "What's your favorite sweet memory of us?"
-  - 🧸 Teddy Day (Feb 10) - "What makes you feel safe and comforted with me?"
-  - 🤝 Promise Day (Feb 11) - "What promise do you want to make to me?"
-  - 🤗 Hug Day (Feb 12) - "How do you feel when I hug you?"
-  - 💋 Kiss Day (Feb 13) - "What does my kiss mean to you?"
-  - ❤️ Valentine's Day (Feb 14) - "What do you love most about us?"
+  - 🌹 Rose Day (Feb 7) - Interactive rose with clickable petals
+  - 💍 Propose Day (Feb 8) - Proposal slideshow reel 
+  - 🍫 **Chocolate Day (Feb 9)** - **Virtual Chocolate Box with 8 interactive chocolates** 🆕
+    - Open chocolates to reveal personal messages
+    - Realistic bite mark effect when opened
+    - Features Dairy Milk Silk Mousse & Oreo (favorites marked with ⭐)
+    - "Khao Pio Aes Karo" motivational message included
+    - Progress tracking (X/8 opened)
+  - 🧸 Teddy Day (Feb 10) - 3D teddy bears animation
+  - 🤝 Promise Day (Feb 11) - Sealed promise vault
+  - 🤗 Hug Day (Feb 12) - Hold-to-hug interactive
+  - 💋 Kiss Day (Feb 13) - Kiss ripples animation
+  - ❤️ Valentine's Day (Feb 14) - Mini storybook PDF
 - **Interactive Questions** - Each day has a unique question with text input
 - **Save Answers** - Senorita's responses saved to database
 - **Edit Feature** - Can edit and update answers anytime
