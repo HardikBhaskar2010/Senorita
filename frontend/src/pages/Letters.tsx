@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
 import FloatingHearts from "@/components/FloatingHearts";
+import ThreeBackground from "@/components/three/ThreeBackground";
 import EmptyState from "@/components/EmptyState";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import SkeletonCard from "@/components/SkeletonCard";
