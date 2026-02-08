@@ -8,18 +8,16 @@ const AnimatedHeartBg = () => {
     if (!heartRef.current) return;
 
     // Pumping heart animation - scale and opacity
-    animate({
-      targets: heartRef.current,
+    animate(heartRef.current, {
       scale: [1, 1.15, 1],
       opacity: [0.15, 0.25, 0.15],
       duration: 1500,
-      easing: 'easeInOutQuad',
+      easing: 'inOut(2)',
       loop: true,
     });
 
     // Rotate the entire heart slowly
-    animate({
-      targets: heartRef.current,
+    animate(heartRef.current, {
       rotate: '1turn',
       duration: 60000,
       easing: 'linear',
@@ -33,25 +31,23 @@ const AnimatedHeartBg = () => {
       (path as SVGPathElement).style.strokeDasharray = pathLength.toString();
       (path as SVGPathElement).style.strokeDashoffset = pathLength.toString();
       
-      animate({
-        targets: path,
+      animate(path, {
         strokeDashoffset: [pathLength, 0],
-        easing: 'easeInOutSine',
+        easing: 'inOutSine',
         duration: 3000,
         delay: index * 200,
-        direction: 'alternate',
+        alternate: true,
         loop: true,
       });
     });
 
     // Add subtle position movement
-    animate({
-      targets: heartRef.current,
+    animate(heartRef.current, {
       translateX: [-10, 10],
       translateY: [-10, 10],
       duration: 8000,
-      easing: 'easeInOutQuad',
-      direction: 'alternate',
+      easing: 'inOut(2)',
+      alternate: true,
       loop: true,
     });
   }, []);
