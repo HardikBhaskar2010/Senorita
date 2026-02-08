@@ -11,7 +11,7 @@ const AnimatedHeartBg = () => {
     scope.current = createScope({ root: rootRef.current }).add((self) => {
       // Every anime.js instance declared here is now scoped to <div ref={rootRef}>
       
-      const heartElement = rootRef.current?.querySelector('svg');
+      const heartElement = rootRef.current?.querySelector('.main-heart');
       if (!heartElement) return;
 
       // Pumping heart animation - scale and opacity
@@ -56,6 +56,36 @@ const AnimatedHeartBg = () => {
         easing: 'inOut(2)',
         alternate: true,
         loop: true,
+      });
+
+      // Animate small hearts along motion paths
+      const motionPaths = rootRef.current?.querySelectorAll('.motion-path');
+      const smallHearts = rootRef.current?.querySelectorAll('.small-heart');
+      
+      motionPaths?.forEach((path, index) => {
+        const smallHeart = smallHearts?.[index];
+        if (!smallHeart || !path) return;
+
+        // Create motion path animation for each heart
+        const motionPathValues = svg.createMotionPath(path as SVGPathElement);
+        
+        animate(smallHeart, {
+          ...motionPathValues,
+          duration: 8000 + (index * 1000), // Vary duration for each heart
+          easing: 'linear',
+          loop: true,
+          delay: index * 500, // Stagger the start
+        });
+
+        // Add pulsing effect to small hearts
+        animate(smallHeart, {
+          scale: [1, 1.3, 1],
+          opacity: [0.6, 1, 0.6],
+          duration: 2000,
+          easing: 'inOut(2)',
+          loop: true,
+          delay: index * 300,
+        });
       });
     });
 
