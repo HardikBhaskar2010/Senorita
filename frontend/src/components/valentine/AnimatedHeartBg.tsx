@@ -1,61 +1,69 @@
 import { useEffect, useRef } from 'react';
-import { animate } from 'animejs';
+import { animate, createScope } from 'animejs';
 
 const AnimatedHeartBg = () => {
-  const heartRef = useRef<SVGSVGElement>(null);
+  const rootRef = useRef<HTMLDivElement>(null);
+  const scope = useRef<any>(null);
 
   useEffect(() => {
-    if (!heartRef.current) return;
+    if (!rootRef.current) return;
 
-    // Pumping heart animation - scale and opacity
-    animate(heartRef.current, {
-      scale: [1, 1.15, 1],
-      opacity: [0.15, 0.25, 0.15],
-      duration: 1500,
-      easing: 'inOut(2)',
-      loop: true,
-    });
+    scope.current = createScope({ root: rootRef }).add(() => {
+      const heartElement = rootRef.current?.querySelector('svg');
+      if (!heartElement) return;
 
-    // Rotate the entire heart slowly
-    animate(heartRef.current, {
-      rotate: '1turn',
-      duration: 60000,
-      easing: 'linear',
-      loop: true,
-    });
+      // Pumping heart animation - scale and opacity
+      animate(heartElement, {
+        scale: [1, 1.15, 1],
+        opacity: [0.15, 0.25, 0.15],
+        duration: 1500,
+        easing: 'inOut(2)',
+        loop: true,
+      });
 
-    // Animate individual heart paths with morphing effect
-    const paths = heartRef.current.querySelectorAll('path');
-    paths.forEach((path, index) => {
-      const pathLength = (path as SVGPathElement).getTotalLength();
-      (path as SVGPathElement).style.strokeDasharray = pathLength.toString();
-      (path as SVGPathElement).style.strokeDashoffset = pathLength.toString();
-      
-      animate(path, {
-        strokeDashoffset: [pathLength, 0],
-        easing: 'inOutSine',
-        duration: 3000,
-        delay: index * 200,
+      // Rotate the entire heart slowly
+      animate(heartElement, {
+        rotate: '1turn',
+        duration: 60000,
+        easing: 'linear',
+        loop: true,
+      });
+
+      // Animate individual heart paths with morphing effect
+      const paths = heartElement.querySelectorAll('path');
+      paths.forEach((path, index) => {
+        const pathLength = (path as SVGPathElement).getTotalLength();
+        (path as SVGPathElement).style.strokeDasharray = pathLength.toString();
+        (path as SVGPathElement).style.strokeDashoffset = pathLength.toString();
+        
+        animate(path, {
+          strokeDashoffset: [pathLength, 0],
+          easing: 'inOutSine',
+          duration: 3000,
+          delay: index * 200,
+          alternate: true,
+          loop: true,
+        });
+      });
+
+      // Add subtle position movement
+      animate(heartElement, {
+        translateX: [-10, 10],
+        translateY: [-10, 10],
+        duration: 8000,
+        easing: 'inOut(2)',
         alternate: true,
         loop: true,
       });
     });
 
-    // Add subtle position movement
-    animate(heartRef.current, {
-      translateX: [-10, 10],
-      translateY: [-10, 10],
-      duration: 8000,
-      easing: 'inOut(2)',
-      alternate: true,
-      loop: true,
-    });
+    // Properly cleanup all anime.js instances
+    return () => scope.current?.revert();
   }, []);
 
   return (
-    <div className="fixed inset-0 -z-10 pointer-events-none overflow-hidden flex items-center justify-center">
+    <div ref={rootRef} className="fixed inset-0 -z-10 pointer-events-none overflow-hidden flex items-center justify-center">
       <svg
-        ref={heartRef}
         viewBox="0 0 200 200"
         className="w-[800px] h-[800px] md:w-[1000px] md:h-[1000px]"
         style={{ opacity: 0.15 }}
