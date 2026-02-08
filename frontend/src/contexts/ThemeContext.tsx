@@ -15,6 +15,9 @@ interface ThemeContextType {
   dashboardBackgroundSenorita: string;
   setChatBackground: (url: string) => Promise<void>;
   setDashboardBackground: (url: string, user: 'cookie' | 'senorita') => Promise<void>;
+  // 3D Effects toggle
+  enable3DEffects: boolean;
+  setEnable3DEffects: (enabled: boolean) => void;
   // Legacy support
   backgroundImage: string;
   setBackgroundImage: (url: string) => Promise<void>;
