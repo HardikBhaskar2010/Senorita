@@ -565,6 +565,7 @@ const Chat = () => {
 
   return (
     <div className="min-h-screen h-screen flex overflow-hidden bg-background">
+      <ThreeBackground variant="particles" customBackground={chatBackground} />
       {/* Desktop Split Layout */}
       <div className="flex w-full h-full overflow-hidden">
         {/* Left Sidebar - Only visible on desktop, takes remaining space */}
