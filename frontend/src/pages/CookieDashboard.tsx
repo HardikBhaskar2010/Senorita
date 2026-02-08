@@ -181,6 +181,7 @@ const CookieDashboard = () => {
       }}
     >
       {!dashboardBackgroundCookie && <FloatingHearts />}
+      <ThreeBackground variant="hearts" customBackground={dashboardBackgroundCookie} />
       
       {/* Valentine's Answers Modal */}
       {showAnswersModal && (
