@@ -254,6 +254,7 @@ const MoodEnhanced = () => {
   return (
     <div className="min-h-screen bg-background relative overflow-x-hidden p-4 md:p-8">
       <FloatingHearts />
+      <ThreeBackground variant="hearts" customBackground={customBg} />
       <div className="max-w-6xl mx-auto relative z-10">
         <Button 
           onClick={goBack}
