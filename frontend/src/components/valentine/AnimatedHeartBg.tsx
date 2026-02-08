@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import * as anime from 'animejs';
+import anime from 'animejs';
 
 const AnimatedHeartBg = () => {
   const heartRef = useRef<SVGSVGElement>(null);
@@ -29,9 +29,13 @@ const AnimatedHeartBg = () => {
     // Animate individual heart paths with morphing effect
     const paths = heartRef.current.querySelectorAll('path');
     paths.forEach((path, index) => {
+      const pathLength = (path as SVGPathElement).getTotalLength();
+      (path as SVGPathElement).style.strokeDasharray = pathLength.toString();
+      (path as SVGPathElement).style.strokeDashoffset = pathLength.toString();
+      
       anime({
         targets: path,
-        strokeDashoffset: [anime.setDashoffset, 0],
+        strokeDashoffset: [pathLength, 0],
         easing: 'easeInOutSine',
         duration: 3000,
         delay: index * 200,
