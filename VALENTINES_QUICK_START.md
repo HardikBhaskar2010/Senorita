@@ -15,7 +15,7 @@
 **You MUST do this step for the fixes to work!**
 
 1. Open your **Supabase Dashboard**: https://supabase.com/dashboard
-2. Select your Love OS project
+2. Select your HeartByte project
 3. Go to **SQL Editor** (left sidebar)
 4. Click **New Query**
 5. Copy and paste this SQL:
