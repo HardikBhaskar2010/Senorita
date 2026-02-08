@@ -329,6 +329,8 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         dashboardBackgroundSenorita,
         setChatBackground,
         setDashboardBackground,
+        enable3DEffects,
+        setEnable3DEffects,
         // Legacy support
         backgroundImage,
         setBackgroundImage,
