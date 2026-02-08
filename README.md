@@ -1,8 +1,8 @@
-# 💕 Love OS - For My Beloved Senorita
+# 💕 HeartByte - For My Beloved Senorita
 
 <div align="center"> 
 
-![Love OS](https://img.shields.io/badge/Love%20OS-v7.2-ff69b4?style=for-the-badge&logo=heart&logoColor=white)
+![HeartByte](https://img.shields.io/badge/HeartByte-v7.2-ff69b4?style=for-the-badge&logo=heart&logoColor=white)
 ![Status](https://img.shields.io/badge/Status-Production%20Ready-success?style=for-the-badge)
 ![License](https://img.shields.io/badge/License-Personal-blue?style=for-the-badge)
 ![Last Updated](https://img.shields.io/badge/Updated-Feb%202025-orange?style=for-the-badge) 
@@ -17,7 +17,7 @@
   
 ## 📖 About
 
-**Love OS** is a beautiful, real-time relationship application designed exclusively for Cookie 🍪 and Senorita 💃. Built with modern web technologies and connected to Supabase for seamless data synchronization, authentication, and real-time features.
+**HeartByte** is a beautiful, real-time relationship application designed exclusively for Cookie 🍪 and Senorita 💃. Built with modern web technologies and connected to Supabase for seamless data synchronization, authentication, and real-time features.
 
 ### ✨ Core Concept
 
