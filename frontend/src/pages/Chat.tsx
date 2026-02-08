@@ -25,6 +25,7 @@ import { useTheme } from '@/contexts/ThemeContext';
 import { supabase } from '@/lib/supabase';
 import { useToast } from '@/hooks/use-toast';
 import FloatingHearts from '@/components/FloatingHearts';
+import ThreeBackground from '@/components/three/ThreeBackground';
 import RelationshipSidebar from '@/components/RelationshipSidebar';
 import {
   DropdownMenu,
