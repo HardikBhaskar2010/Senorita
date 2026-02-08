@@ -25,7 +25,10 @@ interface Memory {
 const Gallery = () => {
   const navigate = useNavigate();
   const { currentSpace, displayName } = useSpace();
+  const { dashboardBackgroundCookie, dashboardBackgroundSenorita } = useTheme();
   const { toast } = useToast();
+  
+  const customBg = currentSpace === 'Cookie' ? dashboardBackgroundCookie : dashboardBackgroundSenorita;
   const [memories, setMemories] = useState<Memory[]>([]);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [isUploading, setIsUploading] = useState(false);
