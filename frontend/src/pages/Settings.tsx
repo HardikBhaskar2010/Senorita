@@ -525,6 +525,46 @@ const Settings = () => {
             </CardContent>
           </Card>
 
+          {/* 3D Effects Toggle */}
+          <Card className="bg-card/90 backdrop-blur-md border-primary/20 shadow-xl">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-xl">
+                <Layers className="w-5 h-5 text-primary" />
+                3D Effects
+              </CardTitle>
+              <CardDescription>Enable or disable Three.js 3D backgrounds and animations</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="flex items-center justify-between p-4 rounded-xl border-2 border-border bg-card">
+                <div className="flex items-center gap-3">
+                  <div className={`p-2 rounded-lg ${enable3DEffects ? 'bg-primary/10' : 'bg-muted'}`}>
+                    <Sparkles className={`w-6 h-6 ${enable3DEffects ? 'text-primary' : 'text-muted-foreground'}`} />
+                  </div>
+                  <div>
+                    <p className="font-medium">3D Backgrounds</p>
+                    <p className="text-sm text-muted-foreground">
+                      {enable3DEffects ? 'Enabled - Premium 3D experience' : 'Disabled - Better performance'}
+                    </p>
+                  </div>
+                </div>
+                <Button
+                  onClick={() => setEnable3DEffects(!enable3DEffects)}
+                  variant={enable3DEffects ? "default" : "outline"}
+                  data-testid="toggle-3d-effects"
+                >
+                  {enable3DEffects ? (
+                    <>
+                      <Check className="w-4 h-4 mr-2" />
+                      Enabled
+                    </>
+                  ) : (
+                    'Enable'
+                  )}
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+
           {/* Space Info */}
           <Card className="bg-card/90 backdrop-blur-md border-primary/20 shadow-xl">
             <CardHeader>
