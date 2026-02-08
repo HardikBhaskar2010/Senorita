@@ -41,7 +41,9 @@ const Settings = () => {
     dashboardBackgroundCookie,
     dashboardBackgroundSenorita,
     setChatBackground,
-    setDashboardBackground 
+    setDashboardBackground,
+    enable3DEffects,
+    setEnable3DEffects
   } = useTheme();
   
   // Password change state
