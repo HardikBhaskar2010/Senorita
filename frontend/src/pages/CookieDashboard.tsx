@@ -5,6 +5,7 @@ import { useCouple } from "@/contexts/CoupleContext";
 import { useTheme } from "@/contexts/ThemeContext";
 import { supabase } from "@/lib/supabase";
 import FloatingHearts from "@/components/FloatingHearts";
+import ThreeBackground from "@/components/three/ThreeBackground";
 import HeroSection from "@/components/HeroSection";
 import DaysCounter from "@/components/DaysCounter";
 import LoveLetters from "@/components/LoveLetters";
