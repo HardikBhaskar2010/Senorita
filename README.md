@@ -120,12 +120,17 @@ All issues fixed and working perfectly:
 
 ## 🎯 Features
 
-### 🆕 **NEW: Valentine's Special 2025** (v7.3.2)
+### 🆕 **NEW: Valentine's Special 2025** (v7.3.3)
 - **Mystery Week** - Daily time-gated surprises from Feb 7-14, 2025
+- **🎨 Anime.js Motion Path Animations** - 6 hearts following unique SVG paths 🆕
+  - Circular, wave, diagonal, figure-8, and vertical loop patterns
+  - Smooth rotation and pulsing effects
+  - GPU-accelerated performance
+  - Zero console errors
 - **8 Valentine Days** - Each day with unique theme, animation, and content
   - 🌹 Rose Day (Feb 7) - Interactive rose with clickable petals
   - 💍 Propose Day (Feb 8) - Proposal slideshow reel 
-  - 🍫 **Chocolate Day (Feb 9)** - **Virtual Chocolate Box with 8 interactive chocolates** 🆕
+  - 🍫 **Chocolate Day (Feb 9)** - **Virtual Chocolate Box with 8 interactive chocolates**
     - Open chocolates to reveal personal messages
     - Realistic bite mark effect when opened
     - Features Dairy Milk Silk Mousse & Oreo (favorites marked with ⭐)
