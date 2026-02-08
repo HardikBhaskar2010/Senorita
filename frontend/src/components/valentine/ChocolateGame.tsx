@@ -1,317 +1,365 @@
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { supabase } from '@/lib/supabase';
 import { toast } from '@/hooks/use-toast';
-import { Button } from '@/components/ui/button';
-import { Download } from 'lucide-react';
+import { Gift, Sparkles } from 'lucide-react';
 
 interface ChocolateGameProps {
   dayNumber: number;
 }
 
-type ChocolateDesign = {
-  filling: string;
-  drizzle: string;
-  topping: string;
-};
+interface Chocolate {
+  id: number;
+  name: string;
+  emoji: string;
+  message: string;
+  color: string;
+  gradient: string;
+  isSpecial?: boolean;
+}
 
-const fillings = [
-  { name: 'Caramel', emoji: '🍯', color: '#D2691E' },
-  { name: 'Nuts', emoji: '🥜', color: '#8B4513' },
-  { name: 'Cream', emoji: '🍦', color: '#FFF8DC' },
-  { name: 'Strawberry', emoji: '🍓', color: '#FF69B4' },
-];
-
-const drizzles = [
-  { name: 'White', emoji: '⭕', color: '#FFFFFF' },
-  { name: 'Dark', emoji: '🟤', color: '#3E2723' },
-  { name: 'Milk', emoji: '🟠', color: '#D2691E' },
-];
-
-const toppings = [
-  { name: 'Sprinkles', emoji: '✨' },
-  { name: 'Hearts', emoji: '💕' },
-  { name: 'Stars', emoji: '⭐' },
-  { name: 'Flowers', emoji: '🌸' },
+const chocolates: Chocolate[] = [
+  {
+    id: 1,
+    name: 'Dairy Milk Silk Mousse',
+    emoji: '🍫',
+    message: "I Love How You Still Have Every Single Wrap of the Chocolates I Gave you",
+    color: '#8B4513',
+    gradient: 'from-amber-700 via-amber-600 to-amber-800',
+    isSpecial: true
+  },
+  {
+    id: 2,
+    name: 'Dairy Milk Silk Oreo',
+    emoji: '🍪',
+    message: "I think That Day I thought You Were a Sweet Chocolate. Thats Why You Got Those Marks Maybe😶‍🌫️😶‍🌫️",
+    color: '#3E2723',
+    gradient: 'from-stone-800 via-stone-700 to-stone-900',
+    isSpecial: true
+  },
+  {
+    id: 3,
+    name: 'Sweet Life',
+    emoji: '✨',
+    message: "Khao Pio Aes Karo - Eat Everything and Live a 'Mast' life! You deserve all the sweetness in the world, my love! 💕",
+    color: '#FF69B4',
+    gradient: 'from-pink-500 via-rose-500 to-pink-600',
+    isSpecial: false
+  },
+  {
+    id: 4,
+    name: 'Heart Chocolate',
+    emoji: '💝',
+    message: "You make every moment sweeter than the sweetest chocolate. Life with you is the best treat! 🍬",
+    color: '#E91E63',
+    gradient: 'from-rose-500 via-pink-500 to-rose-600',
+    isSpecial: false
+  },
+  {
+    id: 5,
+    name: 'Golden Truffle',
+    emoji: '🌟',
+    message: "Just like chocolate melts in your mouth, I melt every time I see your smile. You're my sweet addiction! 😊",
+    color: '#FFD700',
+    gradient: 'from-yellow-600 via-amber-500 to-yellow-700',
+    isSpecial: false
+  },
+  {
+    id: 6,
+    name: 'Love Bonbon',
+    emoji: '💖',
+    message: "You're the chocolate to my Valentine's Day - essential, sweet, and impossible to resist! 🥰",
+    color: '#FF1493',
+    gradient: 'from-pink-600 via-rose-600 to-pink-700',
+    isSpecial: false
+  },
+  {
+    id: 7,
+    name: 'Caramel Kiss',
+    emoji: '💋',
+    message: "Every day with you is like unwrapping a new chocolate - full of sweetness and delightful surprises! 🎁",
+    color: '#CD853F',
+    gradient: 'from-orange-700 via-amber-700 to-orange-800',
+    isSpecial: false
+  },
+  {
+    id: 8,
+    name: 'Forever Sweet',
+    emoji: '♾️',
+    message: "My love for you is sweeter than all the chocolates in the world combined. You're my forever sweetness! 🍯",
+    color: '#8B008B',
+    gradient: 'from-purple-700 via-fuchsia-600 to-purple-800',
+    isSpecial: false
+  }
 ];
 
 const ChocolateGame = ({ dayNumber }: ChocolateGameProps) => {
-  const [design, setDesign] = useState<ChocolateDesign>({
-    filling: '',
-    drizzle: '',
-    topping: ''
-  });
-  const [isComplete, setIsComplete] = useState(false);
-  const [showPlaylist, setShowPlaylist] = useState(false);
-
-  const dessertPlaylist = [
-    { title: "Sugar", artist: "Maroon 5", emoji: "🍬" },
-    { title: "Candy", artist: "Doja Cat", emoji: "🍭" },
-    { title: "Chocolate", artist: "The 1975", emoji: "🍫" },
-    { title: "Cake By The Ocean", artist: "DNCE", emoji: "🎂" },
-    { title: "Ice Cream", artist: "BLACKPINK & Selena Gomez", emoji: "🍦" },
-    { title: "Strawberry Fields Forever", artist: "The Beatles", emoji: "🍓" },
-    { title: "Brown Sugar", artist: "The Rolling Stones", emoji: "🍯" },
-    { title: "Honey", artist: "Kehlani", emoji: "🍯" }
-  ];
+  const [openedChocolates, setOpenedChocolates] = useState<Set<number>>(new Set());
+  const [selectedChocolate, setSelectedChocolate] = useState<Chocolate | null>(null);
+  const [showConfetti, setShowConfetti] = useState(false);
 
   useEffect(() => {
-    // Load saved design
-    const loadDesign = async () => {
+    // Load opened chocolates from database
+    const loadProgress = async () => {
       const { data } = await supabase
         .from('valentines_progress')
-        .select('chocolate_design')
+        .select('chocolate_opened')
         .eq('user_name', 'Senorita')
         .eq('day_number', dayNumber)
         .single();
 
-      if (data?.chocolate_design && Object.keys(data.chocolate_design).length > 0) {
-        setDesign(data.chocolate_design as ChocolateDesign);
-        setIsComplete(true);
+      if (data?.chocolate_opened && Array.isArray(data.chocolate_opened)) {
+        setOpenedChocolates(new Set(data.chocolate_opened));
       }
     };
-    loadDesign();
+    loadProgress();
   }, [dayNumber]);
 
-  const selectOption = (category: keyof ChocolateDesign, value: string) => {
-    setDesign(prev => ({ ...prev, [category]: value }));
-  };
+  const openChocolate = async (chocolate: Chocolate) => {
+    const newOpened = new Set(openedChocolates);
+    const wasAlreadyOpened = newOpened.has(chocolate.id);
+    
+    if (!wasAlreadyOpened) {
+      newOpened.add(chocolate.id);
+      setOpenedChocolates(newOpened);
 
-  const completeDesign = async () => {
-    if (!design.filling || !design.drizzle || !design.topping) {
+      // Save to database
+      await supabase
+        .from('valentines_progress')
+        .update({ chocolate_opened: Array.from(newOpened) })
+        .eq('user_name', 'Senorita')
+        .eq('day_number', dayNumber);
+
+      // Show confetti for new chocolate
+      setShowConfetti(true);
+      setTimeout(() => setShowConfetti(false), 2000);
+
       toast({
-        title: 'Almost there! 🍫',
-        description: 'Please select all options to complete your chocolate.',
+        title: '🍫 Chocolate Opened!',
+        description: `You found a ${chocolate.name}!`,
         variant: 'default'
       });
-      return;
     }
 
-    // Save to database
-    await supabase
-      .from('valentines_progress')
-      .update({ chocolate_design: design })
-      .eq('user_name', 'Senorita')
-      .eq('day_number', dayNumber);
-
-    setIsComplete(true);
-    toast({
-      title: '🍫 Chocolate Created!',
-      description: 'Your personalized chocolate is ready!',
-      variant: 'default'
-    });
+    setSelectedChocolate(chocolate);
   };
 
-  const downloadCoupon = () => {
-    toast({
-      title: '🎫 Coupon Downloaded!',
-      description: 'Redeemable for real chocolate anytime!',
-      variant: 'default'
-    });
-  };
+  const allOpened = openedChocolates.size === chocolates.length;
 
   return (
-    <div className="flex flex-col items-center gap-6 w-full max-w-2xl mx-auto">
-      {/* Chocolate Preview */}
+    <div className="flex flex-col items-center gap-8 w-full max-w-4xl mx-auto">
+      {/* Confetti */}
+      {showConfetti && (
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          {[...Array(20)].map((_, i) => (
+            <motion.div
+              key={i}
+              initial={{ 
+                x: Math.random() * 400 - 200,
+                y: -50,
+                rotate: 0,
+                scale: 1
+              }}
+              animate={{ 
+                y: 600,
+                rotate: 360,
+                scale: 0
+              }}
+              transition={{ 
+                duration: 2 + Math.random(),
+                delay: Math.random() * 0.3
+              }}
+              className="absolute text-2xl"
+              style={{ left: '50%' }}
+            >
+              {['🍫', '🍬', '💝', '✨', '💕'][Math.floor(Math.random() * 5)]}
+            </motion.div>
+          ))}
+        </div>
+      )}
+
+      {/* Header */}
       <motion.div
-        initial={{ scale: 0 }}
-        animate={{ scale: 1 }}
-        className="relative w-48 h-48 bg-amber-900 rounded-lg shadow-2xl flex items-center justify-center overflow-hidden"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="text-center"
       >
-        {/* Filling */}
-        {design.filling && (
-          <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            className="absolute inset-0 flex items-center justify-center"
-            style={{ 
-              backgroundColor: fillings.find(f => f.name === design.filling)?.color,
-              opacity: 0.6
-            }}
-          />
-        )}
-        
-        {/* Drizzle */}
-        {design.drizzle && (
-          <motion.div
-            initial={{ pathLength: 0 }}
-            animate={{ pathLength: 1 }}
-            transition={{ duration: 1 }}
-            className="absolute inset-0"
-          >
-            <svg className="w-full h-full">
-              <path
-                d="M 20 20 Q 50 60 80 40 T 140 60 Q 160 80 180 60"
-                stroke={drizzles.find(d => d.name === design.drizzle)?.color}
-                strokeWidth="4"
-                fill="none"
-              />
-            </svg>
-          </motion.div>
-        )}
-
-        {/* Topping */}
-        {design.topping && (
-          <div className="absolute inset-0 flex items-center justify-center gap-2 flex-wrap p-4">
-            {[...Array(6)].map((_, i) => (
-              <motion.span
-                key={i}
-                initial={{ scale: 0, rotate: -180 }}
-                animate={{ scale: 1, rotate: 0 }}
-                transition={{ delay: i * 0.1 }}
-                className="text-3xl"
-              >
-                {toppings.find(t => t.name === design.topping)?.emoji}
-              </motion.span>
-            ))}
-          </div>
-        )}
-
-        <div className="absolute text-6xl z-10">🍫</div>
+        <motion.div
+          animate={{ rotate: [0, 10, -10, 0] }}
+          transition={{ duration: 2, repeat: Infinity, repeatDelay: 1 }}
+        >
+          <Gift className="w-16 h-16 mx-auto mb-4 text-amber-300" />
+        </motion.div>
+        <h2 className="text-3xl md:text-4xl font-bold mb-2">Virtual Chocolate Box</h2>
+        <p className="text-lg opacity-90">Open each chocolate to reveal a sweet message 💝</p>
+        <p className="text-sm opacity-70 mt-2">
+          {openedChocolates.size} / {chocolates.length} chocolates opened
+        </p>
       </motion.div>
 
-      {!isComplete ? (
-        <>
-          {/* Filling Selection */}
-          <div className="w-full">
-            <h3 className="text-xl font-bold mb-3 text-center">Choose Your Filling:</h3>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-              {fillings.map(filling => (
-                <motion.button
-                  key={filling.name}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={() => selectOption('filling', filling.name)}
-                  className={`
-                    p-4 rounded-xl border-2 transition-all
-                    ${design.filling === filling.name 
-                      ? 'border-white bg-white/20 shadow-lg' 
-                      : 'border-white/30 bg-white/5 hover:bg-white/10'
-                    }
-                  `}
-                >
-                  <div className="text-4xl mb-2">{filling.emoji}</div>
-                  <div className="text-sm font-medium">{filling.name}</div>
-                </motion.button>
-              ))}
-            </div>
-          </div>
-
-          {/* Drizzle Selection */}
-          <div className="w-full">
-            <h3 className="text-xl font-bold mb-3 text-center">Add Drizzle:</h3>
-            <div className="grid grid-cols-3 gap-3">
-              {drizzles.map(drizzle => (
-                <motion.button
-                  key={drizzle.name}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={() => selectOption('drizzle', drizzle.name)}
-                  className={`
-                    p-4 rounded-xl border-2 transition-all
-                    ${design.drizzle === drizzle.name 
-                      ? 'border-white bg-white/20 shadow-lg' 
-                      : 'border-white/30 bg-white/5 hover:bg-white/10'
-                    }
-                  `}
-                >
-                  <div className="text-4xl mb-2">{drizzle.emoji}</div>
-                  <div className="text-sm font-medium">{drizzle.name}</div>
-                </motion.button>
-              ))}
-            </div>
-          </div>
-
-          {/* Topping Selection */}
-          <div className="w-full">
-            <h3 className="text-xl font-bold mb-3 text-center">Pick Toppings:</h3>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-              {toppings.map(topping => (
-                <motion.button
-                  key={topping.name}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={() => selectOption('topping', topping.name)}
-                  className={`
-                    p-4 rounded-xl border-2 transition-all
-                    ${design.topping === topping.name 
-                      ? 'border-white bg-white/20 shadow-lg' 
-                      : 'border-white/30 bg-white/5 hover:bg-white/10'
-                    }
-                  `}
-                >
-                  <div className="text-4xl mb-2">{topping.emoji}</div>
-                  <div className="text-sm font-medium">{topping.name}</div>
-                </motion.button>
-              ))}
-            </div>
-          </div>
-
-          <Button
-            onClick={completeDesign}
-            className="w-full py-6 text-lg bg-white/20 hover:bg-white/30 text-white mt-4"
-            disabled={!design.filling || !design.drizzle || !design.topping}
-          >
-            Complete My Chocolate! 🍫
-          </Button>
-        </>
-      ) : (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="w-full space-y-4"
-        >
-          <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 text-center">
-            <h3 className="text-2xl font-bold mb-4">Your Chocolate is Ready! 🎉</h3>
-            <p className="mb-4">Filling: {design.filling} | Drizzle: {design.drizzle} | Topping: {design.topping}</p>
-            <Button
-              onClick={downloadCoupon}
-              className="w-full bg-white/20 hover:bg-white/30 text-white mb-3"
-            >
-              <Download className="w-4 h-4 mr-2" />
-              Download Chocolate Coupon
-            </Button>
-            <Button
-              onClick={() => setShowPlaylist(!showPlaylist)}
-              variant="outline"
-              className="w-full bg-white/10 hover:bg-white/20 text-white border-white/30"
-            >
-              🎵 {showPlaylist ? 'Hide' : 'Reveal'} Dessert Playlist
-            </Button>
-          </div>
-
-          {/* Playlist */}
-          {showPlaylist && (
+      {/* Chocolate Box Grid */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 w-full">
+        {chocolates.map((chocolate, index) => {
+          const isOpened = openedChocolates.has(chocolate.id);
+          
+          return (
             <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20"
+              key={chocolate.id}
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: index * 0.1 }}
+              whileHover={{ scale: 1.05, y: -5 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => openChocolate(chocolate)}
+              className={`
+                relative cursor-pointer group
+                bg-gradient-to-br ${chocolate.gradient}
+                rounded-2xl p-6 md:p-8
+                border-2 ${isOpened ? 'border-yellow-300' : 'border-white/30'}
+                shadow-xl hover:shadow-2xl
+                transition-all duration-300
+                ${chocolate.isSpecial ? 'ring-4 ring-yellow-400/50' : ''}
+              `}
             >
-              <h4 className="text-xl font-bold mb-4 text-center">🍰 Sweet Treats Playlist 🍰</h4>
-              <div className="space-y-3">
-                {dessertPlaylist.map((song, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.1 }}
-                    className="flex items-center gap-3 bg-white/5 rounded-xl p-3 hover:bg-white/10 transition-all"
-                  >
-                    <span className="text-2xl">{song.emoji}</span>
-                    <div className="flex-1 text-left">
-                      <div className="font-medium">{song.title}</div>
-                      <div className="text-sm opacity-70">{song.artist}</div>
-                    </div>
-                    <span className="text-sm opacity-50">#{index + 1}</span>
-                  </motion.div>
-                ))}
-              </div>
-              <p className="text-sm mt-4 opacity-70 text-center">💕 Enjoy these sweet songs with your sweet chocolate!</p>
+              {/* Special Badge */}
+              {chocolate.isSpecial && (
+                <motion.div
+                  animate={{ scale: [1, 1.2, 1] }}
+                  transition={{ duration: 1.5, repeat: Infinity }}
+                  className="absolute -top-2 -right-2 bg-yellow-400 text-yellow-900 rounded-full px-2 py-1 text-xs font-bold shadow-lg"
+                >
+                  ⭐ FAV
+                </motion.div>
+              )}
+
+              {/* Opened Badge */}
+              {isOpened && (
+                <motion.div
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  className="absolute -top-2 -left-2 bg-green-500 text-white rounded-full w-8 h-8 flex items-center justify-center shadow-lg"
+                >
+                  ✓
+                </motion.div>
+              )}
+
+              {/* Chocolate Icon */}
+              <motion.div
+                animate={isOpened ? { rotate: [0, 10, -10, 0] } : {}}
+                transition={{ duration: 0.5 }}
+                className="text-6xl md:text-7xl mb-3 text-center"
+              >
+                {chocolate.emoji}
+              </motion.div>
+
+              {/* Chocolate Name */}
+              <h3 className="text-sm md:text-base font-bold text-center text-white">
+                {chocolate.name}
+              </h3>
+
+              {/* Sparkle Effect */}
+              {!isOpened && (
+                <motion.div
+                  animate={{ opacity: [0.5, 1, 0.5] }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                  className="absolute top-2 right-2"
+                >
+                  <Sparkles className="w-5 h-5 text-yellow-300" />
+                </motion.div>
+              )}
             </motion.div>
-          )}
+          );
+        })}
+      </div>
+
+      {/* All Opened Message */}
+      {allOpened && (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="bg-gradient-to-r from-pink-500/20 via-rose-500/20 to-amber-500/20 backdrop-blur-sm rounded-2xl p-6 border border-white/20 text-center"
+        >
+          <motion.div
+            animate={{ rotate: 360 }}
+            transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+            className="text-5xl mb-4"
+          >
+            🎉
+          </motion.div>
+          <h3 className="text-2xl font-bold mb-2">All Chocolates Opened! 🍫</h3>
+          <p className="text-lg opacity-90">
+            You've discovered all the sweet messages! Hope you enjoyed every single one, my love! 💕
+          </p>
         </motion.div>
       )}
+
+      {/* Message Modal */}
+      <AnimatePresence>
+        {selectedChocolate && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+            onClick={() => setSelectedChocolate(null)}
+          >
+            <motion.div
+              initial={{ scale: 0.8, y: 50 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.8, y: 50 }}
+              onClick={(e) => e.stopPropagation()}
+              className={`
+                bg-gradient-to-br ${selectedChocolate.gradient}
+                rounded-3xl p-8 md:p-12 max-w-lg w-full
+                shadow-2xl border-2 border-white/30
+              `}
+            >
+              {/* Close Button */}
+              <button
+                onClick={() => setSelectedChocolate(null)}
+                className="absolute top-4 right-4 text-white/80 hover:text-white text-2xl font-bold"
+              >
+                ✕
+              </button>
+
+              {/* Chocolate Icon */}
+              <motion.div
+                animate={{ scale: [1, 1.1, 1] }}
+                transition={{ duration: 1, repeat: Infinity }}
+                className="text-8xl text-center mb-6"
+              >
+                {selectedChocolate.emoji}
+              </motion.div>
+
+              {/* Chocolate Name */}
+              <h3 className="text-2xl md:text-3xl font-bold text-center mb-4 text-white">
+                {selectedChocolate.name}
+              </h3>
+
+              {/* Special Badge */}
+              {selectedChocolate.isSpecial && (
+                <div className="flex items-center justify-center gap-2 mb-4">
+                  <span className="bg-yellow-400 text-yellow-900 px-4 py-1 rounded-full text-sm font-bold">
+                    ⭐ Your Favorite!
+                  </span>
+                </div>
+              )}
+
+              {/* Message */}
+              <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
+                <p className="text-lg md:text-xl text-white text-center leading-relaxed italic">
+                  "{selectedChocolate.message}"
+                </p>
+              </div>
+
+              {/* Footer */}
+              <p className="text-center mt-6 text-white/70 text-sm">
+                💕 From Your Cookie
+              </p>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
