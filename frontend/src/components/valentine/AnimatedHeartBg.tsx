@@ -97,7 +97,7 @@ const AnimatedHeartBg = () => {
     <div ref={rootRef} className="fixed inset-0 -z-10 pointer-events-none overflow-hidden flex items-center justify-center">
       <svg
         viewBox="0 0 200 200"
-        className="w-[800px] h-[800px] md:w-[1000px] md:h-[1000px]"
+        className="main-heart w-[800px] h-[800px] md:w-[1000px] md:h-[1000px]"
         style={{ opacity: 0.15 }}
       >
         {/* Main heart shape */}
@@ -134,6 +134,74 @@ const AnimatedHeartBg = () => {
             <stop offset="100%" style={{ stopColor: '#db2777', stopOpacity: 1 }} />
           </linearGradient>
         </defs>
+      </svg>
+
+      {/* Motion Paths and Small Hearts Container */}
+      <svg
+        viewBox="0 0 1920 800"
+        className="absolute inset-0 w-full h-full"
+        preserveAspectRatio="xMidYMid slice"
+      >
+        {/* Motion Paths - Hidden but used for animation */}
+        {/* Path 1: Circular motion top left */}
+        <path
+          className="motion-path"
+          d="M 300,200 Q 400,100 500,200 T 700,200 Q 600,300 500,200 T 300,200 Z"
+          fill="none"
+          stroke="none"
+        />
+        
+        {/* Path 2: Wave motion across top */}
+        <path
+          className="motion-path"
+          d="M 100,150 Q 300,100 500,150 T 900,150 Q 1100,100 1300,150 T 1700,150"
+          fill="none"
+          stroke="none"
+        />
+        
+        {/* Path 3: Diagonal swoosh */}
+        <path
+          className="motion-path"
+          d="M 1600,100 Q 1400,200 1200,300 T 800,500 Q 600,600 400,700"
+          fill="none"
+          stroke="none"
+        />
+        
+        {/* Path 4: Bottom wave */}
+        <path
+          className="motion-path"
+          d="M 200,600 Q 400,550 600,600 T 1000,600 Q 1200,550 1400,600 T 1800,600"
+          fill="none"
+          stroke="none"
+        />
+        
+        {/* Path 5: Figure-8 pattern */}
+        <path
+          className="motion-path"
+          d="M 960,400 Q 1100,300 1200,400 Q 1100,500 960,400 Q 820,300 720,400 Q 820,500 960,400 Z"
+          fill="none"
+          stroke="none"
+        />
+        
+        {/* Path 6: Vertical loop right side */}
+        <path
+          className="motion-path"
+          d="M 1500,200 Q 1600,300 1500,400 T 1500,600 Q 1400,500 1500,400 T 1500,200 Z"
+          fill="none"
+          stroke="none"
+        />
+
+        {/* Small Hearts - Animated along paths */}
+        {[...Array(6)].map((_, i) => (
+          <g key={i} className="small-heart">
+            <path
+              d="M 12,21 C 8,17 4,14 4,10 C 4,7 6,5 8,5 C 10,5 11,6 12,8 C 13,6 14,5 16,5 C 18,5 20,7 20,10 C 20,14 16,17 12,21 Z"
+              fill="#ec4899"
+              fillOpacity="0.7"
+              transform="translate(-12, -13)"
+            />
+          </g>
+        ))}
       </svg>
 
       {/* Additional floating hearts for atmosphere */}
