@@ -45,7 +45,10 @@ interface Mood {
 const MoodEnhanced = () => {
   const navigate = useNavigate();
   const { currentSpace, displayName, partnerName } = useSpace();
+  const { dashboardBackgroundCookie, dashboardBackgroundSenorita } = useTheme();
   const { toast } = useToast();
+  
+  const customBg = currentSpace === 'Cookie' ? dashboardBackgroundCookie : dashboardBackgroundSenorita;
   const [selectedMood, setSelectedMood] = useState<number | null>(null);
   const [selectedColor, setSelectedColor] = useState<string>("#ec4899");
   const [note, setNote] = useState("");
