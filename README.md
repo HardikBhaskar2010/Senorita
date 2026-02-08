@@ -11,7 +11,7 @@
  
 [Features](#-features) • [Tech Stack](#%EF%B8%8F-tech-stack) • [Quick Start](#-quick-start) • [Recent Fixes](#-recent-fixes--troubleshooting) • [Migration Guide](#-migration-guide) • [Project Structure](#-project-structure)
  
-</div>
+</div> 
   
 ---
   
