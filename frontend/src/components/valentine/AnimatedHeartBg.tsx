@@ -8,7 +8,9 @@ const AnimatedHeartBg = () => {
   useEffect(() => {
     if (!rootRef.current) return;
 
-    scope.current = createScope({ root: rootRef }).add(() => {
+    scope.current = createScope({ root: rootRef.current }).add((self) => {
+      // Every anime.js instance declared here is now scoped to <div ref={rootRef}>
+      
       const heartElement = rootRef.current?.querySelector('svg');
       if (!heartElement) return;
 
@@ -57,7 +59,7 @@ const AnimatedHeartBg = () => {
       });
     });
 
-    // Properly cleanup all anime.js instances
+    // Properly cleanup all anime.js instances declared inside the scope
     return () => scope.current?.revert();
   }, []);
 
