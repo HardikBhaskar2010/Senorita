@@ -200,6 +200,11 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     localStorage.setItem('loveos-appearance-mode', mode);
   };
 
+  const setEnable3DEffects = (enabled: boolean) => {
+    setEnable3DEffectsState(enabled);
+    localStorage.setItem('loveos-enable-3d-effects', enabled.toString());
+  };
+
   // Fetch background images from Supabase
   useEffect(() => {
     const fetchBackgrounds = async () => {
