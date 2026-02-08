@@ -78,6 +78,9 @@ const normalizeCategory = (category: string): string => {
 const Milestones = () => {
   const navigate = useNavigate();
   const { currentSpace, displayName } = useSpace();
+  const { dashboardBackgroundCookie, dashboardBackgroundSenorita } = useTheme();
+  
+  const customBg = currentSpace === 'Cookie' ? dashboardBackgroundCookie : dashboardBackgroundSenorita;
   const { toast } = useToast();
   const [milestones, setMilestones] = useState<MilestoneItem[]>([]);
   const [filteredMilestones, setFilteredMilestones] = useState<MilestoneItem[]>([]);
