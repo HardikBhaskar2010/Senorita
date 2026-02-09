@@ -33,7 +33,7 @@ const storyScenes: StoryScene[] = [
     sceneNumber: 1,
     title: "The Beginning",
     emoji: "🌟",
-    text: "It was August 12, 2024, when I First Saw You, Although I Heard Your Name a Few Days Ago and From There I was Curious to See You.. Then You Came in the Class.. Actually You Came In My Heart That Day. And I Knew That Now I Found 'Her'",
+    text: "It was August 12, 2024, When I First Saw You, Although I Heard Your Name a Few Days Ago and From There I was Curious to See You.. Then You Came in the Class.. Actually You Came In My Heart That Day. And I Knew That Now I Found 'Her'",
     teddyPose: 'happy',
     gradient: 'from-blue-500 via-purple-500 to-pink-500'
   },
