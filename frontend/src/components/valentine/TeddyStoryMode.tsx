@@ -454,21 +454,24 @@ const TeddyStoryMode = () => {
             )}
           </motion.div>
 
-          {/* Progress bar */}
+          {/* Progress bar - More visible */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1.2 }}
-            className="w-full max-w-md"
+            className="w-full max-w-2xl mx-auto mb-8"
           >
-            <div className="bg-white/20 h-2 rounded-full overflow-hidden">
+            <div className="bg-white/30 h-3 rounded-full overflow-hidden border-2 border-white/40 shadow-lg">
               <motion.div
                 initial={{ width: 0 }}
                 animate={{ width: `${((currentScene + 1) / storyScenes.length) * 100}%` }}
                 transition={{ duration: 0.5 }}
-                className="bg-white h-full rounded-full"
+                className="bg-white h-full rounded-full shadow-lg"
               />
             </div>
+            <p className="text-center text-white/80 text-sm mt-2 font-medium">
+              {Math.round(((currentScene + 1) / storyScenes.length) * 100)}% Complete
+            </p>
           </motion.div>
         </div>
 
