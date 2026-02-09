@@ -1122,12 +1122,13 @@ three@0.160.0
 4. ✅ Enhanced animations and visual effects
 5. ✅ Updated README with all changes
 
-**Version:** v7.3 (Feb 2025)
+**Version:** v7.4.0 (Feb 2025)
 **Status:** Production Ready 🚀
 
 **Migration Required:** 
 - Run `/app/valentines-special-migration.sql` in Supabase SQL Editor for Valentine's Special 2025
 - Run `/app/fix-chat-improvements.sql` for chat enhancements (v7.2)
+- MediaPipe libraries installed automatically (no database changes needed for AR)
 
 ---
 
