@@ -185,7 +185,7 @@ const TeddyARCamera: React.FC<TeddyARCameraProps> = ({ onClose }) => {
   };
 
   const onPoseResults = (results: Results) => {
-    if (results.poseLandmarks) {
+    if (results.poseLandmarks && facingMode === 'user') {
       let targetLandmark;
       
       // Select landmark based on placement mode
@@ -197,21 +197,32 @@ const TeddyARCamera: React.FC<TeddyARCameraProps> = ({ onClose }) => {
         targetLandmark = results.poseLandmarks[0]; // Nose (head center)
       }
       
-      if (targetLandmark && targetLandmark.visibility > 0.5) {
+      if (targetLandmark && targetLandmark.visibility > 0.3) {
+        // Update teddy position based on selected landmark
+        // Convert normalized coordinates to Three.js coordinates
+        // Flip x coordinate for front camera (mirror effect)
+        const x = -(targetLandmark.x - 0.5) * 4; // Map to -2 to 2 range (flipped)
+        const y = -(targetLandmark.y - 0.5) * 3; // Map to -1.5 to 1.5 range (inverted)
+        
+        // Adjust offset and scale based on placement
+        let yOffset = 0.3;
+        let scale = 0.8;
+        
+        if (placementMode === 'head') {
+          yOffset = 0.5;
+          scale = 0.6;
+        } else if (placementMode === 'left-shoulder' || placementMode === 'right-shoulder') {
+          yOffset = 0.2;
+          scale = 0.8;
+        }
+        
+        setTeddyPosition([x, y + yOffset, 0]);
+        setTeddyScale(scale);
+        
         setShoulderPosition({
           x: targetLandmark.x,
           y: targetLandmark.y
         });
-        
-        // Update teddy position based on selected landmark
-        // Convert normalized coordinates to Three.js coordinates
-        const x = (targetLandmark.x - 0.5) * 4; // Map to -2 to 2 range
-        const y = -(targetLandmark.y - 0.5) * 3; // Map to -1.5 to 1.5 range (inverted)
-        
-        // Adjust offset based on placement
-        const yOffset = placementMode === 'head' ? 0.4 : 0.3;
-        
-        setTeddyPosition([x, y + yOffset, 0]);
       }
     }
   };
