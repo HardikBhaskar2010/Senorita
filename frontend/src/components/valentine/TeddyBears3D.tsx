@@ -246,11 +246,11 @@ const TeddyBears3D = () => {
       >
         <div className="text-6xl mb-4">💕</div>
         <h3 className="text-3xl font-bold mb-4 bg-gradient-to-r from-pink-200 via-rose-200 to-amber-200 bg-clip-text text-transparent">
-          We are Always Together
+          A Special Teddy For You
         </h3>
         <p className="text-lg opacity-90 italic mb-6">
-          "Just like these two teddy bears, you and I are inseparable. 
-          Forever side by side, forever in each other's hearts."
+          "This adorable teddy represents my love for you. 
+          Try AR mode to bring it to life and take magical photos together!"
         </p>
         <div className="flex justify-center gap-4 mt-6 text-2xl items-center">
           <div>🍪 Cookie</div>
