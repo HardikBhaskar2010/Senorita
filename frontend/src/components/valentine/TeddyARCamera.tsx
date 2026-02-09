@@ -443,10 +443,7 @@ const TeddyARCamera: React.FC<TeddyARCameraProps> = ({ onClose }) => {
           <div className="bg-black/60 backdrop-blur-sm px-6 py-3 rounded-full border border-white/20">
             <p className="text-white text-sm font-medium">
               {facingMode === 'user' 
-                ? `👤 Selfie Mode - ${
-                    placementMode === 'right-shoulder' ? 'Right Shoulder' :
-                    placementMode === 'left-shoulder' ? 'Left Shoulder' : 'On Head'
-                  } (Tap to move)` 
+                ? '👤 Selfie Mode - Manual Control' 
                 : '🌍 Ground Mode - Place & Style'}
             </p>
           </div>
