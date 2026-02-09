@@ -332,6 +332,18 @@ const TeddyARCamera: React.FC<TeddyARCameraProps> = ({ onClose }) => {
     setTeddyRotation((value[0] / 180) * Math.PI);
   };
 
+  const handlePositionXChange = (value: number[]) => {
+    setTeddyPosition([value[0], teddyPosition[1], teddyPosition[2]]);
+  };
+
+  const handlePositionYChange = (value: number[]) => {
+    setTeddyPosition([teddyPosition[0], value[0], teddyPosition[2]]);
+  };
+
+  const handleScaleChange = (value: number[]) => {
+    setTeddyScale(value[0]);
+  };
+
   const cyclePlacementMode = () => {
     setPlacementMode(prev => {
       if (prev === 'right-shoulder') return 'left-shoulder';
