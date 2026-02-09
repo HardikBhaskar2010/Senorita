@@ -159,9 +159,9 @@ All issues fixed and working perfectly:
 
 ## 🎯 Features
 
-### 🆕 **NEW: Valentine's Special 2025** (v7.3.3)
+### 🆕 **NEW: Valentine's Special 2025** (v7.4.0)
 - **Mystery Week** - Daily time-gated surprises from Feb 7-14, 2025
-- **🎨 Anime.js Motion Path Animations** - 6 hearts following unique SVG paths 🆕
+- **🎨 Anime.js Motion Path Animations** - 6 hearts following unique SVG paths
   - Circular, wave, diagonal, figure-8, and vertical loop patterns
   - Smooth rotation and pulsing effects
   - GPU-accelerated performance
@@ -175,7 +175,17 @@ All issues fixed and working perfectly:
     - Features Dairy Milk Silk Mousse & Oreo (favorites marked with ⭐)
     - "Khao Pio Aes Karo" motivational message included
     - Progress tracking (X/8 opened)
-  - 🧸 Teddy Day (Feb 10) - 3D teddy bears animation
+  - 🧸 **Teddy Day (Feb 10)** - **3D Teddy Bears + AR Photobooth** 🆕
+    - **Enhanced 3D Animation**: Rotation, floating, breathing effects
+    - **80 Magical Sparkles**: Pink and gold particles
+    - **Floating Hearts**: 8 animated hearts rising
+    - **📸 AR Photobooth**: Full augmented reality camera experience
+      - Click teddy to launch AR mode
+      - Selfie mode: Teddy on your shoulder (AI tracking)
+      - Ground mode: Place teddy anywhere with zoom & rotation
+      - Capture & download high-res AR photos
+      - Camera flip between front/back
+      - Real-time pose detection
   - 🤝 Promise Day (Feb 11) - Sealed promise vault
   - 🤗 Hug Day (Feb 12) - Hold-to-hug interactive
   - 💋 Kiss Day (Feb 13) - Kiss ripples animation
