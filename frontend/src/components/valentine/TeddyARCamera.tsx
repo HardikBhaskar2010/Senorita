@@ -17,19 +17,24 @@ interface TeddyARCameraProps {
 function ARTeddyModel({ 
   position, 
   rotation, 
-  scale 
+  scale,
+  enableFloating = false
 }: { 
   position: [number, number, number]; 
   rotation: number; 
   scale: number;
+  enableFloating?: boolean;
 }) {
   const { scene } = useGLTF('/models/bears.glb');
   const modelRef = useRef<THREE.Group>(null);
   
-  // Gentle floating animation
+  // Gentle floating animation only when enabled
   useFrame((state) => {
-    if (modelRef.current) {
-      modelRef.current.position.y = position[1] + Math.sin(state.clock.elapsedTime * 2) * 0.05;
+    if (modelRef.current && enableFloating) {
+      const floatOffset = Math.sin(state.clock.elapsedTime * 2) * 0.03;
+      modelRef.current.position.set(position[0], position[1] + floatOffset, position[2]);
+    } else if (modelRef.current) {
+      modelRef.current.position.set(position[0], position[1], position[2]);
     }
   });
   
