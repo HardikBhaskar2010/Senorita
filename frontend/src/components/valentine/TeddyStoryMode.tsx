@@ -3,6 +3,21 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { ChevronLeft, ChevronRight, SkipForward, Volume2, VolumeX, Play } from 'lucide-react';
 
+// Function to control background music volume (audio ducking)
+const setBackgroundMusicVolume = (volume: number) => {
+  try {
+    // Find the background audio player from Valentine's page
+    const audioElements = document.querySelectorAll('audio');
+    audioElements.forEach((audio) => {
+      if (!audio.paused) {
+        audio.volume = volume;
+      }
+    });
+  } catch (err) {
+    console.log('No background audio to control');
+  }
+};
+
 interface StoryScene {
   sceneNumber: number;
   title: string;
