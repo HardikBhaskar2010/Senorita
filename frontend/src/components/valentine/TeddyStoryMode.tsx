@@ -434,25 +434,29 @@ const TeddyStoryMode = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.9 }}
-            className="max-w-3xl mx-auto"
+            className="max-w-4xl mx-auto w-full"
             onClick={skipToEnd}
           >
-            <div className="bg-black/40 backdrop-blur-md rounded-2xl p-8 border-2 border-white/20 min-h-[200px] flex items-center justify-center">
-              <p className="text-xl md:text-2xl text-white leading-relaxed text-center">
+            <div className="bg-black/50 backdrop-blur-lg rounded-3xl p-8 md:p-10 border-2 border-white/30 min-h-[220px] flex items-center justify-center shadow-2xl">
+              <p className="text-xl md:text-2xl text-white leading-relaxed text-center font-medium">
                 {displayedText}
                 {isTyping && (
                   <motion.span
                     animate={{ opacity: [1, 0, 1] }}
                     transition={{ duration: 0.8, repeat: Infinity }}
-                    className="inline-block w-1 h-6 bg-white ml-1 align-middle"
+                    className="inline-block w-1 h-7 bg-white ml-1 align-middle"
                   />
                 )}
               </p>
             </div>
             {isTyping && (
-              <p className="text-center text-white/60 text-sm mt-3">
-                Click text to skip typing animation
-              </p>
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="text-center text-white/80 text-sm mt-3 bg-black/40 px-4 py-2 rounded-full inline-block w-full"
+              >
+                💡 Click text to skip typing animation
+              </motion.p>
             )}
           </motion.div>
 
