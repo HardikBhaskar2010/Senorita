@@ -386,11 +386,7 @@ const TeddyARCamera: React.FC<TeddyARCameraProps> = ({ onClose }) => {
       <canvas ref={canvasRef} className="hidden" />
 
       {/* Three.js AR Overlay */}
-      <div 
-        className="absolute inset-0"
-        onClick={facingMode === 'user' ? cyclePlacementMode : undefined}
-        style={{ cursor: facingMode === 'user' ? 'pointer' : 'default' }}
-      >
+      <div className="absolute inset-0" style={{ pointerEvents: 'none' }}>
         <Canvas
           camera={{ position: [0, 0, 5], fov: 50 }}
           style={{ background: 'transparent', pointerEvents: 'none' }}
@@ -409,7 +405,7 @@ const TeddyARCamera: React.FC<TeddyARCameraProps> = ({ onClose }) => {
               position={teddyPosition} 
               rotation={teddyRotation}
               scale={teddyScale}
-              enableFloating={facingMode === 'user'}
+              enableFloating={false}
             />
           </Suspense>
         </Canvas>
