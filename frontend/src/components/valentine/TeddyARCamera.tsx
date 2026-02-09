@@ -25,7 +25,7 @@ function ARTeddyModel({
   scale: number;
   enableFloating?: boolean;
 }) {
-  const { scene } = useGLTF('/models/bears.glb');
+  const { scene } = useGLTF('/models/teddy_bear.glb');
   const modelRef = useRef<THREE.Group>(null);
   
   // Gentle floating animation only when enabled
