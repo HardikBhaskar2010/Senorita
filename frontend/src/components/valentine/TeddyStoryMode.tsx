@@ -472,57 +472,63 @@ const TeddyStoryMode = () => {
           </motion.div>
         </div>
 
-        {/* Navigation controls - Fixed at bottom */}
-        <div className="absolute bottom-20 left-0 right-0 z-30 px-8">
-          <div className="flex items-center justify-between max-w-4xl mx-auto">
-            
-            {/* Previous Button */}
-            <Button
-              onClick={handlePrevious}
-              disabled={currentScene === 0}
-              variant="ghost"
-              size="lg"
-              className="text-white hover:bg-white/20 disabled:opacity-30 disabled:cursor-not-allowed"
-            >
-              <ChevronLeft className="w-6 h-6 mr-2" />
-              Previous
-            </Button>
-
-            {/* Center controls */}
-            <div className="flex items-center gap-4">
-              {/* Sound toggle */}
+        {/* Navigation controls - Fixed at bottom with better visibility */}
+        <div className="absolute bottom-0 left-0 right-0 z-30">
+          {/* Control panel backdrop */}
+          <div className="bg-gradient-to-t from-black via-black/90 to-transparent pt-12 pb-6 px-4 md:px-8">
+            <div className="flex items-center justify-between max-w-6xl mx-auto gap-4">
+              
+              {/* Previous Button */}
               <Button
-                onClick={toggleSound}
-                variant="ghost"
-                size="icon"
-                className="text-white hover:bg-white/20 rounded-full"
+                onClick={handlePrevious}
+                disabled={currentScene === 0}
+                size="lg"
+                className="bg-white/20 hover:bg-white/30 text-white border-2 border-white/40 backdrop-blur-sm disabled:opacity-30 disabled:cursor-not-allowed font-bold text-base px-6 py-6 rounded-xl shadow-xl"
               >
-                {soundEnabled ? <Volume2 className="w-5 h-5" /> : <VolumeX className="w-5 h-5" />}
+                <ChevronLeft className="w-5 h-5 mr-1" />
+                Previous
               </Button>
 
-              {/* Skip story */}
+              {/* Center controls */}
+              <div className="flex flex-col items-center gap-3">
+                <div className="flex items-center gap-3">
+                  {/* Sound toggle */}
+                  <Button
+                    onClick={toggleSound}
+                    size="lg"
+                    className="bg-white/20 hover:bg-white/30 text-white border-2 border-white/40 backdrop-blur-sm rounded-full w-14 h-14 p-0 shadow-xl"
+                  >
+                    {soundEnabled ? <Volume2 className="w-6 h-6" /> : <VolumeX className="w-6 h-6" />}
+                  </Button>
+
+                  {/* Skip story */}
+                  <Button
+                    onClick={handleSkip}
+                    size="lg"
+                    className="bg-white/20 hover:bg-white/30 text-white border-2 border-white/40 backdrop-blur-sm font-bold px-6 py-6 rounded-xl shadow-xl"
+                  >
+                    <SkipForward className="w-5 h-5 mr-2" />
+                    Exit Story
+                  </Button>
+                </div>
+                
+                {/* Progress indicator text */}
+                <div className="text-white font-medium text-sm bg-black/40 px-4 py-1 rounded-full">
+                  Scene {currentScene + 1} of {storyScenes.length}
+                </div>
+              </div>
+
+              {/* Next Button */}
               <Button
-                onClick={handleSkip}
-                variant="ghost"
-                size="sm"
-                className="text-white/80 hover:bg-white/20"
+                onClick={handleNext}
+                disabled={currentScene === storyScenes.length - 1}
+                size="lg"
+                className="bg-white/20 hover:bg-white/30 text-white border-2 border-white/40 backdrop-blur-sm disabled:opacity-30 disabled:cursor-not-allowed font-bold text-base px-6 py-6 rounded-xl shadow-xl"
               >
-                <SkipForward className="w-4 h-4 mr-2" />
-                Exit Story
+                Next
+                <ChevronRight className="w-5 h-5 ml-1" />
               </Button>
             </div>
-
-            {/* Next Button */}
-            <Button
-              onClick={handleNext}
-              disabled={currentScene === storyScenes.length - 1}
-              variant="ghost"
-              size="lg"
-              className="text-white hover:bg-white/20 disabled:opacity-30 disabled:cursor-not-allowed"
-            >
-              Next
-              <ChevronRight className="w-6 h-6 ml-2" />
-            </Button>
           </div>
         </div>
 
