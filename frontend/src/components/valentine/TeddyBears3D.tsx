@@ -8,7 +8,7 @@ import * as THREE from 'three';
 import TeddyARCamera from './TeddyARCamera';
 
 function TeddyModel() {
-  const { scene } = useGLTF('/models/bears.glb');
+  const { scene } = useGLTF('/models/teddy_bear.glb');
   const modelRef = useRef<THREE.Group>(null);
   
   // Simple rotation - spinning in place only
@@ -19,14 +19,14 @@ function TeddyModel() {
       
       // Gentle floating up and down (keeping position relative to base)
       const floatOffset = Math.sin(state.clock.elapsedTime * 1.5) * 0.2;
-      modelRef.current.position.set(0, -1 + floatOffset, 0);
+      modelRef.current.position.set(0, 0 + floatOffset, 0);
       
       // Keep scale constant to avoid affecting accessories like bows
-      modelRef.current.scale.set(2, 2, 2);
+      modelRef.current.scale.set(1.5, 1.5, 1.5);
     }
   });
   
-  return <primitive ref={modelRef} object={scene} scale={2} position={[0, -1, 0]} />;
+  return <primitive ref={modelRef} object={scene} scale={1.5} position={[0, 0, 0]} />;
 }
 
 const TeddyBears3D = () => {
