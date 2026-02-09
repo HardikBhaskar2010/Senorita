@@ -188,6 +188,43 @@ const TeddyARCamera: React.FC<TeddyARCameraProps> = ({ onClose }) => {
 
   const onPoseResults = (results: Results) => {
     if (results.poseLandmarks && facingMode === 'user') {
+      // Draw debug landmarks if enabled
+      if (showDebug && overlayCanvasRef.current && videoRef.current) {
+        const canvas = overlayCanvasRef.current;
+        const ctx = canvas.getContext('2d');
+        if (ctx) {
+          canvas.width = videoRef.current.videoWidth;
+          canvas.height = videoRef.current.videoHeight;
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          
+          // Draw all landmarks
+          results.poseLandmarks.forEach((landmark, i) => {
+            const x = landmark.x * canvas.width;
+            const y = landmark.y * canvas.height;
+            
+            // Highlight shoulder and head landmarks
+            if (i === 11 || i === 12 || i === 0) {
+              ctx.fillStyle = '#ff69b4';
+              ctx.beginPath();
+              ctx.arc(x, y, 8, 0, 2 * Math.PI);
+              ctx.fill();
+              ctx.fillStyle = '#ffffff';
+              ctx.font = '12px Arial';
+              ctx.fillText(
+                i === 11 ? 'L' : i === 12 ? 'R' : 'H',
+                x + 10,
+                y
+              );
+            } else {
+              ctx.fillStyle = 'rgba(0, 255, 0, 0.5)';
+              ctx.beginPath();
+              ctx.arc(x, y, 3, 0, 2 * Math.PI);
+              ctx.fill();
+            }
+          });
+        }
+      }
+      
       let targetLandmark;
       
       // Select landmark based on placement mode
