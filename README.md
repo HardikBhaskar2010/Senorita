@@ -329,6 +329,7 @@ Shadcn UI         - Beautiful Component Library
 Three.js (R18)    - 3D Graphics & Animations
 React Three Fiber - React Renderer for Three.js
 React Three Drei  - Three.js Helpers
+MediaPipe         - AI Pose Detection for AR Features
 ```
 
 ### Backend & Database
