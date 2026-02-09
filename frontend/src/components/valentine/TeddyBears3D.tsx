@@ -301,6 +301,6 @@ const TeddyBears3D = () => {
 };
 
 // Preload the model
-useGLTF.preload('/models/bears.glb');
+useGLTF.preload('/models/teddy_bear.glb');
 
 export default TeddyBears3D;
