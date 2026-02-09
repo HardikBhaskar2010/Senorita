@@ -103,6 +103,9 @@ const TeddyStoryMode = () => {
     if (!soundEnabled) return;
     
     try {
+      // Duck background music to 5% when typing sound plays
+      setBackgroundMusicVolume(0.05);
+      
       if (!audioContextRef.current) {
         audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
       }
@@ -123,6 +126,11 @@ const TeddyStoryMode = () => {
       
       oscillator.start(ctx.currentTime);
       oscillator.stop(ctx.currentTime + 0.05);
+      
+      // Restore background music after a short delay
+      setTimeout(() => {
+        setBackgroundMusicVolume(1.0);
+      }, 100);
     } catch (err) {
       console.log('Audio not available');
     }
