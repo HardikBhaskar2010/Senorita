@@ -236,7 +236,25 @@ const TeddyARCamera: React.FC<TeddyARCameraProps> = ({ onClose }) => {
   };
 
   const handleRotationChange = (value: number[]) => {
-    setTeddyRotation(value[0]);
+    // Convert degrees to radians for rotation
+    setTeddyRotation((value[0] / 180) * Math.PI);
+  };
+
+  const cyclePlacementMode = () => {
+    setPlacementMode(prev => {
+      if (prev === 'right-shoulder') return 'left-shoulder';
+      if (prev === 'left-shoulder') return 'head';
+      return 'right-shoulder';
+    });
+    
+    toast({
+      title: '📍 Position Changed',
+      description: `Teddy moved to ${
+        placementMode === 'right-shoulder' ? 'left shoulder' :
+        placementMode === 'left-shoulder' ? 'head' : 'right shoulder'
+      }!`,
+      variant: 'default'
+    });
   };
 
   return (
