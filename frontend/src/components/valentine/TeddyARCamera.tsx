@@ -58,6 +58,7 @@ const TeddyARCamera: React.FC<TeddyARCameraProps> = ({ onClose }) => {
   const [teddyRotation, setTeddyRotation] = useState(0);
   const [teddyScale, setTeddyScale] = useState(1.5);
   const [shoulderPosition, setShoulderPosition] = useState<{ x: number; y: number } | null>(null);
+  const [placementMode, setPlacementMode] = useState<'right-shoulder' | 'left-shoulder' | 'head'>('right-shoulder');
   const poseRef = useRef<Pose | null>(null);
   const animationFrameRef = useRef<number>();
 
