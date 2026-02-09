@@ -188,7 +188,8 @@ const TeddyARCamera: React.FC<TeddyARCameraProps> = ({ onClose }) => {
   };
 
   const onPoseResults = (results: Results) => {
-    if (results.poseLandmarks && facingMode === 'user') {
+    // Only use pose tracking if not in manual mode
+    if (results.poseLandmarks && facingMode === 'user' && !manualMode) {
       // Draw debug landmarks if enabled
       if (showDebug && overlayCanvasRef.current && videoRef.current) {
         const canvas = overlayCanvasRef.current;
