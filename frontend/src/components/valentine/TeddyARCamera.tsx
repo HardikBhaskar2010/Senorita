@@ -356,7 +356,17 @@ const TeddyARCamera: React.FC<TeddyARCameraProps> = ({ onClose }) => {
         playsInline
         muted
         className="absolute inset-0 w-full h-full object-cover"
+        style={{ transform: facingMode === 'user' ? 'scaleX(-1)' : 'none' }}
       />
+      
+      {/* Debug overlay canvas */}
+      {showDebug && (
+        <canvas 
+          ref={overlayCanvasRef} 
+          className="absolute inset-0 w-full h-full object-cover pointer-events-none"
+          style={{ transform: facingMode === 'user' ? 'scaleX(-1)' : 'none' }}
+        />
+      )}
       
       {/* Hidden canvas for photo capture */}
       <canvas ref={canvasRef} className="hidden" />
