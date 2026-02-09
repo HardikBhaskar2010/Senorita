@@ -410,11 +410,13 @@ const TeddyStoryMode = () => {
             initial={{ y: -20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.3 }}
-            className="text-center"
+            className="text-center bg-black/30 backdrop-blur-sm rounded-2xl px-8 py-6 border-2 border-white/20"
           >
-            <div className="text-7xl mb-4">{scene.emoji}</div>
-            <h2 className="text-4xl font-bold text-white mb-2">{scene.title}</h2>
-            <div className="text-white/70 text-sm">Scene {scene.sceneNumber} of {storyScenes.length}</div>
+            <div className="text-7xl mb-4 drop-shadow-lg">{scene.emoji}</div>
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-2 drop-shadow-lg">{scene.title}</h2>
+            <div className="text-white/90 text-base font-medium bg-white/20 px-4 py-1 rounded-full inline-block">
+              Scene {scene.sceneNumber} of {storyScenes.length}
+            </div>
           </motion.div>
 
           {/* Teddy characters */}
