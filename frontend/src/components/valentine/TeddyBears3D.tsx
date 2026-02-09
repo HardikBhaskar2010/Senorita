@@ -11,18 +11,18 @@ function TeddyModel() {
   const { scene } = useGLTF('/models/bears.glb');
   const modelRef = useRef<THREE.Group>(null);
   
-  // Enhanced rotation with floating animation
+  // Simple rotation - spinning in place only
   useFrame((state) => {
     if (modelRef.current) {
       // Rotate around Y-axis (spinning in place)
       modelRef.current.rotation.y += 0.015;
       
-      // Gentle floating up and down
-      modelRef.current.position.y = -1 + Math.sin(state.clock.elapsedTime * 1.5) * 0.2;
+      // Gentle floating up and down (keeping position relative to base)
+      const floatOffset = Math.sin(state.clock.elapsedTime * 1.5) * 0.2;
+      modelRef.current.position.set(0, -1 + floatOffset, 0);
       
-      // Slight breathing effect (scale pulsing)
-      const breathe = 1 + Math.sin(state.clock.elapsedTime * 2) * 0.05;
-      modelRef.current.scale.set(breathe * 2, breathe * 2, breathe * 2);
+      // Keep scale constant to avoid affecting accessories like bows
+      modelRef.current.scale.set(2, 2, 2);
     }
   });
   
