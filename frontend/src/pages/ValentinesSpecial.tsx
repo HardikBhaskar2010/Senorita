@@ -507,10 +507,10 @@ const ValentinesSpecial = () => {
                 </div>
               );
 
-            case 4: // Teddy Day - 3D Teddy Bears
+            case 4: // Teddy Day - Cinematic Story Mode
               return (
                 <div>
-                  <TeddyBears3D />
+                  <TeddyStoryMode />
                   {renderAnswerSection(day)}
                   <SaveToAlbum dayNumber={day.dayNumber} dayName={day.name} contentRef={dayContentRef} />
                 </div>
