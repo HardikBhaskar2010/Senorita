@@ -1145,6 +1145,32 @@ three@0.160.0
 6. **Custom Messages**: Cookie can add personal messages via database
 7. **Replay**: After Feb 14, all days remain unlocked forever
 
+### Using AR Photobooth (Teddy Day) 🆕
+1. **Access Teddy Day**: Navigate to Valentine's Special > Teddy Day (Day 4)
+2. **Launch AR**: Click anywhere on the 3D teddy canvas
+3. **Choose**: Click "Yess! 🎉" or "Why Not! 💕" in the popup
+4. **Allow Camera**: Grant camera permission when browser asks
+5. **Selfie Mode** (Front Camera):
+   - Teddy automatically appears on your right shoulder
+   - AI tracks your movement in real-time
+   - Perfect for selfies with AR teddy
+6. **Switch to Ground Mode**: 
+   - Click the flip camera button
+   - Teddy moves to ground surface
+   - Use zoom slider to adjust size (0.5x - 5x)
+   - Use rotation slider to rotate teddy (0° - 360°)
+7. **Capture Photos**:
+   - Click the large pink camera button
+   - Photos auto-download as PNG
+   - Take unlimited photos!
+8. **Exit**: Click the X button to close AR mode
+
+**Tips:**
+- 💡 Use good lighting for better pose tracking
+- 📸 Try both camera modes for different styles
+- 🎨 Experiment with zoom and rotation in ground mode
+- 💕 Share your AR photos in the chat!
+
 ### Using Reply Feature
 1. Navigate to Chat page
 2. Hover over any message
