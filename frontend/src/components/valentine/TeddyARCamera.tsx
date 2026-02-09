@@ -86,13 +86,15 @@ function ARTeddyModel({
 const TeddyARCamera: React.FC<TeddyARCameraProps> = ({ onClose }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const overlayCanvasRef = useRef<HTMLCanvasElement>(null);
   const [stream, setStream] = useState<MediaStream | null>(null);
   const [facingMode, setFacingMode] = useState<'user' | 'environment'>('user');
   const [teddyPosition, setTeddyPosition] = useState<[number, number, number]>([0, 0.5, 0]);
   const [teddyRotation, setTeddyRotation] = useState(0);
-  const [teddyScale, setTeddyScale] = useState(1.5);
+  const [teddyScale, setTeddyScale] = useState(0.8);
   const [shoulderPosition, setShoulderPosition] = useState<{ x: number; y: number } | null>(null);
   const [placementMode, setPlacementMode] = useState<'right-shoulder' | 'left-shoulder' | 'head'>('right-shoulder');
+  const [showDebug, setShowDebug] = useState(false);
   const poseRef = useRef<Pose | null>(null);
   const animationFrameRef = useRef<number>();
 
