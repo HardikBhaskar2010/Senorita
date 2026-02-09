@@ -28,13 +28,47 @@ function ARTeddyModel({
   const { scene } = useGLTF('/models/teddy_bear.glb');
   const modelRef = useRef<THREE.Group>(null);
   
-  // Gentle floating animation only when enabled
+  // Ensure materials are properly set up
+  useEffect(() => {
+    if (modelRef.current) {
+      modelRef.current.traverse((child) => {
+        if ((child as THREE.Mesh).isMesh) {
+          const mesh = child as THREE.Mesh;
+          if (mesh.material) {
+            // Ensure materials receive light properly
+            if (Array.isArray(mesh.material)) {
+              mesh.material.forEach((mat) => {
+                mat.needsUpdate = true;
+              });
+            } else {
+              mesh.material.needsUpdate = true;
+            }
+          }
+        }
+      });
+    }
+  }, []);
+  
+  // Smooth position updates with animation
   useFrame((state) => {
-    if (modelRef.current && enableFloating) {
-      const floatOffset = Math.sin(state.clock.elapsedTime * 2) * 0.03;
-      modelRef.current.position.set(position[0], position[1] + floatOffset, position[2]);
-    } else if (modelRef.current) {
-      modelRef.current.position.set(position[0], position[1], position[2]);
+    if (modelRef.current) {
+      if (enableFloating) {
+        const floatOffset = Math.sin(state.clock.elapsedTime * 2) * 0.03;
+        modelRef.current.position.set(position[0], position[1] + floatOffset, position[2]);
+      } else {
+        // Smooth transition to target position
+        modelRef.current.position.lerp(
+          new THREE.Vector3(position[0], position[1], position[2]),
+          0.1
+        );
+      }
+      
+      // Smooth rotation
+      modelRef.current.rotation.y = THREE.MathUtils.lerp(
+        modelRef.current.rotation.y,
+        rotation,
+        0.1
+      );
     }
   });
   
