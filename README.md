@@ -486,7 +486,17 @@ If you're upgrading from the previous version, follow these steps:
 
 ## ✅ Current Status
 
-### 🎉 Production Ready - All Features Operational (v7.3)
+### 🎉 Production Ready - All Features Operational (v7.4.0)
+
+**What's New in v7.4: AR Photobooth for Teddy Day (February 2025)**
+- 📸 **Full AR Camera Experience** - Augmented reality photobooth on Teddy Day
+- 🤖 **AI Pose Tracking** - MediaPipe integration for real-time shoulder tracking
+- 👤 **Selfie Mode** - Teddy automatically positions on your shoulder
+- 🌍 **Ground Mode** - Place teddy anywhere with zoom and rotation controls
+- 🎨 **Enhanced 3D Visuals** - Rotation, floating, breathing, sparkles, floating hearts
+- 📷 **Photo Capture** - High-res AR photo downloads
+- 🔄 **Camera Controls** - Flip between front/back camera
+- 💫 **Interactive Engagement** - Click counter, AR ready badge, hover hints
 
 **What's New in v7.3: Enhanced UI/UX Complete (February 2025)**
 - ✨ **Complete UI/UX Enhancement** - All pages now feature modern, premium design
