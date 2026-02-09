@@ -152,21 +152,32 @@ const TeddyARCamera: React.FC<TeddyARCameraProps> = ({ onClose }) => {
 
   const onPoseResults = (results: Results) => {
     if (results.poseLandmarks) {
-      // Get right shoulder position (landmark 12)
-      const rightShoulder = results.poseLandmarks[12];
+      let targetLandmark;
       
-      if (rightShoulder && rightShoulder.visibility > 0.5) {
+      // Select landmark based on placement mode
+      if (placementMode === 'right-shoulder') {
+        targetLandmark = results.poseLandmarks[12]; // Right shoulder
+      } else if (placementMode === 'left-shoulder') {
+        targetLandmark = results.poseLandmarks[11]; // Left shoulder
+      } else if (placementMode === 'head') {
+        targetLandmark = results.poseLandmarks[0]; // Nose (head center)
+      }
+      
+      if (targetLandmark && targetLandmark.visibility > 0.5) {
         setShoulderPosition({
-          x: rightShoulder.x,
-          y: rightShoulder.y
+          x: targetLandmark.x,
+          y: targetLandmark.y
         });
         
-        // Update teddy position based on shoulder
+        // Update teddy position based on selected landmark
         // Convert normalized coordinates to Three.js coordinates
-        const x = (rightShoulder.x - 0.5) * 4; // Map to -2 to 2 range
-        const y = -(rightShoulder.y - 0.5) * 3; // Map to -1.5 to 1.5 range (inverted)
+        const x = (targetLandmark.x - 0.5) * 4; // Map to -2 to 2 range
+        const y = -(targetLandmark.y - 0.5) * 3; // Map to -1.5 to 1.5 range (inverted)
         
-        setTeddyPosition([x, y + 0.3, 0]); // Offset slightly above shoulder
+        // Adjust offset based on placement
+        const yOffset = placementMode === 'head' ? 0.4 : 0.3;
+        
+        setTeddyPosition([x, y + yOffset, 0]);
       }
     }
   };
