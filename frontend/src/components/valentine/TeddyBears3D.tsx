@@ -1,17 +1,28 @@
-import { Suspense, useRef } from 'react';
+import { Suspense, useRef, useState } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { OrbitControls, useGLTF, PerspectiveCamera, Environment } from '@react-three/drei';
-import { motion } from 'framer-motion';
+import { OrbitControls, useGLTF, PerspectiveCamera, Environment, Sparkles } from '@react-three/drei';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Button } from '@/components/ui/button';
+import { Camera, Heart, Sparkles as SparklesIcon } from 'lucide-react';
 import * as THREE from 'three';
+import TeddyARCamera from './TeddyARCamera';
 
 function TeddyModel() {
   const { scene } = useGLTF('/models/bears.glb');
   const modelRef = useRef<THREE.Group>(null);
   
-  // Rotate the model in place
-  useFrame(() => {
+  // Enhanced rotation with floating animation
+  useFrame((state) => {
     if (modelRef.current) {
-      modelRef.current.rotation.y += 0.01; // Rotate around Y-axis at fixed position
+      // Rotate around Y-axis (spinning in place)
+      modelRef.current.rotation.y += 0.015;
+      
+      // Gentle floating up and down
+      modelRef.current.position.y = -1 + Math.sin(state.clock.elapsedTime * 1.5) * 0.2;
+      
+      // Slight breathing effect (scale pulsing)
+      const breathe = 1 + Math.sin(state.clock.elapsedTime * 2) * 0.05;
+      modelRef.current.scale.set(breathe * 2, breathe * 2, breathe * 2);
     }
   });
   
