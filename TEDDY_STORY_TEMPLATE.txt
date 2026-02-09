@@ -1,0 +1,122 @@
+================================================
+🧸 TEDDY DAY STORY - CINEMATIC CUTSCENE TEMPLATE
+================================================
+
+INSTRUCTIONS:
+- Fill in the story text for each scene below
+- Keep it romantic and personal to your relationship
+- Text can be any length (2-3 sentences to full paragraphs)
+- Use emojis if you want! 💕
+- The typing effect will display character-by-character
+- Scenes will play in order with Next/Previous buttons
+
+================================================
+
+SCENE 1: "The Beginning" 🌟
+Date Reference: August 12, 2024 (First Meeting)
+---
+[WRITE YOUR TEXT HERE - Describe how you first met, first impressions, that magical moment]
+
+Example:
+"It was August 12, 2024, when our paths first crossed. I saw you and something in my heart whispered, 'This is special.' Little did I know that this was the beginning of the most beautiful chapter of my life."
+
+YOUR TEXT:
+
+
+
+
+
+================================================
+
+SCENE 2: "Growing Closer" 💭
+Theme: Getting to Know Each Other
+---
+[WRITE YOUR TEXT HERE - Talk about the early days, conversations, discovering each other]
+
+Example:
+"Every conversation brought us closer. Every laugh we shared made my heart skip a beat. I found myself thinking about you all the time, wanting to know everything about you, your dreams, your fears, your favorite things."
+
+YOUR TEXT:
+
+
+
+
+
+================================================
+
+SCENE 3: "The Realization" 💕
+Theme: Falling in Love
+---
+[WRITE YOUR TEXT HERE - The moment you realized you were in love]
+
+Example:
+"And then it hit me - I was falling for you. Not just your smile or your laugh, but your soul. The way you see the world, the way you care, the way you make me want to be better. I was completely, utterly in love."
+
+YOUR TEXT:
+
+
+
+
+
+================================================
+
+SCENE 4: "The Commitment" 💍
+Date Reference: May 14, 2025 (Anniversary/Official Commitment)
+---
+[WRITE YOUR TEXT HERE - Your official commitment, promises made, the special day]
+
+Example:
+"May 14, 2025 - the day we chose each other forever. I promised to stand by your side through every sunrise and sunset, through every joy and challenge. You are my forever, my always, my home."
+
+YOUR TEXT:
+
+
+
+
+
+================================================
+
+SCENE 5: "Teddy's Promise" 🧸
+Theme: Valentine's Special / This Moment
+---
+[WRITE YOUR TEXT HERE - Why this teddy represents your love, Valentine's message]
+
+Example:
+"This teddy represents everything I feel for you - soft, warm, comforting, and constant. Just like this teddy will always be here, I will always be here for you. Through every hug, every tear, every smile. Forever yours."
+
+YOUR TEXT:
+
+
+
+
+
+================================================
+
+SCENE 6: "Forever Together" ♾️
+Theme: Future Dreams
+---
+[WRITE YOUR TEXT HERE - Your future together, dreams, eternal love]
+
+Example:
+"When I look at our future, I see endless possibilities. Adventures to take, memories to create, dreams to chase - all with you by my side. You are my today, my tomorrow, and all my forevers. I love you, Senorita. Always and forever. 💕"
+
+YOUR TEXT:
+
+
+
+
+
+================================================
+
+TECHNICAL NOTES:
+- Save this file after filling it out
+- The story will be integrated into the Teddy Day experience
+- Each scene will have:
+  * Animated teddy characters (Cookie 🍪 & Senorita 💃 as teddies)
+  * Typing animation effect
+  * Typing sound effects
+  * Beautiful gradient backgrounds
+  * Next/Previous/Skip controls
+  * Progress indicator (Scene X of 6)
+
+================================================
