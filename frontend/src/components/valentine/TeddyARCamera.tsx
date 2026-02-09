@@ -370,11 +370,11 @@ const TeddyARCamera: React.FC<TeddyARCameraProps> = ({ onClose }) => {
                   <span className="text-white text-sm font-medium">Rotation: {Math.round((teddyRotation / Math.PI) * 180)}°</span>
                 </div>
                 <Slider
-                  value={[teddyRotation]}
+                  value={[(teddyRotation / Math.PI) * 180]}
                   onValueChange={handleRotationChange}
                   min={0}
-                  max={Math.PI * 2}
-                  step={0.1}
+                  max={360}
+                  step={1}
                   className="w-full"
                 />
               </div>
