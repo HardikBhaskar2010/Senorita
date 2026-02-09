@@ -396,14 +396,14 @@ const TeddyStoryMode = () => {
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 0.8 }}
-        className={`relative min-h-[700px] bg-gradient-to-br ${scene.gradient} rounded-3xl overflow-hidden`}
+        className={`relative min-h-[800px] bg-gradient-to-br ${scene.gradient} rounded-3xl overflow-hidden`}
       >
-        {/* Cinematic letterbox borders */}
-        <div className="absolute top-0 left-0 right-0 h-16 bg-black/80 backdrop-blur-sm z-20" />
-        <div className="absolute bottom-0 left-0 right-0 h-16 bg-black/80 backdrop-blur-sm z-20" />
+        {/* Cinematic letterbox borders - more prominent */}
+        <div className="absolute top-0 left-0 right-0 h-20 bg-black/90 backdrop-blur-sm z-20 border-b border-white/10" />
+        <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-black via-black/95 to-transparent z-20" />
 
         {/* Content container */}
-        <div className="relative z-10 px-8 py-24 flex flex-col items-center justify-between min-h-[700px]">
+        <div className="relative z-10 px-6 md:px-8 py-28 flex flex-col items-center justify-between min-h-[800px] pb-48">
           
           {/* Scene header */}
           <motion.div
