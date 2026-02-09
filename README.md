@@ -545,8 +545,18 @@ If you're upgrading from the previous version, follow these steps:
 - ✅ Enhanced chat with reply functionality
 - ✅ Fixed header and footer in chat
 - ✅ Image preview modal
+- ✅ AR photobooth with pose tracking (v7.4)
 
-**Latest Updates (v7.3.1 - Feb 2025):**
+**Latest Updates (v7.4.0 - Feb 2025):**
+- 🆕 **AR Photobooth for Teddy Day** - Full augmented reality camera experience
+- 🆕 **AI Pose Tracking** - Real-time shoulder detection using MediaPipe
+- 🆕 **Dual AR Modes** - Selfie mode (shoulder) and Ground mode (placement)
+- 🆕 **Camera Controls** - Flip, zoom, rotation sliders for full control
+- 🆕 **Photo Capture** - High-resolution AR photo downloads
+- 🆕 **Enhanced 3D Teddy** - Rotation, floating, breathing, sparkles, hearts
+- 🆕 **Interactive UI** - Click counter, AR badge, hover hints
+
+**Previous Updates (v7.3.1 - Feb 2025):**
 - 🆕 **Valentine's Special 2025** - Time-gated mystery week with 8 romantic days
 - 🆕 **Interactive Questions** - All 8 days now have unique questions with text input
 - 🆕 **Answer System** - Save and edit answers for each day, stored in Supabase
