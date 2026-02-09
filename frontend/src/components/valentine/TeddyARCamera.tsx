@@ -229,15 +229,21 @@ const TeddyARCamera: React.FC<TeddyARCameraProps> = ({ onClose }) => {
 
   const flipCamera = () => {
     stopCamera();
-    setFacingMode(prev => prev === 'user' ? 'environment' : 'user');
+    const newMode = facingMode === 'user' ? 'environment' : 'user';
+    setFacingMode(newMode);
     
-    // Reset position for environment camera (ground mode)
-    if (facingMode === 'user') {
+    // Reset position and scale for different modes
+    if (newMode === 'environment') {
+      // Ground mode
       setTeddyPosition([0, -1, 0]);
       setTeddyScale(2);
+      setTeddyRotation(0);
     } else {
+      // Selfie mode
       setTeddyPosition([0, 0.5, 0]);
-      setTeddyScale(1.5);
+      setTeddyScale(0.8);
+      setTeddyRotation(0);
+      setPlacementMode('right-shoulder');
     }
   };
 
