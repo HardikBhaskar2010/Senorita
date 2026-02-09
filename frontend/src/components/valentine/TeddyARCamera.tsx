@@ -434,7 +434,7 @@ const TeddyARCamera: React.FC<TeddyARCameraProps> = ({ onClose }) => {
             className="text-center text-white/70 text-sm mt-4"
           >
             {facingMode === 'user' 
-              ? '💡 Teddy will follow your shoulder! Flip camera to place on ground.'
+              ? '💡 Tap screen to move teddy between shoulders & head! Flip camera to place on ground.'
               : '💡 Use sliders to adjust size and rotation. Flip to return to selfie mode.'
             }
           </motion.p>
