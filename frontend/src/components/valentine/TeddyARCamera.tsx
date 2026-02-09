@@ -280,11 +280,15 @@ const TeddyARCamera: React.FC<TeddyARCameraProps> = ({ onClose }) => {
         <Canvas
           camera={{ position: [0, 0, 5], fov: 50 }}
           style={{ background: 'transparent', pointerEvents: 'none' }}
+          gl={{ alpha: true, antialias: true }}
         >
-          <ambientLight intensity={0.8} />
-          <spotLight position={[10, 10, 10]} angle={0.3} penumbra={1} intensity={1} />
-          <pointLight position={[-10, -10, -10]} intensity={0.5} />
-          <pointLight position={[5, 5, 5]} intensity={0.8} color="#ff69b4" />
+          {/* Enhanced lighting for better visibility */}
+          <ambientLight intensity={1.2} />
+          <directionalLight position={[5, 5, 5]} intensity={1.5} castShadow />
+          <directionalLight position={[-5, 5, 5]} intensity={1.2} />
+          <pointLight position={[0, 5, 0]} intensity={1.0} color="#ffffff" />
+          <pointLight position={[0, -2, 5]} intensity={0.8} color="#ffb6c1" />
+          <hemisphereLight intensity={0.6} groundColor="#ffffff" />
           
           <Suspense fallback={null}>
             <ARTeddyModel 
