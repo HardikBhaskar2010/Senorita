@@ -12,7 +12,7 @@ import RosePetals from '@/components/valentine/RosePetals';
 import AnimatedRose from '@/components/valentine/AnimatedRose';
 import ProposalSlideshow from '@/components/valentine/ProposalSlideshow';
 import ChocolateGame from '@/components/valentine/ChocolateGame';
-import TeddyBears3D from '@/components/valentine/TeddyBears3D';
+import TeddyStoryMode from '@/components/valentine/TeddyStoryMode';
 import PromiseVault from '@/components/valentine/PromiseVault';
 import HoldToHug from '@/components/valentine/HoldToHug';
 import KissRipples from '@/components/valentine/KissRipples';
