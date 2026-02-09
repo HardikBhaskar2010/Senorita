@@ -18,7 +18,7 @@ const storyScenes: StoryScene[] = [
     sceneNumber: 1,
     title: "The Beginning",
     emoji: "🌟",
-    text: "It was August 12, 2024, when our paths first crossed. I saw you and something in my heart whispered, 'This is special.' Little did I know that this was the beginning of the most beautiful chapter of my life.",
+    text: "It was August 12, 2024, when I First Saw You, Although I Heard Your Name a Few Days Ago and From There I was Curious to See You.. Then You Came in the Class.. Actually You Came In My Heart That Day. And I Knew That Now I Found 'Her'",
     teddyPose: 'happy',
     gradient: 'from-blue-500 via-purple-500 to-pink-500'
   },
@@ -26,7 +26,7 @@ const storyScenes: StoryScene[] = [
     sceneNumber: 2,
     title: "Growing Closer",
     emoji: "💭",
-    text: "Every conversation brought us closer. Every laugh we shared made my heart skip a beat. I found myself thinking about you all the time, wanting to know everything about you, your dreams, your fears, your favorite things.",
+    text: "From The Day We Started Talking Online, I Was Always Filled With Curiosity.. To Know.. About You, About My Lovely Senorita, What You Like, Favorite Colour, Fav. Food.. Everything.",
     teddyPose: 'shy',
     gradient: 'from-pink-400 via-rose-400 to-red-400'
   },
@@ -42,7 +42,7 @@ const storyScenes: StoryScene[] = [
     sceneNumber: 4,
     title: "The Commitment",
     emoji: "💍",
-    text: "May 14, 2025 - the day we chose each other forever. I promised to stand by your side through every sunrise and sunset, through every joy and challenge. You are my forever, my always, my home.",
+    text: "May 14, 2025 - the day we chose each other forever. You Chose to Wear a Saree.. JUST FOR THIS MAN!! Ufff.. And That Day, I Devoted My Self To YOU, Senorita.",
     teddyPose: 'promise',
     gradient: 'from-purple-500 via-pink-500 to-red-500'
   },
@@ -58,7 +58,7 @@ const storyScenes: StoryScene[] = [
     sceneNumber: 6,
     title: "Forever Together",
     emoji: "♾️",
-    text: "When I look at our future, I see endless possibilities. Adventures to take, memories to create, dreams to chase - all with you by my side. You are my today, my tomorrow, and all my forevers. I love you, Senorita. Always and forever. 💕",
+    text: "When I look at our future, I see endless possibilities. Adventures to take, memories to create, dreams to chase - all with you by my side Senorita. You are my today, my tomorrow, and all my forevers. I love you, Senorita. Always and forever. 💕",
     teddyPose: 'future',
     gradient: 'from-indigo-500 via-purple-500 to-pink-500'
   }
