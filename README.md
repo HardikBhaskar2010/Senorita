@@ -29,9 +29,48 @@ All content syncs in real-time across both spaces via Supabase subscriptions.
 
 ---
 
-## 🔥 Recent Fixes & Improvements (v7.3.3)
+## 🔥 Recent Fixes & Improvements (v7.4.0)
 
-### 🎨 **NEW: Anime.js Motion Path Animations** (Feb 2025)
+### 📸 **NEW: AR Photobooth for Teddy Day** (Feb 2025)
+Revolutionary augmented reality experience added to Teddy Day!
+
+**AR Photobooth Features:**
+- ✅ **Click-to-Activate** - Click 3D teddy to launch AR camera
+- ✅ **Fun Popup** - "Wanna Get Some Pics?" with "Yess!" & "Why Not!" buttons
+- ✅ **Dual AR Modes:**
+  - 👤 **Selfie Mode** (Front Camera):
+    - Real-time body tracking using MediaPipe AI
+    - Teddy automatically positions on YOUR SHOULDER
+    - Follows your movement in real-time
+    - Perfect for selfies with AR teddy
+  - 🌍 **Ground Mode** (Back Camera):
+    - Place teddy on any surface
+    - Zoom slider: Scale from 0.5x to 5x
+    - Rotation slider: 0° to 360° control
+    - Full creative control
+- ✅ **Camera Controls:**
+  - Flip button to switch front/back camera
+  - Large pink capture button for photos
+  - Auto-download high-res PNG images
+  - Take unlimited AR photos
+- ✅ **Enhanced 3D Visuals:**
+  - Visible rotation animation (teddy spins in place!)
+  - Floating & breathing effects
+  - 80 magical sparkles (pink + gold)
+  - 8 floating hearts continuously rising
+  - Enhanced warm lighting (5 light sources)
+  - Beautiful gradient backdrop
+
+**Technical Implementation:**
+- MediaPipe Pose Detection for shoulder tracking
+- Three.js AR overlay system
+- WebRTC camera stream integration
+- Canvas-based photo capture
+- Real-time pose landmark tracking
+
+**📖 Full Documentation:** `/app/TEDDY_DAY_AR_ENHANCEMENTS.md`
+
+### 🎨 **Anime.js Motion Path Animations** (Feb 2025)
 Advanced animation system added to Valentine's Special page:
 
 **Animation Features:**
