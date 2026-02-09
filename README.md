@@ -593,6 +593,10 @@ If you're upgrading from the previous version, follow these steps:
 │   ├── src/
 │   │   ├── components/         # Reusable UI Components
 │   │   │   ├── ui/            # Shadcn UI Components
+│   │   │   ├── valentine/     # Valentine's Special Components
+│   │   │   │   ├── TeddyBears3D.tsx        # Enhanced 3D Teddy
+│   │   │   │   ├── TeddyARCamera.tsx       # AR Photobooth (NEW v7.4)
+│   │   │   │   └── ...                     # Other Valentine components
 │   │   │   ├── LoveLetters.tsx          # Letters Dashboard Widget
 │   │   │   ├── PhotoGallery.tsx         # Photos Dashboard Widget
 │   │   │   ├── MoodSharing.tsx          # Mood Dashboard Widget
@@ -607,6 +611,7 @@ If you're upgrading from the previous version, follow these steps:
 │   │   │   ├── SpaceSelection.tsx       # Landing Page
 │   │   │   ├── CookieDashboard.tsx      # Cookie's Dashboard
 │   │   │   ├── SenoritaDashboard.tsx    # Senorita's Dashboard
+│   │   │   ├── ValentinesSpecial.tsx    # Valentine's Week Page
 │   │   │   ├── Letters.tsx              # Full Letters Page
 │   │   │   ├── MoodEnhanced.tsx         # Full Mood Page
 │   │   │   ├── Gallery.tsx              # Full Gallery Page
@@ -624,6 +629,7 @@ If you're upgrading from the previous version, follow these steps:
 │   ├── server.py
 │   └── requirements.txt
 ├── supabase-clean-install.sql # Database Schema
+├── TEDDY_DAY_AR_ENHANCEMENTS.md # AR Feature Documentation (NEW v7.4)
 └── README.md                  # This File
 ```
 
