@@ -21,6 +21,8 @@ import CalendarDay from "@/components/CalendarDay";
 import LoveLanguageResults from "@/components/LoveLanguageResults";
 import QuickNotification from "@/components/QuickNotification";
 import ChatBubble from "@/components/ChatBubble";
+import SecretVaultAccess from "@/components/SecretVaultAccess";
+import SecretVaultPassword from "@/components/SecretVaultPassword";
 import { Heart, Sparkles, LogOut, Settings, Gift, Lock } from "lucide-react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
