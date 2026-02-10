@@ -87,15 +87,16 @@ const FuturisticMotionPaths = ({ theme = 'cyan', pathCount = 8 }: FuturisticMoti
       container.appendChild(particle);
 
       // Animate particle along the path using anime.js
-      anime({
-        targets: particle,
-        translateX: anime.path(path)('x'),
-        translateY: anime.path(path)('y'),
-        duration: 8000 + Math.random() * 6000,
-        easing: 'linear',
-        loop: true,
-        delay: i * 400
-      });
+      const motionPathValues = svg.createMotionPath(path);
+      if (motionPathValues) {
+        animate(particle, {
+          ...motionPathValues,
+          duration: 8000 + Math.random() * 6000,
+          easing: 'linear',
+          loop: true,
+          delay: i * 400
+        });
+      }
 
       // Animate path opacity for pulsing effect
       anime({
