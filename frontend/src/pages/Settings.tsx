@@ -52,6 +52,14 @@ const Settings = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isChangingPassword, setIsChangingPassword] = useState(false);
   
+  // Vault password state
+  const [vaultPassword, setVaultPassword] = useState("");
+  const [newVaultPassword, setNewVaultPassword] = useState("");
+  const [confirmVaultPassword, setConfirmVaultPassword] = useState("");
+  const [isChangingVaultPassword, setIsChangingVaultPassword] = useState(false);
+  const [hasVaultPassword, setHasVaultPassword] = useState(false);
+  const [isCheckingVault, setIsCheckingVault] = useState(true);
+  
   // Background image state
   const [isUploadingChatBg, setIsUploadingChatBg] = useState(false);
   const [isUploadingDashboardBg, setIsUploadingDashboardBg] = useState(false);
