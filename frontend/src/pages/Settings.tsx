@@ -150,6 +150,153 @@ const Settings = () => {
     }
   };
 
+  const handleVaultPasswordChange = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    const userName = currentSpace === 'cookie' ? 'Cookie' : 'Senorita';
+
+    // Setup mode - creating new vault password
+    if (!hasVaultPassword) {
+      if (!newVaultPassword || !confirmVaultPassword) {
+        toast({
+          title: "Error",
+          description: "Please fill in all vault password fields",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      if (newVaultPassword !== confirmVaultPassword) {
+        toast({
+          title: "Error",
+          description: "Vault passwords don't match",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      if (newVaultPassword.length < 4) {
+        toast({
+          title: "Error",
+          description: "Vault password must be at least 4 characters",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      setIsChangingVaultPassword(true);
+      try {
+        const { error } = await supabase
+          .from('vault_settings')
+          .upsert({
+            user_name: userName,
+            vault_password: newVaultPassword,
+            is_setup: true
+          }, {
+            onConflict: 'user_name'
+          });
+
+        if (error) throw error;
+
+        toast({
+          title: "🔐 Vault Password Set! 🎉",
+          description: "Your Secret Vault is now protected",
+        });
+        
+        setNewVaultPassword("");
+        setConfirmVaultPassword("");
+        setHasVaultPassword(true);
+      } catch (error: any) {
+        toast({
+          title: "Error",
+          description: error.message || "Failed to set vault password",
+          variant: "destructive",
+        });
+      } finally {
+        setIsChangingVaultPassword(false);
+      }
+    } 
+    // Change mode - updating existing vault password
+    else {
+      if (!vaultPassword || !newVaultPassword || !confirmVaultPassword) {
+        toast({
+          title: "Error",
+          description: "Please fill in all vault password fields",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      if (newVaultPassword !== confirmVaultPassword) {
+        toast({
+          title: "Error",
+          description: "New vault passwords don't match",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      if (newVaultPassword.length < 4) {
+        toast({
+          title: "Error",
+          description: "Vault password must be at least 4 characters",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      setIsChangingVaultPassword(true);
+      try {
+        // Verify current password
+        const { data, error: fetchError } = await supabase
+          .from('vault_settings')
+          .select('vault_password')
+          .eq('user_name', userName)
+          .single();
+
+        if (fetchError) throw fetchError;
+
+        if (data.vault_password !== vaultPassword) {
+          toast({
+            title: "Error",
+            description: "Current vault password is incorrect",
+            variant: "destructive",
+          });
+          setIsChangingVaultPassword(false);
+          return;
+        }
+
+        // Update password
+        const { error: updateError } = await supabase
+          .from('vault_settings')
+          .update({ 
+            vault_password: newVaultPassword,
+            updated_at: new Date().toISOString()
+          })
+          .eq('user_name', userName);
+
+        if (updateError) throw updateError;
+
+        toast({
+          title: "🔐 Vault Password Updated! 🎉",
+          description: "Your vault password has been changed successfully",
+        });
+        
+        setVaultPassword("");
+        setNewVaultPassword("");
+        setConfirmVaultPassword("");
+      } catch (error: any) {
+        toast({
+          title: "Error",
+          description: error.message || "Failed to change vault password",
+          variant: "destructive",
+        });
+      } finally {
+        setIsChangingVaultPassword(false);
+      }
+    }
+  };
+
   const handleChatBackgroundUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
