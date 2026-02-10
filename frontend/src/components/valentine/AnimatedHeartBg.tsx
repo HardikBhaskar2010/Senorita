@@ -8,71 +8,105 @@ const AnimatedHeartBg = () => {
   useEffect(() => {
     if (!rootRef.current) return;
 
-    scope.current = createScope({ root: rootRef.current }).add((self) => {
-      // Every anime.js instance declared here is now scoped to <div ref={rootRef}>
-      
-      const heartElement = rootRef.current?.querySelector('.main-heart');
-      if (!heartElement) return;
-
-      // Heartbeat animation - stronger pulse, stays in place
-      animate(heartElement, {
-        scale: [1, 1.2, 1, 1.1, 1],
-        opacity: [0.15, 0.3, 0.15, 0.25, 0.15],
-        duration: 2000,
-        easing: 'inOut(3)',
-        loop: true,
-      });
-
-      // Animate individual heart paths with morphing effect
-      const paths = heartElement.querySelectorAll('path');
-      paths.forEach((path, index) => {
-        const pathLength = (path as SVGPathElement).getTotalLength();
-        (path as SVGPathElement).style.strokeDasharray = pathLength.toString();
-        (path as SVGPathElement).style.strokeDashoffset = pathLength.toString();
+    try {
+      scope.current = createScope({ root: rootRef.current }).add((self) => {
+        // Every anime.js instance declared here is now scoped to <div ref={rootRef}>
         
-        animate(path, {
-          strokeDashoffset: [pathLength, 0],
-          easing: 'inOutSine',
-          duration: 3000,
-          delay: index * 200,
-          alternate: true,
-          loop: true,
-        });
+        const heartElement = rootRef.current?.querySelector('.main-heart');
+        if (!heartElement) return;
+
+        try {
+          // Heartbeat animation - stronger pulse, stays in place
+          animate(heartElement, {
+            scale: [1, 1.2, 1, 1.1, 1],
+            opacity: [0.15, 0.3, 0.15, 0.25, 0.15],
+            duration: 2000,
+            easing: 'inOut(3)',
+            loop: true,
+          });
+        } catch (err) {
+          console.warn('Heartbeat animation error:', err);
+        }
+
+        try {
+          // Animate individual heart paths with morphing effect
+          const paths = heartElement.querySelectorAll('path');
+          paths.forEach((path, index) => {
+            try {
+              const pathLength = (path as SVGPathElement).getTotalLength();
+              (path as SVGPathElement).style.strokeDasharray = pathLength.toString();
+              (path as SVGPathElement).style.strokeDashoffset = pathLength.toString();
+              
+              animate(path, {
+                strokeDashoffset: [pathLength, 0],
+                easing: 'inOutSine',
+                duration: 3000,
+                delay: index * 200,
+                alternate: true,
+                loop: true,
+              });
+            } catch (err) {
+              console.warn('Path animation error:', err);
+            }
+          });
+        } catch (err) {
+          console.warn('Paths animation error:', err);
+        }
+
+        try {
+          // Animate small hearts along motion paths
+          const motionPaths = rootRef.current?.querySelectorAll('.motion-path');
+          const smallHearts = rootRef.current?.querySelectorAll('.small-heart');
+          
+          motionPaths?.forEach((path, index) => {
+            try {
+              const smallHeart = smallHearts?.[index];
+              if (!smallHeart || !path) return;
+
+              // Create motion path animation for each heart
+              const motionPathValues = svg.createMotionPath(path as SVGPathElement);
+              
+              if (motionPathValues) {
+                animate(smallHeart, {
+                  ...motionPathValues,
+                  duration: 8000 + (index * 1000), // Vary duration for each heart
+                  easing: 'linear',
+                  loop: true,
+                  delay: index * 500, // Stagger the start
+                });
+
+                // Add pulsing effect to small hearts
+                animate(smallHeart, {
+                  scale: [1, 1.3, 1],
+                  opacity: [0.6, 1, 0.6],
+                  duration: 2000,
+                  easing: 'inOut(2)',
+                  loop: true,
+                  delay: index * 300,
+                });
+              }
+            } catch (err) {
+              console.warn('Motion path animation error:', err);
+            }
+          });
+        } catch (err) {
+          console.warn('Small hearts animation error:', err);
+        }
       });
-
-      // Animate small hearts along motion paths
-      const motionPaths = rootRef.current?.querySelectorAll('.motion-path');
-      const smallHearts = rootRef.current?.querySelectorAll('.small-heart');
-      
-      motionPaths?.forEach((path, index) => {
-        const smallHeart = smallHearts?.[index];
-        if (!smallHeart || !path) return;
-
-        // Create motion path animation for each heart
-        const motionPathValues = svg.createMotionPath(path as SVGPathElement);
-        
-        animate(smallHeart, {
-          ...motionPathValues,
-          duration: 8000 + (index * 1000), // Vary duration for each heart
-          easing: 'linear',
-          loop: true,
-          delay: index * 500, // Stagger the start
-        });
-
-        // Add pulsing effect to small hearts
-        animate(smallHeart, {
-          scale: [1, 1.3, 1],
-          opacity: [0.6, 1, 0.6],
-          duration: 2000,
-          easing: 'inOut(2)',
-          loop: true,
-          delay: index * 300,
-        });
-      });
-    });
+    } catch (err) {
+      console.error('Anime.js scope creation error:', err);
+    }
 
     // Properly cleanup all anime.js instances declared inside the scope
-    return () => scope.current?.revert();
+    return () => {
+      try {
+        if (scope.current && typeof scope.current.revert === 'function') {
+          scope.current.revert();
+        }
+      } catch (err) {
+        console.warn('Cleanup error:', err);
+      }
+    };
   }, []);
 
   return (
