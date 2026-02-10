@@ -517,10 +517,10 @@ const ValentinesSpecial = () => {
                 </div>
               );
 
-            case 5: // Promise Day - Sealed Promise Vault
+            case 5: // Promise Day - Promise Tree of Life
               return (
                 <div>
-                  <PromiseVault dayNumber={day.dayNumber} />
+                  <PromiseTreeContainer dayNumber={day.dayNumber} />
                   {renderAnswerSection(day)}
                   <SaveToAlbum dayNumber={day.dayNumber} dayName={day.name} contentRef={dayContentRef} />
                 </div>
