@@ -8,6 +8,7 @@ import { supabase } from '@/lib/supabase';
 import { toast } from '@/hooks/use-toast';
 import { useNavigate } from 'react-router-dom';
 import { useSpace } from '@/contexts/SpaceContext';
+import FuturisticMotionPaths from '@/components/FuturisticMotionPaths';
 
 interface VaultItem {
   id: string;
