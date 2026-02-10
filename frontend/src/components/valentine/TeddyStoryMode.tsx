@@ -494,9 +494,62 @@ const TeddyStoryMode = () => {
         transition={{ duration: 0.8 }}
         className={`relative min-h-[800px] bg-gradient-to-br ${scene.gradient} rounded-3xl overflow-hidden`}
       >
+        {/* Hidden SVG paths for Anime.js motion paths */}
+        <svg className="absolute inset-0 w-full h-full pointer-events-none" style={{ opacity: 0 }}>
+          <defs>
+            {/* Heart motion paths - Various curves */}
+            <path id="heart-path-0" className="heart-path-0" d="M 100,400 Q 200,200 400,400 T 700,400" />
+            <path id="heart-path-1" className="heart-path-1" d="M 150,300 Q 300,500 500,300 T 850,300" />
+            <path id="heart-path-2" className="heart-path-2" d="M 200,600 Q 400,300 600,600 T 1000,600" />
+            <path id="heart-path-3" className="heart-path-3" d="M 100,200 Q 300,400 500,200 T 900,200" />
+            <path id="heart-path-4" className="heart-path-4" d="M 150,700 Q 350,400 550,700 T 950,700" />
+            <path id="heart-path-5" className="heart-path-5" d="M 50,500 Q 250,250 450,500 T 850,500" />
+            
+            {/* Sparkle motion paths - Figure-8 and loops */}
+            <path id="sparkle-path-0" className="sparkle-path-0" d="M 300,400 Q 400,200 500,400 Q 400,600 300,400 Z" />
+            <path id="sparkle-path-1" className="sparkle-path-1" d="M 600,300 Q 700,500 800,300 Q 700,100 600,300 Z" />
+            <path id="sparkle-path-2" className="sparkle-path-2" d="M 200,600 Q 400,450 600,600 Q 400,750 200,600 Z" />
+            <path id="sparkle-path-3" className="sparkle-path-3" d="M 700,600 Q 850,450 1000,600 Q 850,750 700,600 Z" />
+          </defs>
+        </svg>
+
         {/* Cinematic letterbox borders - more prominent */}
         <div className="absolute top-0 left-0 right-0 h-20 bg-black/90 backdrop-blur-sm z-20 border-b border-white/10" />
         <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-black via-black/95 to-transparent z-20" />
+
+        {/* Anime.js animated hearts along motion paths */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          {[...Array(12)].map((_, i) => (
+            <div
+              key={`heart-${i}`}
+              className="motion-heart absolute text-3xl"
+              style={{ 
+                left: '0px',
+                top: '0px',
+                willChange: 'transform, opacity'
+              }}
+            >
+              💕
+            </div>
+          ))}
+        </div>
+
+        {/* Anime.js animated sparkles along motion paths */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          {[...Array(16)].map((_, i) => (
+            <div
+              key={`sparkle-${i}`}
+              className="motion-sparkle absolute text-2xl"
+              style={{ 
+                left: '0px',
+                top: '0px',
+                willChange: 'transform, opacity'
+              }}
+            >
+              ✨
+            </div>
+          ))}
+        </div>
 
         {/* Content container */}
         <div className="relative z-10 px-6 md:px-8 py-28 flex flex-col items-center justify-between min-h-[800px] pb-48">
