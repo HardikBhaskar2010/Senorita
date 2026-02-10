@@ -22,7 +22,9 @@ import LoveLanguageResults from "@/components/LoveLanguageResults";
 import QuickNotification from "@/components/QuickNotification";
 import ChatBubble from "@/components/ChatBubble";
 import ValentineAnswersModal from "@/components/ValentineAnswersModal";
-import { Heart, Sparkles, LogOut, Settings, Cookie } from "lucide-react";
+import SecretVaultAccess from "@/components/SecretVaultAccess";
+import SecretVaultPassword from "@/components/SecretVaultPassword";
+import { Heart, Sparkles, LogOut, Settings, Cookie, Eye, Shield } from "lucide-react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 
