@@ -35,6 +35,8 @@ const SenoritaDashboard = () => {
   const { dashboardBackgroundSenorita } = useTheme();
   const [unlockedDaysCount, setUnlockedDaysCount] = useState(0);
   const [hasNewUnlock, setHasNewUnlock] = useState(false);
+  const [showVaultAccess, setShowVaultAccess] = useState(false);
+  const [showVaultPassword, setShowVaultPassword] = useState(false);
   
   // Day names mapping for notifications
   const dayNames: Record<number, string> = {
