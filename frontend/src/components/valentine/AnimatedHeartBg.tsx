@@ -14,20 +14,12 @@ const AnimatedHeartBg = () => {
       const heartElement = rootRef.current?.querySelector('.main-heart');
       if (!heartElement) return;
 
-      // Pumping heart animation - scale and opacity
+      // Heartbeat animation - stronger pulse, stays in place
       animate(heartElement, {
-        scale: [1, 1.15, 1],
-        opacity: [0.15, 0.25, 0.15],
-        duration: 1500,
-        easing: 'inOut(2)',
-        loop: true,
-      });
-
-      // Rotate the entire heart slowly
-      animate(heartElement, {
-        rotate: '1turn',
-        duration: 60000,
-        easing: 'linear',
+        scale: [1, 1.2, 1, 1.1, 1],
+        opacity: [0.15, 0.3, 0.15, 0.25, 0.15],
+        duration: 2000,
+        easing: 'inOut(3)',
         loop: true,
       });
 
