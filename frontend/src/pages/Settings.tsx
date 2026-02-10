@@ -856,6 +856,101 @@ const Settings = () => {
               </form>
             </CardContent>
           </Card>
+
+          {/* Vault Password Management */}
+          <Card className="bg-card/90 backdrop-blur-md border-primary/20 shadow-xl">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-xl">
+                <Shield className="w-5 h-5 text-primary" />
+                Secret Vault Password
+              </CardTitle>
+              <CardDescription>
+                {hasVaultPassword 
+                  ? 'Update your vault password to keep your secrets secure' 
+                  : 'Set up a password to protect your Secret Vault'}
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              {isCheckingVault ? (
+                <div className="flex items-center justify-center py-8">
+                  <Loader2 className="w-6 h-6 animate-spin text-primary" />
+                </div>
+              ) : (
+                <form onSubmit={handleVaultPasswordChange} className="space-y-4">
+                  {hasVaultPassword && (
+                    <div className="space-y-2">
+                      <Label htmlFor="current-vault-password">Current Vault Password</Label>
+                      <Input
+                        id="current-vault-password"
+                        type="password"
+                        value={vaultPassword}
+                        onChange={(e) => setVaultPassword(e.target.value)}
+                        placeholder="Enter current vault password"
+                        disabled={isChangingVaultPassword}
+                        data-testid="current-vault-password-input"
+                      />
+                    </div>
+                  )}
+                  
+                  <div className="space-y-2">
+                    <Label htmlFor="new-vault-password">
+                      {hasVaultPassword ? 'New Vault Password' : 'Vault Password'}
+                    </Label>
+                    <Input
+                      id="new-vault-password"
+                      type="password"
+                      value={newVaultPassword}
+                      onChange={(e) => setNewVaultPassword(e.target.value)}
+                      placeholder={hasVaultPassword ? "Enter new vault password" : "Create vault password"}
+                      disabled={isChangingVaultPassword}
+                      data-testid="new-vault-password-input"
+                    />
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <Label htmlFor="confirm-vault-password">Confirm Vault Password</Label>
+                    <Input
+                      id="confirm-vault-password"
+                      type="password"
+                      value={confirmVaultPassword}
+                      onChange={(e) => setConfirmVaultPassword(e.target.value)}
+                      placeholder="Confirm vault password"
+                      disabled={isChangingVaultPassword}
+                      data-testid="confirm-vault-password-input"
+                    />
+                  </div>
+
+                  {!hasVaultPassword && (
+                    <div className="bg-cyan-500/10 border border-cyan-500/30 rounded-lg p-4">
+                      <p className="text-sm text-cyan-400 flex items-center gap-2">
+                        <Shield className="w-4 h-4" />
+                        Your Secret Vault will be protected with this password. Remember it well!
+                      </p>
+                    </div>
+                  )}
+                  
+                  <Button
+                    type="submit"
+                    className="w-full"
+                    disabled={isChangingVaultPassword}
+                    data-testid="change-vault-password-button"
+                  >
+                    {isChangingVaultPassword ? (
+                      <>
+                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                        {hasVaultPassword ? 'Updating Vault Password...' : 'Setting Up Vault...'}
+                      </>
+                    ) : (
+                      <>
+                        <Shield className="w-4 h-4 mr-2" />
+                        {hasVaultPassword ? 'Change Vault Password' : 'Set Vault Password'}
+                      </>
+                    )}
+                  </Button>
+                </form>
+              )}
+            </CardContent>
+          </Card>
         </motion.div>
       </div>
     </div>
