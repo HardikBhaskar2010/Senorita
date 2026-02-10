@@ -159,7 +159,8 @@ const FuturisticMotionPaths = ({ theme = 'cyan', pathCount = 8 }: FuturisticMoti
       container.appendChild(node);
 
       // Pulse animation for nodes
-      animate(node, {
+      const pulseAnim = anime({
+        targets: node,
         scale: [1, 2, 1],
         opacity: [0.3, 0.8, 0.3],
         duration: 2000 + Math.random() * 1000,
@@ -167,9 +168,12 @@ const FuturisticMotionPaths = ({ theme = 'cyan', pathCount = 8 }: FuturisticMoti
         loop: true,
         delay: i * 150
       });
+      
+      animations.push(pulseAnim);
 
       // Floating animation
-      animate(node, {
+      const floatAnim = anime({
+        targets: node,
         translateX: [
           { value: (Math.random() - 0.5) * 100, duration: 3000 },
           { value: 0, duration: 3000 }
@@ -182,10 +186,20 @@ const FuturisticMotionPaths = ({ theme = 'cyan', pathCount = 8 }: FuturisticMoti
         loop: true,
         delay: i * 200
       });
+      
+      animations.push(floatAnim);
     }
 
     // Cleanup function
     return () => {
+      // Stop all animations
+      animations.forEach(anim => {
+        if (anim && typeof anim.pause === 'function') {
+          anim.pause();
+        }
+      });
+      
+      // Remove all DOM elements
       if (container) {
         while (container.firstChild) {
           container.removeChild(container.firstChild);
