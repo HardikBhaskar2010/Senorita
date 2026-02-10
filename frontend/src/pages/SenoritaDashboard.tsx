@@ -38,6 +38,23 @@ const SenoritaDashboard = () => {
   const [showVaultAccess, setShowVaultAccess] = useState(false);
   const [showVaultPassword, setShowVaultPassword] = useState(false);
   
+  // Handle vault unlock (2-finger touch complete)
+  const handleVaultUnlock = () => {
+    setShowVaultAccess(false);
+    setShowVaultPassword(true);
+  };
+
+  // Handle vault password success
+  const handleVaultPasswordSuccess = () => {
+    setShowVaultPassword(false);
+    navigate('/secret-vault');
+  };
+
+  // Enable vault access component
+  useEffect(() => {
+    setShowVaultAccess(true);
+  }, []);
+
   // Day names mapping for notifications
   const dayNames: Record<number, string> = {
     1: "Rose Day",
