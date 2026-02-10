@@ -287,6 +287,7 @@ const TeddyStoryMode = () => {
     setHasStarted(false);
     setCurrentScene(0);
     setDisplayedText('');
+    // Background music will be restored by useEffect
   };
 
   const skipToEnd = () => {
