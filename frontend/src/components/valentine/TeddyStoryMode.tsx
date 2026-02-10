@@ -630,75 +630,90 @@ const TeddyStoryMode = () => {
           </motion.div>
         </div>
 
-        {/* Navigation controls - Fixed at bottom with better visibility */}
+        {/* Navigation controls - Fixed at bottom with modern pill-shaped design */}
         <div className="absolute bottom-0 left-0 right-0 z-30">
           {/* Control panel backdrop */}
-          <div className="bg-gradient-to-t from-black via-black/90 to-transparent pt-12 pb-6 px-4 md:px-8">
-            <div className="flex items-center justify-between max-w-6xl mx-auto gap-4">
+          <div className="bg-gradient-to-t from-black via-black/95 to-transparent pt-12 pb-8 px-4 md:px-8">
+            <div className="flex flex-col items-center gap-4 max-w-6xl mx-auto">
               
-              {/* Previous Button */}
-              <Button
-                onClick={handlePrevious}
-                disabled={currentScene === 0}
-                size="lg"
-                className="bg-white/20 hover:bg-white/30 text-white border-2 border-white/40 backdrop-blur-sm disabled:opacity-30 disabled:cursor-not-allowed font-bold text-base px-6 py-6 rounded-xl shadow-xl"
-              >
-                <ChevronLeft className="w-5 h-5 mr-1" />
-                Previous
-              </Button>
-
-              {/* Center controls */}
-              <div className="flex flex-col items-center gap-3">
-                <div className="flex items-center gap-3">
-                  {/* Sound toggle */}
-                  <Button
-                    onClick={toggleSound}
-                    size="lg"
-                    className="bg-white/20 hover:bg-white/30 text-white border-2 border-white/40 backdrop-blur-sm rounded-full w-14 h-14 p-0 shadow-xl"
-                  >
-                    {soundEnabled ? <Volume2 className="w-6 h-6" /> : <VolumeX className="w-6 h-6" />}
-                  </Button>
-
-                  {/* Skip story */}
-                  <Button
-                    onClick={handleSkip}
-                    size="lg"
-                    className="bg-white/20 hover:bg-white/30 text-white border-2 border-white/40 backdrop-blur-sm font-bold px-6 py-6 rounded-xl shadow-xl"
-                  >
-                    <SkipForward className="w-5 h-5 mr-2" />
-                    Exit Story
-                  </Button>
-                </div>
+              {/* Main controls row */}
+              <div className="flex items-center justify-center gap-3 flex-wrap w-full">
                 
-                {/* Progress indicator text */}
-                <div className="text-white font-medium text-sm bg-black/40 px-4 py-1 rounded-full">
-                  Scene {currentScene + 1} of {storyScenes.length}
-                </div>
+                {/* Previous Button - Pill shaped */}
+                <Button
+                  onClick={handlePrevious}
+                  disabled={currentScene === 0}
+                  size="lg"
+                  className="bg-white/20 hover:bg-white/30 text-white border-2 border-white/50 backdrop-blur-md disabled:opacity-30 disabled:cursor-not-allowed font-bold text-base px-8 py-6 rounded-full shadow-2xl hover:scale-105 transition-all duration-300 disabled:hover:scale-100"
+                >
+                  <ChevronLeft className="w-5 h-5 mr-2" />
+                  Previous
+                </Button>
+
+                {/* Sound toggle - Circular pill */}
+                <Button
+                  onClick={toggleSound}
+                  size="lg"
+                  className="bg-white/20 hover:bg-white/30 text-white border-2 border-white/50 backdrop-blur-md rounded-full w-16 h-16 p-0 shadow-2xl hover:scale-110 transition-all duration-300"
+                  title={soundEnabled ? 'Mute sound' : 'Enable sound'}
+                >
+                  {soundEnabled ? <Volume2 className="w-7 h-7" /> : <VolumeX className="w-7 h-7" />}
+                </Button>
+
+                {/* Exit story button - Pill shaped */}
+                <Button
+                  onClick={handleSkip}
+                  size="lg"
+                  className="bg-red-500/30 hover:bg-red-500/40 text-white border-2 border-red-300/50 backdrop-blur-md font-bold px-8 py-6 rounded-full shadow-2xl hover:scale-105 transition-all duration-300"
+                >
+                  <SkipForward className="w-5 h-5 mr-2" />
+                  Exit
+                </Button>
+
+                {/* Next Button - Pill shaped */}
+                <Button
+                  onClick={handleNext}
+                  disabled={currentScene === storyScenes.length - 1}
+                  size="lg"
+                  className="bg-white/20 hover:bg-white/30 text-white border-2 border-white/50 backdrop-blur-md disabled:opacity-30 disabled:cursor-not-allowed font-bold text-base px-8 py-6 rounded-full shadow-2xl hover:scale-105 transition-all duration-300 disabled:hover:scale-100"
+                >
+                  Next
+                  <ChevronRight className="w-5 h-5 ml-2" />
+                </Button>
               </div>
 
-              {/* Next Button */}
-              <Button
-                onClick={handleNext}
-                disabled={currentScene === storyScenes.length - 1}
-                size="lg"
-                className="bg-white/20 hover:bg-white/30 text-white border-2 border-white/40 backdrop-blur-sm disabled:opacity-30 disabled:cursor-not-allowed font-bold text-base px-6 py-6 rounded-xl shadow-xl"
-              >
-                Next
-                <ChevronRight className="w-5 h-5 ml-1" />
-              </Button>
+              {/* Progress and time info row */}
+              <div className="flex items-center justify-center gap-6 flex-wrap">
+                {/* Scene progress */}
+                <div className="text-white font-bold text-base bg-black/50 backdrop-blur-sm px-6 py-3 rounded-full border-2 border-white/30 shadow-lg">
+                  Scene {currentScene + 1} of {storyScenes.length}
+                </div>
+                
+                {/* Time remaining */}
+                {timeRemaining > 0 && (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className="flex items-center gap-2 text-white/90 font-medium text-sm bg-blue-500/30 backdrop-blur-sm px-5 py-3 rounded-full border-2 border-blue-300/40 shadow-lg"
+                  >
+                    <Clock className="w-4 h-4" />
+                    <span>~{formatTime(timeRemaining)} left</span>
+                  </motion.div>
+                )}
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Floating particles decoration */}
+        {/* Floating particles decoration - Updated to use simpler animation */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          {[...Array(15)].map((_, i) => (
+          {[...Array(10)].map((_, i) => (
             <motion.div
-              key={i}
+              key={`particle-${i}`}
               initial={{ y: '100%', x: `${Math.random() * 100}%`, opacity: 0 }}
               animate={{ 
                 y: '-20%', 
-                opacity: [0, 0.4, 0]
+                opacity: [0, 0.3, 0]
               }}
               transition={{
                 duration: 6 + Math.random() * 3,
@@ -708,7 +723,7 @@ const TeddyStoryMode = () => {
               }}
               className="absolute text-3xl"
             >
-              ✨
+              🎀
             </motion.div>
           ))}
         </div>
