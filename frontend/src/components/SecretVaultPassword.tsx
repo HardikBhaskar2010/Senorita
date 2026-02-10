@@ -183,6 +183,12 @@ const SecretVaultPassword = ({ userName, onSuccess, onCancel }: SecretVaultPassw
       exit={{ opacity: 0 }}
       className="fixed inset-0 bg-black/95 backdrop-blur-sm z-50 flex items-center justify-center p-4"
     >
+      {/* Futuristic Motion Paths */}
+      <FuturisticMotionPaths 
+        theme={userName === 'Cookie' ? 'cyan' : 'pink'} 
+        pathCount={6}
+      />
+
       {/* Matrix Background Effect */}
       <div className="absolute inset-0 overflow-hidden opacity-10">
         {matrixNumbers.map((num, i) => (
