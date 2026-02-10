@@ -112,16 +112,14 @@ const FuturisticMotionPaths = ({ theme = 'cyan', pathCount = 8 }: FuturisticMoti
       path.style.strokeDasharray = `${pathLength}`;
       path.style.strokeDashoffset = `${pathLength}`;
 
-      anime({
-        targets: path,
+      animate(path, {
         strokeDashoffset: [pathLength, 0],
         duration: 4000,
         easing: 'easeInOutQuad',
         delay: i * 300,
         complete: () => {
           // After drawing, animate in reverse for continuous flow
-          anime({
-            targets: path,
+          animate(path, {
             strokeDashoffset: [0, -pathLength],
             duration: 10000 + Math.random() * 5000,
             easing: 'linear',
