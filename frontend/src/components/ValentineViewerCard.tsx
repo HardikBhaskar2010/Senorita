@@ -70,8 +70,7 @@ const ValentineViewerCard = () => {
 
   // Anime.js heart animation
   useEffect(() => {
-    const animation = anime({
-      targets: '.valentine-viewer-heart',
+    const animation = animate('.valentine-viewer-heart', {
       scale: [1, 1.2, 1],
       rotate: ['0deg', '10deg', '-10deg', '0deg'],
       duration: 2000,
