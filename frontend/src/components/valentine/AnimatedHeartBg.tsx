@@ -40,16 +40,6 @@ const AnimatedHeartBg = () => {
         });
       });
 
-      // Add subtle position movement
-      animate(heartElement, {
-        translateX: [-10, 10],
-        translateY: [-10, 10],
-        duration: 8000,
-        easing: 'inOut(2)',
-        alternate: true,
-        loop: true,
-      });
-
       // Animate small hearts along motion paths
       const motionPaths = rootRef.current?.querySelectorAll('.motion-path');
       const smallHearts = rootRef.current?.querySelectorAll('.small-heart');
