@@ -19,6 +19,8 @@ import Settings from "./pages/Settings";
 import Chat from "./pages/Chat";
 import Milestones from "./pages/Milestones";
 import ValentinesSpecial from "./pages/ValentinesSpecial";
+import ValentinesViewer from "./pages/ValentinesViewer";
+import SecretVaultPage from "./pages/SecretVaultPage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -51,6 +53,8 @@ const App = () => (
                   <Route path="/chat" element={<Chat />} />
                   <Route path="/milestones" element={<Milestones />} />
                   <Route path="/valentines-special" element={<ValentinesSpecial />} />
+                  <Route path="/valentines-viewer" element={<ValentinesViewer />} />
+                  <Route path="/secret-vault" element={<SecretVaultPage />} />
                   <Route path="/settings" element={<Settings />} />
                   {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                   <Route path="*" element={<NotFound />} />
