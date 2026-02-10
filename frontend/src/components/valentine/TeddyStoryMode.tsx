@@ -87,9 +87,11 @@ const TeddyStoryMode = () => {
   const [isTyping, setIsTyping] = useState(false);
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [hasWatchedBefore, setHasWatchedBefore] = useState(false);
+  const [timeRemaining, setTimeRemaining] = useState(0);
   
   const audioContextRef = useRef<AudioContext | null>(null);
   const typingIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const animeInstanceRef = useRef<any>(null);
 
   useEffect(() => {
     // Check if user has watched before
