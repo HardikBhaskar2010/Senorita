@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { supabase } from '@/lib/supabase';
 import { toast } from '@/hooks/use-toast';
+import FuturisticMotionPaths from '@/components/FuturisticMotionPaths';
 
 interface SecretVaultPasswordProps {
   userName: 'Cookie' | 'Senorita';
