@@ -146,8 +146,7 @@ const FuturisticMotionPaths = ({ theme = 'cyan', pathCount = 8 }: FuturisticMoti
       container.appendChild(node);
 
       // Pulse animation for nodes
-      anime({
-        targets: node,
+      animate(node, {
         scale: [1, 2, 1],
         opacity: [0.3, 0.8, 0.3],
         duration: 2000 + Math.random() * 1000,
@@ -157,8 +156,7 @@ const FuturisticMotionPaths = ({ theme = 'cyan', pathCount = 8 }: FuturisticMoti
       });
 
       // Floating animation
-      anime({
-        targets: node,
+      animate(node, {
         translateX: [
           { value: (Math.random() - 0.5) * 100, duration: 3000 },
           { value: 0, duration: 3000 }
