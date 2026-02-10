@@ -325,6 +325,30 @@ All issues fixed and working perfectly:
 - Cloud storage via Supabase
 - Dashboard preview shows latest photos
 
+### 🔒 **Secret Vault** (v7.4.1)
+- **Private Digital Sanctuary** - Secure storage for personal items
+- **Multi-Format Support:**
+  - 📝 Text notes and secrets
+  - 🖼️ Private images
+  - 📎 File uploads (up to 10MB)
+- **Sync Control** - Choose to keep items private or share with partner
+- **Futuristic UI:**
+  - 🌌 Matrix-style digital rain background
+  - 🔮 Animated motion paths with glowing particles
+  - 🛡️ Hacker-themed interface
+  - 🔄 Circular progress indicators
+- **Smart Organization:**
+  - View your own items
+  - See partner's synced items
+  - Track total synced content
+- **Touch-Based Security** - Two-finger hold unlock mechanism
+- **Real-time Updates** - Instant sync via Supabase subscriptions
+- **File Management:**
+  - Download stored files
+  - Toggle sync status
+  - Delete own items
+  - Preview images inline
+
 ### ❓ Daily Questions
 - Answer romantic daily questions
 - View partner's answers side-by-side
