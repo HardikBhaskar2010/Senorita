@@ -69,6 +69,32 @@ const Settings = () => {
   // Get current dashboard background based on user
   const currentDashboardBg = currentSpace === 'cookie' ? dashboardBackgroundCookie : dashboardBackgroundSenorita;
 
+  // Check if vault password is set
+  useEffect(() => {
+    const checkVaultSetup = async () => {
+      try {
+        const userName = currentSpace === 'cookie' ? 'Cookie' : 'Senorita';
+        const { data, error } = await supabase
+          .from('vault_settings')
+          .select('is_setup')
+          .eq('user_name', userName)
+          .single();
+
+        if (!error && data) {
+          setHasVaultPassword(data.is_setup);
+        }
+      } catch (err) {
+        console.error('Error checking vault setup:', err);
+      } finally {
+        setIsCheckingVault(false);
+      }
+    };
+
+    if (currentSpace) {
+      checkVaultSetup();
+    }
+  }, [currentSpace]);
+
   const goBack = () => {
     navigate(currentSpace === 'cookie' ? '/cookie' : '/senorita');
   };
