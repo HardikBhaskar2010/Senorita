@@ -115,9 +115,49 @@ const SecretVaultAccess = ({ onUnlock }: SecretVaultAccessProps) => {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.8 }}
-            className="fixed top-20 left-1/2 transform -translate-x-1/2 z-50 pointer-events-none"
+            className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 pointer-events-none"
           >
-            <div className="bg-black/90 backdrop-blur-xl border border-cyan-500/50 rounded-2xl p-6 shadow-2xl">
+            <div className="relative bg-black/90 backdrop-blur-xl border border-cyan-500/50 rounded-2xl p-8 shadow-2xl">
+              {/* Circular Progress Indicator */}
+              {isHolding && (
+                <svg 
+                  className="absolute inset-0 w-full h-full pointer-events-none"
+                  style={{ transform: 'rotate(-90deg)' }}
+                >
+                  {/* Background Circle */}
+                  <circle
+                    cx="50%"
+                    cy="50%"
+                    r="48%"
+                    fill="none"
+                    stroke="rgba(6, 182, 212, 0.2)"
+                    strokeWidth="4"
+                  />
+                  {/* Progress Circle */}
+                  <motion.circle
+                    cx="50%"
+                    cy="50%"
+                    r="48%"
+                    fill="none"
+                    stroke="url(#progressGradient)"
+                    strokeWidth="4"
+                    strokeLinecap="round"
+                    strokeDasharray="1000"
+                    strokeDashoffset={1000 - (holdProgress / 100) * 1000}
+                    style={{ 
+                      filter: 'drop-shadow(0 0 8px rgba(6, 182, 212, 0.8))'
+                    }}
+                  />
+                  <defs>
+                    <linearGradient id="progressGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#06b6d4" />
+                      <stop offset="50%" stopColor="#3b82f6" />
+                      <stop offset="100%" stopColor="#ec4899" />
+                    </linearGradient>
+                  </defs>
+                </svg>
+              )}
+
               {/* Hacker Theme Container */}
               <div className="relative">
                 {/* Matrix-style background */}
@@ -141,16 +181,12 @@ const SecretVaultAccess = ({ onUnlock }: SecretVaultAccessProps) => {
                 </div>
 
                 {/* Content */}
-                <div className="relative z-10 text-center">
+                <div className="relative z-10 text-center min-w-[280px]">
                   {isHolding ? (
                     <>
-                      <motion.div
-                        animate={{ rotate: 360 }}
-                        transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                        className="mx-auto mb-4"
-                      >
-                        <Shield className="w-12 h-12 text-cyan-400" />
-                      </motion.div>
+                      <div className="mx-auto mb-4 flex items-center justify-center">
+                        <Shield className="w-16 h-16 text-cyan-400" />
+                      </div>
                       <p className="text-cyan-400 font-mono text-sm mb-3">
                         {'>'} DECRYPTING VAULT...
                       </p>
@@ -173,8 +209,9 @@ const SecretVaultAccess = ({ onUnlock }: SecretVaultAccessProps) => {
                       <motion.div
                         animate={{ scale: [1, 1.2, 1] }}
                         transition={{ duration: 1, repeat: Infinity }}
+                        className="flex items-center justify-center"
                       >
-                        <Lock className="w-10 h-10 text-pink-400 mx-auto mb-3" />
+                        <Lock className="w-12 h-12 text-pink-400 mx-auto mb-3" />
                       </motion.div>
                       <p className="text-pink-400 font-mono text-sm mb-2">
                         {'>'} SECRET VAULT DETECTED
