@@ -305,6 +305,11 @@ const CookieDashboard = () => {
             <VirtualHugKiss />
           </motion.div>
 
+          {/* Valentine's Viewer - NEW! */}
+          <motion.div variants={itemVariants}>
+            <ValentineViewerCard />
+          </motion.div>
+
           {/* Countdown Timer */}
           <motion.div variants={itemVariants}>
             <div className="h-full">
