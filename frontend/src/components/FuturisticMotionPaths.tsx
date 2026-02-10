@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { animate, svg } from 'animejs';
+import anime from 'animejs';
 
 interface FuturisticMotionPathsProps {
   theme?: 'cyan' | 'pink' | 'purple';
@@ -27,17 +27,18 @@ const FuturisticMotionPaths = ({ theme = 'cyan', pathCount = 8 }: FuturisticMoti
 
     // Create random SVG paths
     const paths: SVGPathElement[] = [];
+    const animations: anime.AnimeInstance[] = [];
     
     for (let i = 0; i < pathCount; i++) {
       // Create SVG element
-      const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-      svg.setAttribute('width', '100%');
-      svg.setAttribute('height', '100%');
-      svg.style.position = 'absolute';
-      svg.style.top = '0';
-      svg.style.left = '0';
-      svg.style.pointerEvents = 'none';
-      svg.style.zIndex = '1';
+      const svgEl = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      svgEl.setAttribute('width', '100%');
+      svgEl.setAttribute('height', '100%');
+      svgEl.style.position = 'absolute';
+      svgEl.style.top = '0';
+      svgEl.style.left = '0';
+      svgEl.style.pointerEvents = 'none';
+      svgEl.style.zIndex = '1';
 
       // Generate random control points for complex curved path
       const startX = Math.random() * width;
@@ -70,8 +71,8 @@ const FuturisticMotionPaths = ({ theme = 'cyan', pathCount = 8 }: FuturisticMoti
       path.setAttribute('opacity', '0.3');
       path.style.filter = 'blur(1px)';
 
-      svg.appendChild(path);
-      container.appendChild(svg);
+      svgEl.appendChild(path);
+      container.appendChild(svgEl);
       paths.push(path);
 
       // Create glowing particle that follows the path
@@ -86,47 +87,59 @@ const FuturisticMotionPaths = ({ theme = 'cyan', pathCount = 8 }: FuturisticMoti
       particle.style.zIndex = '2';
       container.appendChild(particle);
 
-      // Animate particle along the path using anime.js
-      const motionPathValues = svg.createMotionPath(path);
-      if (motionPathValues) {
-        animate(particle, {
-          ...motionPathValues,
-          duration: 8000 + Math.random() * 6000,
-          easing: 'linear',
-          loop: true,
-          delay: i * 400
-        });
-      }
+      // Animate particle along the path using anime.js motion path
+      const pathLength = path.getTotalLength();
+      const duration = 8000 + Math.random() * 6000;
+      
+      // Use anime's built-in motion path animation
+      const particleAnim = anime({
+        targets: particle,
+        translateX: anime.path(path, 'x'),
+        translateY: anime.path(path, 'y'),
+        duration: duration,
+        easing: 'linear',
+        loop: true,
+        delay: i * 400
+      });
+      
+      animations.push(particleAnim);
 
       // Animate path opacity for pulsing effect
-      animate(path, {
+      const opacityAnim = anime({
+        targets: path,
         opacity: [0.1, 0.5, 0.1],
         duration: 3000 + Math.random() * 2000,
         easing: 'easeInOutSine',
         loop: true,
         delay: i * 200
       });
+      
+      animations.push(opacityAnim);
 
       // Animate stroke-dashoffset for drawing effect
-      const pathLength = path.getTotalLength();
       path.style.strokeDasharray = `${pathLength}`;
       path.style.strokeDashoffset = `${pathLength}`;
 
-      animate(path, {
+      const drawAnim = anime({
+        targets: path,
         strokeDashoffset: [pathLength, 0],
         duration: 4000,
         easing: 'easeInOutQuad',
         delay: i * 300,
         complete: () => {
           // After drawing, animate in reverse for continuous flow
-          animate(path, {
+          const flowAnim = anime({
+            targets: path,
             strokeDashoffset: [0, -pathLength],
             duration: 10000 + Math.random() * 5000,
             easing: 'linear',
             loop: true
           });
+          animations.push(flowAnim);
         }
       });
+      
+      animations.push(drawAnim);
     }
 
     // Create floating nodes at intersections
