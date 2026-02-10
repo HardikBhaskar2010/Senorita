@@ -80,7 +80,24 @@ const TeddyBears3D = () => {
           </div>
         </motion.div>
 
-        <Canvas>
+        <Canvas
+          onCreated={({ gl }) => {
+            // Add context lost/restored handlers
+            gl.domElement.addEventListener('webglcontextlost', (e) => {
+              e.preventDefault();
+              console.warn('WebGL context lost');
+            });
+            gl.domElement.addEventListener('webglcontextrestored', () => {
+              console.log('WebGL context restored');
+            });
+          }}
+          gl={{ 
+            preserveDrawingBuffer: true,
+            antialias: true,
+            alpha: true,
+            powerPreference: 'high-performance'
+          }}
+        >
           <PerspectiveCamera makeDefault position={[0, 0, 5]} />
           
           {/* Enhanced lighting with warm glow */}
