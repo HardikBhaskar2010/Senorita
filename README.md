@@ -29,9 +29,43 @@ All content syncs in real-time across both spaces via Supabase subscriptions.
 
 ---
 
-## 🔥 Recent Fixes & Improvements (v7.4.0)
+## 🔥 Recent Fixes & Improvements (v7.4.1)
 
-### 📸 **NEW: AR Photobooth for Teddy Day** (Feb 2025)
+### 🔒 **LATEST: Secret Vault Animation Fixes** (Feb 2025)
+Critical bug fixes and UI enhancements for Secret Vault feature!
+
+**Bug Fixes:**
+- ✅ **Fixed Motion Path Error** - Resolved `u.createMotionPath is not a function` error
+  - Corrected animejs v4.x API usage
+  - Changed from `import { animate, svg } from 'animejs'` to `import anime from 'animejs'`
+  - Replaced non-existent `svg.createMotionPath()` with proper `anime.path()` method
+  - All futuristic motion path animations now working correctly
+
+**UI/UX Improvements:**
+- ✅ **Enhanced Pre-Vault Loader:**
+  - 🎯 **Perfect Centering** - Loader now appears in exact center of screen
+  - 🔄 **Circular Progress Line** - Beautiful animated circle draws around card during unlock
+  - 🛡️ **Fixed Shield Icon** - Shield now stays stationary (no spinning)
+  - 🎨 **Gradient Progress** - Cyan → Blue → Pink gradient with glow effect
+  - 📐 **Better Spacing** - Increased padding and minimum width for improved layout
+  
+**Visual Enhancements:**
+- Animated SVG circular progress indicator (0-100%)
+- Background circle shows full progress track
+- Active progress with gradient color scheme and drop shadow
+- Shield icon increased to 16x16 for better visibility
+- Smooth animations using framer-motion
+- Maintained hacker/matrix theme aesthetic
+
+**Technical Details:**
+- Fixed file: `/app/frontend/src/components/FuturisticMotionPaths.tsx`
+- Enhanced file: `/app/frontend/src/components/SecretVaultAccess.tsx`
+- Proper animation cleanup to prevent memory leaks
+- All animations tracked and paused on component unmount
+
+---
+
+### 📸 **AR Photobooth for Teddy Day** (Feb 2025)
 Revolutionary augmented reality experience added to Teddy Day!
 
 **AR Photobooth Features:**
