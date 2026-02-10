@@ -101,6 +101,99 @@ const TeddyStoryMode = () => {
     }
   }, []);
 
+  // Initialize Anime.js motion paths when story starts
+  useEffect(() => {
+    if (!hasStarted) return;
+
+    // Create Anime.js scope for cleanup
+    const scope = createScope();
+
+    // Animate floating hearts along motion paths
+    const heartElements = document.querySelectorAll('.motion-heart');
+    if (heartElements.length > 0) {
+      heartElements.forEach((heart, index) => {
+        const pathSelector = `.heart-path-${index % 6}`;
+        const pathElement = document.querySelector(pathSelector) as SVGPathElement;
+        
+        if (pathElement) {
+          const motionPath = svg.createMotionPath(pathElement);
+          
+          scope.animate(heart, {
+            duration: 8000 + (index * 500),
+            loop: true,
+            ease: 'linear',
+            ...motionPath,
+            opacity: [0.4, 1, 0.4],
+            scale: [0.8, 1.2, 0.8],
+          });
+        }
+      });
+    }
+
+    // Animate sparkles along paths
+    const sparkleElements = document.querySelectorAll('.motion-sparkle');
+    if (sparkleElements.length > 0) {
+      sparkleElements.forEach((sparkle, index) => {
+        const pathSelector = `.sparkle-path-${index % 4}`;
+        const pathElement = document.querySelector(pathSelector) as SVGPathElement;
+        
+        if (pathElement) {
+          const motionPath = svg.createMotionPath(pathElement);
+          
+          scope.animate(sparkle, {
+            duration: 6000 + (index * 400),
+            loop: true,
+            ease: 'inOutQuad',
+            ...motionPath,
+            opacity: [0, 0.8, 0],
+            scale: [0.5, 1, 0.5],
+          });
+        }
+      });
+    }
+
+    animeInstanceRef.current = scope;
+
+    return () => {
+      // Cleanup animations
+      if (animeInstanceRef.current) {
+        animeInstanceRef.current.revert();
+      }
+    };
+  }, [hasStarted]);
+
+  // Control background music volume
+  useEffect(() => {
+    if (hasStarted) {
+      // Mute background music when story starts
+      setBackgroundMusicVolume(0);
+    } else {
+      // Restore background music when story ends
+      setBackgroundMusicVolume(1.0);
+    }
+
+    return () => {
+      // Restore music on unmount
+      setBackgroundMusicVolume(1.0);
+    };
+  }, [hasStarted]);
+
+  // Calculate estimated time remaining
+  useEffect(() => {
+    if (!hasStarted || currentScene >= storyScenes.length) return;
+
+    const scene = storyScenes[currentScene];
+    const charactersRemaining = scene.text.length - displayedText.length;
+    const typingSpeed = 50; // ms per character
+    const remainingSeconds = Math.ceil((charactersRemaining * typingSpeed) / 1000);
+    
+    // Add buffer time for scene transitions (2 seconds per remaining scene)
+    const scenesRemaining = storyScenes.length - currentScene - 1;
+    const totalSeconds = remainingSeconds + (scenesRemaining * 2);
+    
+    setTimeRemaining(totalSeconds);
+  }, [currentScene, displayedText, hasStarted]);
+
   // Play typing sound using Web Audio API
   const playTypingSound = () => {
     if (!soundEnabled) return;
