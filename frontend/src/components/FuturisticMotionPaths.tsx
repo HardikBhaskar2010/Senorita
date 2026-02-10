@@ -99,8 +99,7 @@ const FuturisticMotionPaths = ({ theme = 'cyan', pathCount = 8 }: FuturisticMoti
       }
 
       // Animate path opacity for pulsing effect
-      anime({
-        targets: path,
+      animate(path, {
         opacity: [0.1, 0.5, 0.1],
         duration: 3000 + Math.random() * 2000,
         easing: 'easeInOutSine',
