@@ -305,6 +305,13 @@ const TeddyStoryMode = () => {
     setSoundEnabled(prev => !prev);
   };
 
+  // Format time remaining (MM:SS)
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  };
+
   // Teddy characters based on pose
   const renderTeddyCharacters = (pose: StoryScene['teddyPose']) => {
     const teddyConfigs = {
