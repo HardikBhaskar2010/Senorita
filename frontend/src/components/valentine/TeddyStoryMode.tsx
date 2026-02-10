@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { ChevronLeft, ChevronRight, SkipForward, Volume2, VolumeX, Play } from 'lucide-react';
+import { ChevronLeft, ChevronRight, SkipForward, Volume2, VolumeX, Play, Clock } from 'lucide-react';
+import { animate, svg, createScope } from 'animejs';
 
 // Function to control background music volume (audio ducking)
 const setBackgroundMusicVolume = (volume: number) => {
