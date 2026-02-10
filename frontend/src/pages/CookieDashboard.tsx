@@ -47,6 +47,23 @@ const CookieDashboard = () => {
     }
   }, [currentSpace, navigate]);
 
+  // Handle vault unlock (2-finger touch complete)
+  const handleVaultUnlock = () => {
+    setShowVaultAccess(false);
+    setShowVaultPassword(true);
+  };
+
+  // Handle vault password success
+  const handleVaultPasswordSuccess = () => {
+    setShowVaultPassword(false);
+    navigate('/secret-vault');
+  };
+
+  // Enable vault access component
+  useEffect(() => {
+    setShowVaultAccess(true);
+  }, []);
+
   // Check for unread Valentine's answers
   useEffect(() => {
     const checkUnreadAnswers = async () => {
