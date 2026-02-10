@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import anime from 'animejs';
+import { animate, svg } from 'animejs';
 
 interface FuturisticMotionPathsProps {
   theme?: 'cyan' | 'pink' | 'purple';
