@@ -14,6 +14,7 @@ import ProposalSlideshow from '@/components/valentine/ProposalSlideshow';
 import ChocolateGame from '@/components/valentine/ChocolateGame';
 import TeddyStoryMode from '@/components/valentine/TeddyStoryMode';
 import PromiseVault from '@/components/valentine/PromiseVault';
+import PromiseTreeContainer from '@/components/valentine/PromiseTreeContainer';
 import HoldToHug from '@/components/valentine/HoldToHug';
 import KissRipples from '@/components/valentine/KissRipples';
 import StorybookPDF from '@/components/valentine/StorybookPDF';
