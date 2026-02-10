@@ -292,6 +292,12 @@ const SecretVaultPage = () => {
 
   return (
     <div className="min-h-screen bg-black relative overflow-hidden">
+      {/* Futuristic Motion Paths Background */}
+      <FuturisticMotionPaths 
+        theme={currentSpace === 'cookie' ? 'cyan' : 'pink'} 
+        pathCount={10}
+      />
+
       {/* Matrix Background */}
       <div className="absolute inset-0 overflow-hidden opacity-10">
         {matrixNumbers.map((num, i) => (
