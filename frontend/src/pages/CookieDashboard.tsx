@@ -36,9 +36,7 @@ const CookieDashboard = () => {
   const { dashboardBackgroundCookie } = useTheme();
   const [showAnswersModal, setShowAnswersModal] = useState(false);
   const [hasCheckedAnswers, setHasCheckedAnswers] = useState(false);
-  const [showVaultAccess, setShowVaultAccess] = useState(false);
   const [showVaultPassword, setShowVaultPassword] = useState(false);
-  const [isVaultUnlocked, setIsVaultUnlocked] = useState(false);
   
   // Only redirect if space is explicitly set to something else (not null/loading)
   useEffect(() => {
