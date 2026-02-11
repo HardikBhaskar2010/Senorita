@@ -197,17 +197,16 @@ const SecretVaultAccess = ({ onUnlock }: SecretVaultAccessProps) => {
 
   return (
     <>
-      {/* Touch Indicator */}
+      {/* Touch Indicator - Always visible hint */}
       <AnimatePresence>
-        {(showHint || isHolding) && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.8 }}
-            className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50"
-            style={{ pointerEvents: isHolding ? 'none' : 'auto' }}
-          >
-            <div className="relative bg-black/90 backdrop-blur-xl border border-cyan-500/50 rounded-2xl p-8 shadow-2xl">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.8 }}
+          className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50"
+          style={{ pointerEvents: isHolding ? 'none' : 'auto' }}
+        >
+          <div className="relative bg-black/90 backdrop-blur-xl border border-cyan-500/50 rounded-2xl p-8 shadow-2xl">
               {/* Circular Progress Indicator */}
               {isHolding && (
                 <svg 
