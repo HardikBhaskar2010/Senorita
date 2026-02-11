@@ -376,6 +376,70 @@ const CookieDashboard = () => {
             </div>
           </motion.div>
 
+          {/* Secret Vault - NEW! */}
+          <motion.div variants={itemVariants}>
+            <motion.div
+              onClick={handleVaultAccessClick}
+              className="relative p-6 rounded-3xl border border-cyan-500/30 bg-gradient-to-br from-gray-900/80 via-black/60 to-gray-900/80 backdrop-blur-xl cursor-pointer group overflow-hidden h-full"
+              whileHover={{ scale: 1.03, y: -5 }}
+              transition={{ type: "spring", stiffness: 300 }}
+            >
+              {/* Animated background effects */}
+              <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 via-blue-500/5 to-pink-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="absolute -right-10 -top-10 w-40 h-40 bg-cyan-500/10 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-700" />
+              
+              {/* Matrix rain effect */}
+              <div className="absolute inset-0 overflow-hidden opacity-10">
+                {[...Array(3)].map((_, i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ y: -20 }}
+                    animate={{ y: 100 }}
+                    transition={{
+                      duration: 2,
+                      repeat: Infinity,
+                      delay: i * 0.3
+                    }}
+                    className="absolute text-cyan-500 text-xs font-mono"
+                    style={{ left: `${i * 30}%` }}
+                  >
+                    {Math.random().toString(2).substring(2, 8)}
+                  </motion.div>
+                ))}
+              </div>
+
+              <div className="relative z-10">
+                <motion.div
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                  className="w-12 h-12 rounded-full bg-gradient-to-br from-cyan-500 to-blue-500 p-0.5 mb-4"
+                >
+                  <div className="w-full h-full rounded-full bg-gray-900 flex items-center justify-center">
+                    <Shield className="w-6 h-6 text-cyan-400" />
+                  </div>
+                </motion.div>
+
+                <h3 className="text-xl font-bold mb-2 bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent font-mono">
+                  {'>'} SECRET VAULT
+                </h3>
+                <p className="text-gray-400 text-sm font-mono mb-4">
+                  Your private digital sanctuary
+                </p>
+                
+                <div className="flex items-center justify-between">
+                  <span className="text-xs text-cyan-500/70 font-mono">🔒 Protected</span>
+                  <motion.div
+                    className="text-cyan-400"
+                    animate={{ x: [0, 5, 0] }}
+                    transition={{ duration: 1.5, repeat: Infinity }}
+                  >
+                    →
+                  </motion.div>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+
           {/* Love Language Results - Full Width */}
           <motion.div 
             className="md:col-span-2 lg:col-span-3"
