@@ -518,32 +518,34 @@ const SenoritaDashboard = () => {
             </div>
           </motion.div>
 
-          {/* Secret Vault - NEW! */}
+          {/* Secret Vault - Enhanced! */}
           <motion.div variants={itemVariants}>
             <motion.div
               onClick={handleVaultAccessClick}
-              className="relative p-6 rounded-3xl border border-pink-500/30 bg-gradient-to-br from-gray-900/80 via-black/60 to-gray-900/80 backdrop-blur-xl cursor-pointer group overflow-hidden h-full"
-              whileHover={{ scale: 1.03, y: -5 }}
-              transition={{ type: "spring", stiffness: 300 }}
+              className="relative p-6 rounded-3xl border-2 border-pink-500/30 bg-gradient-to-br from-gray-900/90 via-black/70 to-gray-900/90 backdrop-blur-xl cursor-pointer group overflow-hidden h-full shadow-lg shadow-pink-500/10"
+              whileHover={{ scale: 1.05, y: -8, borderColor: 'rgba(236, 72, 153, 0.6)' }}
+              whileTap={{ scale: 0.98 }}
+              transition={{ type: "spring", stiffness: 400, damping: 20 }}
             >
               {/* Animated background effects */}
-              <div className="absolute inset-0 bg-gradient-to-br from-pink-500/5 via-rose-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              <div className="absolute -right-10 -top-10 w-40 h-40 bg-pink-500/10 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-700" />
+              <div className="absolute inset-0 bg-gradient-to-br from-pink-500/10 via-rose-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <div className="absolute -right-10 -top-10 w-40 h-40 bg-pink-500/20 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-500" />
+              <div className="absolute -left-10 -bottom-10 w-32 h-32 bg-rose-500/15 rounded-full blur-2xl group-hover:scale-125 transition-transform duration-500" />
               
-              {/* Matrix rain effect */}
-              <div className="absolute inset-0 overflow-hidden opacity-10">
-                {[...Array(3)].map((_, i) => (
+              {/* Matrix rain effect - more particles on hover */}
+              <div className="absolute inset-0 overflow-hidden opacity-10 group-hover:opacity-20 transition-opacity">
+                {[...Array(5)].map((_, i) => (
                   <motion.div
                     key={i}
                     initial={{ y: -20 }}
                     animate={{ y: 100 }}
                     transition={{
-                      duration: 2,
+                      duration: 2 + Math.random(),
                       repeat: Infinity,
-                      delay: i * 0.3
+                      delay: i * 0.2
                     }}
                     className="absolute text-pink-500 text-xs font-mono"
-                    style={{ left: `${i * 30}%` }}
+                    style={{ left: `${i * 20}%` }}
                   >
                     {Math.random().toString(2).substring(2, 8)}
                   </motion.div>
@@ -554,30 +556,41 @@ const SenoritaDashboard = () => {
                 <motion.div
                   animate={{ rotate: 360 }}
                   transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                  className="w-12 h-12 rounded-full bg-gradient-to-br from-pink-500 to-rose-500 p-0.5 mb-4"
+                  className="w-14 h-14 rounded-full bg-gradient-to-br from-pink-500 via-rose-500 to-pink-400 p-0.5 mb-4 shadow-lg shadow-pink-500/50 group-hover:shadow-pink-500/70 transition-shadow"
+                  whileHover={{ scale: 1.1 }}
                 >
                   <div className="w-full h-full rounded-full bg-gray-900 flex items-center justify-center">
-                    <Shield className="w-6 h-6 text-pink-400" />
+                    <Shield className="w-7 h-7 text-pink-400 group-hover:text-pink-300 transition-colors" />
                   </div>
                 </motion.div>
 
-                <h3 className="text-xl font-bold mb-2 bg-gradient-to-r from-pink-400 to-rose-400 bg-clip-text text-transparent font-mono">
+                <h3 className="text-xl font-bold mb-2 bg-gradient-to-r from-pink-400 via-rose-400 to-pink-300 bg-clip-text text-transparent font-mono group-hover:from-pink-300 group-hover:to-rose-300 transition-all">
                   {'>'} SECRET VAULT
                 </h3>
-                <p className="text-gray-400 text-sm font-mono mb-4">
+                <p className="text-gray-400 text-sm font-mono mb-5 group-hover:text-gray-300 transition-colors">
                   Your private digital sanctuary
                 </p>
                 
-                <div className="flex items-center justify-between">
-                  <span className="text-xs text-pink-500/70 font-mono">🔒 Protected</span>
+                <div className="flex items-center justify-between pt-2 border-t border-pink-500/20">
+                  <span className="text-xs text-pink-500/70 font-mono group-hover:text-pink-400/90 transition-colors flex items-center gap-1.5">
+                    <span className="w-1.5 h-1.5 bg-pink-500 rounded-full animate-pulse"></span>
+                    Protected
+                  </span>
                   <motion.div
-                    className="text-pink-400"
+                    className="text-pink-400 font-bold text-lg group-hover:text-pink-300"
                     animate={{ x: [0, 5, 0] }}
                     transition={{ duration: 1.5, repeat: Infinity }}
                   >
                     →
                   </motion.div>
                 </div>
+              </div>
+
+              {/* Click hint */}
+              <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
+                <span className="text-[10px] text-pink-400/80 font-mono bg-pink-500/10 px-2 py-1 rounded-full border border-pink-500/30">
+                  CLICK
+                </span>
               </div>
             </motion.div>
           </motion.div>
