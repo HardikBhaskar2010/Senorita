@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import anime from 'animejs';
+import * as anime from 'animejs';
 
 interface FuturisticMotionPathsProps {
   theme?: 'cyan' | 'pink' | 'purple';
@@ -27,7 +27,7 @@ const FuturisticMotionPaths = ({ theme = 'cyan', pathCount = 8 }: FuturisticMoti
 
     // Create random SVG paths
     const paths: SVGPathElement[] = [];
-    const animations: anime.AnimeInstance[] = [];
+    const animations: any[] = [];
     
     for (let i = 0; i < pathCount; i++) {
       // Create SVG element
@@ -92,10 +92,10 @@ const FuturisticMotionPaths = ({ theme = 'cyan', pathCount = 8 }: FuturisticMoti
       const duration = 8000 + Math.random() * 6000;
       
       // Use anime's built-in motion path animation
-      const particleAnim = anime({
+      const particleAnim = anime.default({
         targets: particle,
-        translateX: anime.path(path, 'x'),
-        translateY: anime.path(path, 'y'),
+        translateX: anime.default.path(path, 'x'),
+        translateY: anime.default.path(path, 'y'),
         duration: duration,
         easing: 'linear',
         loop: true,
@@ -105,7 +105,7 @@ const FuturisticMotionPaths = ({ theme = 'cyan', pathCount = 8 }: FuturisticMoti
       animations.push(particleAnim);
 
       // Animate path opacity for pulsing effect
-      const opacityAnim = anime({
+      const opacityAnim = anime.default({
         targets: path,
         opacity: [0.1, 0.5, 0.1],
         duration: 3000 + Math.random() * 2000,
@@ -120,7 +120,7 @@ const FuturisticMotionPaths = ({ theme = 'cyan', pathCount = 8 }: FuturisticMoti
       path.style.strokeDasharray = `${pathLength}`;
       path.style.strokeDashoffset = `${pathLength}`;
 
-      const drawAnim = anime({
+      const drawAnim = anime.default({
         targets: path,
         strokeDashoffset: [pathLength, 0],
         duration: 4000,
@@ -128,7 +128,7 @@ const FuturisticMotionPaths = ({ theme = 'cyan', pathCount = 8 }: FuturisticMoti
         delay: i * 300,
         complete: () => {
           // After drawing, animate in reverse for continuous flow
-          const flowAnim = anime({
+          const flowAnim = anime.default({
             targets: path,
             strokeDashoffset: [0, -pathLength],
             duration: 10000 + Math.random() * 5000,
@@ -159,7 +159,7 @@ const FuturisticMotionPaths = ({ theme = 'cyan', pathCount = 8 }: FuturisticMoti
       container.appendChild(node);
 
       // Pulse animation for nodes
-      const pulseAnim = anime({
+      const pulseAnim = anime.default({
         targets: node,
         scale: [1, 2, 1],
         opacity: [0.3, 0.8, 0.3],
@@ -172,7 +172,7 @@ const FuturisticMotionPaths = ({ theme = 'cyan', pathCount = 8 }: FuturisticMoti
       animations.push(pulseAnim);
 
       // Floating animation
-      const floatAnim = anime({
+      const floatAnim = anime.default({
         targets: node,
         translateX: [
           { value: (Math.random() - 0.5) * 100, duration: 3000 },
