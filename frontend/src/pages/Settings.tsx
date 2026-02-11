@@ -711,7 +711,7 @@ const Settings = () => {
           </Card>
 
           {/* 3D Effects Toggle */}
-          <Card className="bg-card/90 backdrop-blur-md border-primary/20 shadow-xl">
+          <Card className="bg-card/95 backdrop-blur-xl border-primary/30 shadow-2xl hover:shadow-primary/20 transition-all duration-300">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-xl">
                 <Layers className="w-5 h-5 text-primary" />
