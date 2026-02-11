@@ -680,7 +680,7 @@ const SecretVaultPage = () => {
                 {selectedItem.file_url && (
                   <Button
                     onClick={() => window.open(selectedItem.file_url, '_blank')}
-                    className="flex-1 bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-400 border border-cyan-500/30 font-mono"
+                    className="flex-1 bg-gradient-to-r from-cyan-500/20 to-cyan-600/20 hover:from-cyan-500/30 hover:to-cyan-600/30 text-cyan-400 border-2 border-cyan-500/30 font-mono shadow-lg hover:shadow-cyan-500/30 transition-all duration-300 hover:scale-105"
                   >
                     <Download className="w-4 h-4 mr-2" />
                     DOWNLOAD
@@ -690,14 +690,14 @@ const SecretVaultPage = () => {
                   <>
                     <Button
                       onClick={() => toggleSync(selectedItem)}
-                      className="flex-1 bg-purple-500/20 hover:bg-purple-500/30 text-purple-400 border border-purple-500/30 font-mono"
+                      className="flex-1 bg-gradient-to-r from-purple-500/20 to-purple-600/20 hover:from-purple-500/30 hover:to-purple-600/30 text-purple-400 border-2 border-purple-500/30 font-mono shadow-lg hover:shadow-purple-500/30 transition-all duration-300 hover:scale-105"
                     >
                       <Share2 className="w-4 h-4 mr-2" />
                       {selectedItem.is_synced ? 'UNSYNC' : 'SYNC'}
                     </Button>
                     <Button
                       onClick={() => deleteVaultItem(selectedItem.id)}
-                      className="flex-1 bg-red-500/20 hover:bg-red-500/30 text-red-400 border border-red-500/30 font-mono"
+                      className="flex-1 bg-gradient-to-r from-red-500/20 to-red-600/20 hover:from-red-500/30 hover:to-red-600/30 text-red-400 border-2 border-red-500/30 font-mono shadow-lg hover:shadow-red-500/30 transition-all duration-300 hover:scale-105"
                     >
                       <Trash2 className="w-4 h-4 mr-2" />
                       DELETE
