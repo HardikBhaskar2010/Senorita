@@ -14,7 +14,7 @@
 </div>
 
 ---
-  
+
 ## 📖 About
 
 **HeartByte** is a beautiful, real-time relationship application designed exclusively for Cookie 🍪 and Senorita 💃. Built with modern web technologies and connected to Supabase for seamless data synchronization, authentication, and real-time features.
