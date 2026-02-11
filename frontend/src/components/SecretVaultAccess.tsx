@@ -290,7 +290,7 @@ const SecretVaultAccess = ({ onUnlock }: SecretVaultAccessProps) => {
                       </div>
                       
                       <p className="text-cyan-400/70 font-mono text-xs mt-3">
-                        {Math.floor(holdProgress)}% • Hold {REQUIRED_TOUCHES} fingers
+                        {Math.floor(holdProgress)}% • Hold {unlockMethod === 'touch' ? `${REQUIRED_TOUCHES} fingers` : 'Ctrl + .'}
                       </p>
                     </>
                   ) : (
@@ -305,12 +305,17 @@ const SecretVaultAccess = ({ onUnlock }: SecretVaultAccessProps) => {
                       <p className="text-pink-400 font-mono text-sm mb-2">
                         {'>'} SECRET VAULT DETECTED
                       </p>
+                      <p className="text-gray-400 font-mono text-xs mb-1">
+                        📱 Mobile: Hold {REQUIRED_TOUCHES} fingers for {HOLD_DURATION / 1000}s
+                      </p>
                       <p className="text-gray-400 font-mono text-xs">
-                        Hold {REQUIRED_TOUCHES} fingers for {HOLD_DURATION / 1000}s
+                        💻 Laptop: Hold Ctrl + . for {HOLD_DURATION / 1000}s
                       </p>
-                      <p className="text-cyan-500/50 font-mono text-xs mt-2">
-                        {touchCount}/{REQUIRED_TOUCHES} fingers detected
-                      </p>
+                      {unlockMethod === 'touch' && touchCount > 0 && (
+                        <p className="text-cyan-500/50 font-mono text-xs mt-2">
+                          {touchCount}/{REQUIRED_TOUCHES} fingers detected
+                        </p>
+                      )}
                     </>
                   )}
                 </div>
