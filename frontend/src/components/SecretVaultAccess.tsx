@@ -21,12 +21,16 @@ const SecretVaultAccess = ({ onUnlock }: SecretVaultAccessProps) => {
   const REQUIRED_TOUCHES = 2; // 2 fingers
 
   useEffect(() => {
+    // ============================================
+    // TOUCH EVENTS (Mobile - 2 fingers)
+    // ============================================
     const handleTouchStart = (e: TouchEvent) => {
       const touches = e.touches.length;
       touchCountRef.current = touches;
       setTouchCount(touches);
 
       if (touches === REQUIRED_TOUCHES) {
+        setUnlockMethod('touch');
         setIsHolding(true);
         touchStartTime.current = Date.now();
         setShowHint(true);
@@ -93,20 +97,103 @@ const SecretVaultAccess = ({ onUnlock }: SecretVaultAccessProps) => {
       }
     };
 
+    // ============================================
+    // KEYBOARD EVENTS (Laptop - Ctrl + .)
+    // ============================================
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Add key to set
+      keysPressed.current.add(e.key);
+      
+      // Check if Ctrl + . is pressed
+      const isCtrlPressed = keysPressed.current.has('Control');
+      const isPeriodPressed = keysPressed.current.has('.') || keysPressed.current.has('>'); // '>' is shift+.
+      
+      if (isCtrlPressed && isPeriodPressed && !isHolding) {
+        setUnlockMethod('keyboard');
+        setIsHolding(true);
+        touchStartTime.current = Date.now();
+        setShowHint(true);
+        
+        // Start progress animation
+        const animate = () => {
+          if (touchStartTime.current && keysPressed.current.has('Control') && (keysPressed.current.has('.') || keysPressed.current.has('>'))) {
+            const elapsed = Date.now() - touchStartTime.current;
+            const progress = Math.min((elapsed / HOLD_DURATION) * 100, 100);
+            setHoldProgress(progress);
+
+            if (progress >= 100) {
+              // Unlock!
+              onUnlock();
+              setIsHolding(false);
+              setShowHint(false);
+              keysPressed.current.clear();
+              return;
+            }
+
+            animationFrameRef.current = requestAnimationFrame(animate);
+          } else {
+            // Keys released before completion
+            setIsHolding(false);
+            setHoldProgress(0);
+            touchStartTime.current = null;
+            
+            if (animationFrameRef.current) {
+              cancelAnimationFrame(animationFrameRef.current);
+              animationFrameRef.current = null;
+            }
+          }
+        };
+
+        animationFrameRef.current = requestAnimationFrame(animate);
+      }
+    };
+
+    const handleKeyUp = (e: KeyboardEvent) => {
+      // Remove key from set
+      keysPressed.current.delete(e.key);
+      
+      // If either Ctrl or . is released, stop the progress
+      if (e.key === 'Control' || e.key === '.' || e.key === '>') {
+        if (isHolding && unlockMethod === 'keyboard') {
+          setIsHolding(false);
+          setHoldProgress(0);
+          touchStartTime.current = null;
+          
+          if (animationFrameRef.current) {
+            cancelAnimationFrame(animationFrameRef.current);
+            animationFrameRef.current = null;
+          }
+
+          // Hide hint after 2 seconds
+          setTimeout(() => setShowHint(false), 2000);
+        }
+      }
+    };
+
+    // Add event listeners
     document.addEventListener('touchstart', handleTouchStart);
     document.addEventListener('touchend', handleTouchEnd);
     document.addEventListener('touchmove', handleTouchMove);
+    document.addEventListener('keydown', handleKeyDown);
+    document.addEventListener('keyup', handleKeyUp);
 
     return () => {
+      // Remove event listeners
       document.removeEventListener('touchstart', handleTouchStart);
       document.removeEventListener('touchend', handleTouchEnd);
       document.removeEventListener('touchmove', handleTouchMove);
+      document.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener('keyup', handleKeyUp);
       
+      // Cancel animation frame
       if (animationFrameRef.current) {
         cancelAnimationFrame(animationFrameRef.current);
       }
+      
+      // Clear keys
+      keysPressed.current.clear();
     };
-  }, [onUnlock]);
+  }, [onUnlock, isHolding, unlockMethod]);
 
   return (
     <>
