@@ -50,10 +50,10 @@ const SenoritaDashboard = () => {
     navigate('/secret-vault');
   };
 
-  // Enable vault access component
-  useEffect(() => {
+  // Handle vault access button click
+  const handleVaultAccessClick = () => {
     setShowVaultAccess(true);
-  }, []);
+  };
 
   // Day names mapping for notifications
   const dayNames: Record<number, string> = {
