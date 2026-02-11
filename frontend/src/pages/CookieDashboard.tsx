@@ -23,7 +23,6 @@ import QuickNotification from "@/components/QuickNotification";
 import ChatBubble from "@/components/ChatBubble";
 import ValentineAnswersModal from "@/components/ValentineAnswersModal";
 import ValentineViewerCard from "@/components/ValentineViewerCard";
-import SecretVaultAccess from "@/components/SecretVaultAccess";
 import SecretVaultPassword from "@/components/SecretVaultPassword";
 import { Heart, Sparkles, LogOut, Settings, Cookie, Eye, Shield } from "lucide-react";
 import { motion } from "framer-motion";
