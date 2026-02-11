@@ -1,7 +1,7 @@
 # 💕 HeartByte - For My Beloved Senorita
 
 <div align="center"> 
- 
+
 ![HeartByte](https://img.shields.io/badge/HeartByte-v7.4.1-ff69b4?style=for-the-badge&logo=heart&logoColor=white)
 ![Status](https://img.shields.io/badge/Status-Production%20Ready-success?style=for-the-badge)
 ![License](https://img.shields.io/badge/License-Personal-blue?style=for-the-badge)
