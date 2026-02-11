@@ -363,25 +363,28 @@ const SecretVaultPage = () => {
         {/* Stats */}
         <div className="grid grid-cols-3 gap-4 mb-8">
           <motion.div
-            whileHover={{ scale: 1.05 }}
-            className="bg-gray-900/50 backdrop-blur-xl border border-cyan-500/30 rounded-xl p-4 text-center"
+            whileHover={{ scale: 1.05, y: -5 }}
+            transition={{ type: "spring", stiffness: 300 }}
+            className="bg-gradient-to-br from-gray-900/80 to-gray-900/50 backdrop-blur-xl border-2 border-cyan-500/30 rounded-2xl p-5 text-center shadow-lg shadow-cyan-500/20"
           >
-            <p className="text-cyan-400 text-2xl font-bold font-mono">{vaultItems.filter(i => i.user_name === userName).length}</p>
-            <p className="text-gray-400 text-sm font-mono mt-1">Your Items</p>
+            <p className="text-cyan-400 text-3xl font-bold font-mono mb-1">{vaultItems.filter(i => i.user_name === userName).length}</p>
+            <p className="text-gray-400 text-xs font-mono">Your Items</p>
           </motion.div>
           <motion.div
-            whileHover={{ scale: 1.05 }}
-            className="bg-gray-900/50 backdrop-blur-xl border border-pink-500/30 rounded-xl p-4 text-center"
+            whileHover={{ scale: 1.05, y: -5 }}
+            transition={{ type: "spring", stiffness: 300 }}
+            className="bg-gradient-to-br from-gray-900/80 to-gray-900/50 backdrop-blur-xl border-2 border-pink-500/30 rounded-2xl p-5 text-center shadow-lg shadow-pink-500/20"
           >
-            <p className="text-pink-400 text-2xl font-bold font-mono">{vaultItems.filter(i => i.is_synced).length}</p>
-            <p className="text-gray-400 text-sm font-mono mt-1">Synced Items</p>
+            <p className="text-pink-400 text-3xl font-bold font-mono mb-1">{vaultItems.filter(i => i.is_synced).length}</p>
+            <p className="text-gray-400 text-xs font-mono">Synced Items</p>
           </motion.div>
           <motion.div
-            whileHover={{ scale: 1.05 }}
-            className="bg-gray-900/50 backdrop-blur-xl border border-purple-500/30 rounded-xl p-4 text-center"
+            whileHover={{ scale: 1.05, y: -5 }}
+            transition={{ type: "spring", stiffness: 300 }}
+            className="bg-gradient-to-br from-gray-900/80 to-gray-900/50 backdrop-blur-xl border-2 border-purple-500/30 rounded-2xl p-5 text-center shadow-lg shadow-purple-500/20"
           >
-            <p className="text-purple-400 text-2xl font-bold font-mono">{vaultItems.filter(i => i.user_name !== userName).length}</p>
-            <p className="text-gray-400 text-sm font-mono mt-1">Partner's Items</p>
+            <p className="text-purple-400 text-3xl font-bold font-mono mb-1">{vaultItems.filter(i => i.user_name !== userName).length}</p>
+            <p className="text-gray-400 text-xs font-mono">Partner's Items</p>
           </motion.div>
         </div>
 
