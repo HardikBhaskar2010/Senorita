@@ -59,10 +59,10 @@ const CookieDashboard = () => {
     navigate('/secret-vault');
   };
 
-  // Enable vault access component
-  useEffect(() => {
+  // Handle vault access button click
+  const handleVaultAccessClick = () => {
     setShowVaultAccess(true);
-  }, []);
+  };
 
   // Check for unread Valentine's answers
   useEffect(() => {
