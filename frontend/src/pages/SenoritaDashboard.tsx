@@ -35,24 +35,17 @@ const SenoritaDashboard = () => {
   const { dashboardBackgroundSenorita } = useTheme();
   const [unlockedDaysCount, setUnlockedDaysCount] = useState(0);
   const [hasNewUnlock, setHasNewUnlock] = useState(false);
-  const [showVaultAccess, setShowVaultAccess] = useState(false);
   const [showVaultPassword, setShowVaultPassword] = useState(false);
   
-  // Handle vault unlock (2-finger touch complete)
-  const handleVaultUnlock = () => {
-    setShowVaultAccess(false);
-    setShowVaultPassword(true);
-  };
-
   // Handle vault password success
   const handleVaultPasswordSuccess = () => {
     setShowVaultPassword(false);
     navigate('/secret-vault');
   };
 
-  // Handle vault access button click
+  // Handle vault access button click - directly open password modal
   const handleVaultAccessClick = () => {
-    setShowVaultAccess(true);
+    setShowVaultPassword(true);
   };
 
   // Day names mapping for notifications
