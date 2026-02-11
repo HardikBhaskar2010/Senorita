@@ -11,9 +11,11 @@ const SecretVaultAccess = ({ onUnlock }: SecretVaultAccessProps) => {
   const [holdProgress, setHoldProgress] = useState(0);
   const [isHolding, setIsHolding] = useState(false);
   const [showHint, setShowHint] = useState(false);
+  const [unlockMethod, setUnlockMethod] = useState<'touch' | 'keyboard'>('touch');
   const touchStartTime = useRef<number | null>(null);
   const animationFrameRef = useRef<number | null>(null);
   const touchCountRef = useRef(0);
+  const keysPressed = useRef<Set<string>>(new Set());
 
   const HOLD_DURATION = 5000; // 5 seconds
   const REQUIRED_TOUCHES = 2; // 2 fingers
