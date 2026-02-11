@@ -363,7 +363,6 @@ const SecretVaultAccess = ({ onUnlock }: SecretVaultAccessProps) => {
               </div>
             </div>
           </motion.div>
-        )}
       </AnimatePresence>
 
       {/* Ambient Matrix Effect in corner (always visible hint) */}
