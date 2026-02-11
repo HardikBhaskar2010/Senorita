@@ -410,9 +410,9 @@ const SecretVaultPage = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.05 }}
-              whileHover={{ scale: 1.03, y: -5 }}
+              whileHover={{ scale: 1.05, y: -8 }}
               onClick={() => setSelectedItem(item)}
-              className={`bg-gray-900/50 backdrop-blur-xl border border-${item.is_synced ? 'purple' : theme.primary}-500/30 rounded-xl p-6 cursor-pointer relative group`}
+              className={`bg-gradient-to-br from-gray-900/80 to-gray-900/50 backdrop-blur-xl border-2 border-${item.is_synced ? 'purple' : theme.primary}-500/30 rounded-2xl p-6 cursor-pointer relative group shadow-lg hover:shadow-2xl hover:shadow-${item.is_synced ? 'purple' : theme.primary}-500/30 transition-all duration-300`}
             >
               {/* Owner Badge */}
               {item.user_name !== userName && (
