@@ -587,9 +587,25 @@ const SecretVaultPage = () => {
               <Button
                 onClick={addVaultItem}
                 disabled={isUploading}
-                className={`w-full py-6 font-mono bg-gradient-to-r ${theme.gradient} hover:opacity-90 text-white`}
+                className={`w-full py-7 text-base font-mono bg-gradient-to-r ${theme.gradient} hover:from-${theme.primary}-600 hover:via-${theme.secondary}-600 hover:to-${theme.primary}-700 text-white border border-${theme.primary}-400/30 shadow-xl shadow-${theme.primary}-500/40 transition-all duration-300 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed`}
               >
-                {isUploading ? 'UPLOADING...' : 'ADD TO VAULT'}
+                {isUploading ? (
+                  <>
+                    <motion.div
+                      animate={{ rotate: 360 }}
+                      transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                      className="inline-block mr-2"
+                    >
+                      <Shield className="w-5 h-5" />
+                    </motion.div>
+                    UPLOADING...
+                  </>
+                ) : (
+                  <>
+                    <Upload className="w-5 h-5 mr-2" />
+                    ADD TO VAULT
+                  </>
+                )}
               </Button>
             </motion.div>
           </motion.div>
