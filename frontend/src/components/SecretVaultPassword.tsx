@@ -76,9 +76,24 @@ const SecretVaultPassword = ({ userName, onSuccess, onCancel }: SecretVaultPassw
         .from('vault_settings')
         .select('vault_password')
         .eq('user_name', userName)
-        .single();
+        .maybeSingle(); // Use maybeSingle() to avoid 406 error
 
-      if (error) throw error;
+      if (error) {
+        console.error('Error verifying password:', error);
+        throw error;
+      }
+
+      if (!data) {
+        // No vault setup found, switch to setup mode
+        toast({
+          title: '⚠️ Vault Not Setup',
+          description: 'Please setup your vault first',
+          variant: 'destructive'
+        });
+        setIsSetupMode(true);
+        setIsVerifying(false);
+        return;
+      }
 
       // Simple password check (in production, use proper hashing)
       if (data.vault_password === password) {
