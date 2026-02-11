@@ -318,6 +318,47 @@ const SecretVaultAccess = ({ onUnlock }: SecretVaultAccessProps) => {
                         </p>
                       )}
                     </>
+                  ) : (
+                    <>
+                      <motion.div
+                        animate={{ scale: [1, 1.2, 1] }}
+                        transition={{ duration: 1, repeat: Infinity }}
+                        className="flex items-center justify-center"
+                      >
+                        <Lock className="w-12 h-12 text-pink-400 mx-auto mb-3" />
+                      </motion.div>
+                      <p className="text-pink-400 font-mono text-sm mb-2">
+                        {'>'} SECRET VAULT DETECTED
+                      </p>
+                      <p className="text-gray-400 font-mono text-xs mb-1">
+                        📱 Mobile: Hold {REQUIRED_TOUCHES} fingers for {HOLD_DURATION / 1000}s
+                      </p>
+                      <p className="text-gray-400 font-mono text-xs mb-4">
+                        💻 Laptop: Hold Ctrl + . for {HOLD_DURATION / 1000}s
+                      </p>
+                      {unlockMethod === 'touch' && touchCount > 0 && (
+                        <p className="text-cyan-500/50 font-mono text-xs mt-2">
+                          {touchCount}/{REQUIRED_TOUCHES} fingers detected
+                        </p>
+                      )}
+                      
+                      {/* Quick Access Button */}
+                      <motion.button
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onUnlock();
+                        }}
+                        className="mt-4 w-full bg-gradient-to-r from-cyan-500 via-blue-500 to-pink-500 text-white font-mono text-sm py-3 px-6 rounded-lg hover:opacity-90 transition-opacity"
+                      >
+                        🔓 CLICK TO UNLOCK
+                      </motion.button>
+                      
+                      <p className="text-gray-500 text-xs mt-3 font-mono text-center">
+                        Or use the hold methods above
+                      </p>
+                    </>
                   )}
                 </div>
               </div>
