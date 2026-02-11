@@ -37,9 +37,13 @@ const SecretVaultPassword = ({ userName, onSuccess, onCancel }: SecretVaultPassw
         .from('vault_settings')
         .select('is_setup')
         .eq('user_name', userName)
-        .single();
+        .maybeSingle(); // Use maybeSingle() instead of single() to avoid error when no rows
 
-      if (error && error.code !== 'PGRST116') throw error;
+      if (error) {
+        console.error('Error checking vault setup:', error);
+        setIsSetupMode(true);
+        return;
+      }
 
       if (!data || !data.is_setup) {
         setIsSetupMode(true);
