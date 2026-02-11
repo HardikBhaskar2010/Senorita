@@ -595,11 +595,6 @@ const SenoritaDashboard = () => {
         <QuickNotification />
         <ChatBubble />
 
-        {/* Secret Vault Access (2-finger touch detector) */}
-        {showVaultAccess && !showVaultPassword && (
-          <SecretVaultAccess onUnlock={handleVaultUnlock} />
-        )}
-
         {/* Secret Vault Password Modal */}
         {showVaultPassword && (
           <SecretVaultPassword 
