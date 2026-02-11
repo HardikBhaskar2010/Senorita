@@ -386,13 +386,18 @@ const SecretVaultPage = () => {
         </div>
 
         {/* Add Button */}
-        <Button
-          onClick={() => setShowAddModal(true)}
-          className={`w-full mb-8 py-6 text-lg font-mono bg-gradient-to-r ${theme.gradient} hover:opacity-90 text-white shadow-lg shadow-${theme.primary}-500/50`}
+        <motion.div
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
         >
-          <Plus className="w-5 h-5 mr-2" />
-          ADD TO VAULT
-        </Button>
+          <Button
+            onClick={() => setShowAddModal(true)}
+            className={`w-full mb-8 py-7 text-lg font-mono bg-gradient-to-r ${theme.gradient} hover:from-${theme.primary}-600 hover:via-${theme.secondary}-600 hover:to-${theme.primary}-700 text-white shadow-2xl shadow-${theme.primary}-500/40 border border-${theme.primary}-400/30 transition-all duration-300`}
+          >
+            <Plus className="w-6 h-6 mr-2" />
+            ADD TO VAULT
+          </Button>
+        </motion.div>
 
         {/* Vault Items Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
