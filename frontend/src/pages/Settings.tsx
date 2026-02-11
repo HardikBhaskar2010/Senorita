@@ -465,15 +465,19 @@ const Settings = () => {
           className="space-y-6"
         >
           {/* Header */}
-          <Card className="bg-card/90 backdrop-blur-md border-primary/20 shadow-xl overflow-hidden">
-            <CardHeader className="bg-gradient-to-r from-primary/10 to-transparent border-b border-border/50 p-6">
+          <Card className="bg-card/95 backdrop-blur-xl border-primary/30 shadow-2xl overflow-hidden">
+            <CardHeader className="bg-gradient-to-br from-primary/15 via-primary/5 to-transparent border-b border-primary/20 p-6">
               <div className="flex items-center gap-4">
-                <div className="p-3 rounded-xl bg-primary/10">
+                <motion.div 
+                  className="p-3 rounded-xl bg-primary/15 shadow-lg shadow-primary/20"
+                  whileHover={{ scale: 1.1, rotate: 180 }}
+                  transition={{ type: "spring", stiffness: 300 }}
+                >
                   <SettingsIcon className="w-8 h-8 text-primary" />
-                </div>
+                </motion.div>
                 <div>
-                  <CardTitle className="text-2xl">Settings</CardTitle>
-                  <CardDescription>Customize your HeartByte experience</CardDescription>
+                  <CardTitle className="text-2xl bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">Settings</CardTitle>
+                  <CardDescription className="text-base">Customize your HeartByte experience</CardDescription>
                 </div>
               </div>
             </CardHeader>
