@@ -490,7 +490,7 @@ const SecretVaultPage = () => {
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.8, y: 50 }}
               onClick={(e) => e.stopPropagation()}
-              className="bg-gray-900 border-2 border-cyan-500/30 rounded-3xl p-8 max-w-md w-full"
+              className="bg-gradient-to-br from-gray-900 via-black to-gray-900 border-2 border-cyan-500/30 rounded-3xl p-8 max-w-md w-full shadow-2xl shadow-cyan-500/30"
             >
               <div className="flex items-center justify-between mb-6">
                 <h3 className={`text-2xl font-bold text-${theme.primary}-400 font-mono`}>ADD ITEM</h3>
