@@ -22,6 +22,9 @@ import LoveLanguageResults from "@/components/LoveLanguageResults";
 import QuickNotification from "@/components/QuickNotification";
 import ChatBubble from "@/components/ChatBubble";
 import SecretVaultPassword from "@/components/SecretVaultPassword";
+import TimeWeatherWidget from "@/components/TimeWeatherWidget";
+import LoveQuoteOfDay from "@/components/LoveQuoteOfDay";
+import ActivitySuggestions from "@/components/ActivitySuggestions";
 import { Heart, Sparkles, LogOut, Settings, Gift, Lock, Shield } from "lucide-react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -203,7 +206,7 @@ const SenoritaDashboard = () => {
 
   return (
     <div 
-      className="min-h-screen bg-background relative overflow-x-hidden"
+      className="min-h-screen bg-background relative overflow-x-hidden senorita-scrollbar"
       style={{
         background: dashboardBackgroundSenorita 
           ? `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(${dashboardBackgroundSenorita}) center/cover fixed`
@@ -439,6 +442,19 @@ const SenoritaDashboard = () => {
             </div>
           </motion.div>
 
+          {/* Time & Weather Widget - Featured (2 columns on desktop) */}
+          <motion.div 
+            className="md:col-span-2"
+            variants={itemVariants}
+          >
+            <TimeWeatherWidget />
+          </motion.div>
+
+          {/* Activity Suggestions */}
+          <motion.div variants={itemVariants}>
+            <ActivitySuggestions />
+          </motion.div>
+
           {/* Calendar Day - Featured (2 columns on desktop) */}
           <motion.div 
             className="md:col-span-2"
@@ -450,6 +466,11 @@ const SenoritaDashboard = () => {
           {/* Virtual Hug Kiss */}
           <motion.div variants={itemVariants}>
             <VirtualHugKiss />
+          </motion.div>
+
+          {/* Love Quote of the Day */}
+          <motion.div variants={itemVariants}>
+            <LoveQuoteOfDay />
           </motion.div>
 
           {/* Countdown Timer */}
