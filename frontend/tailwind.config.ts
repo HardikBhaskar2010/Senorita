@@ -143,7 +143,6 @@ export default {
                                 'Courier New',
                                 'monospace'
                         ]
-                }
                 },
                 backgroundImage: {
                         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
