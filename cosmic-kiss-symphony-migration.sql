@@ -60,9 +60,15 @@ DROP POLICY IF EXISTS "Allow all for shooting_star_wishes" ON shooting_star_wish
 CREATE POLICY "Allow all for shooting_star_wishes" ON shooting_star_wishes FOR ALL USING (true) WITH CHECK (true);
 
 -- Enable Realtime
-ALTER PUBLICATION supabase_realtime ADD TABLE IF NOT EXISTS public.constellations;
-ALTER PUBLICATION supabase_realtime ADD TABLE IF NOT EXISTS public.constellation_stars;
-ALTER PUBLICATION supabase_realtime ADD TABLE IF NOT EXISTS public.shooting_star_wishes;
+-- Drop tables from publication first if they exist (to avoid errors)
+ALTER PUBLICATION supabase_realtime DROP TABLE IF EXISTS public.constellations;
+ALTER PUBLICATION supabase_realtime DROP TABLE IF EXISTS public.constellation_stars;
+ALTER PUBLICATION supabase_realtime DROP TABLE IF EXISTS public.shooting_star_wishes;
+
+-- Add tables to publication
+ALTER PUBLICATION supabase_realtime ADD TABLE public.constellations;
+ALTER PUBLICATION supabase_realtime ADD TABLE public.constellation_stars;
+ALTER PUBLICATION supabase_realtime ADD TABLE public.shooting_star_wishes;
 
 -- Comments
 COMMENT ON TABLE constellations IS 'Kiss constellations created by Cookie and Senorita';
