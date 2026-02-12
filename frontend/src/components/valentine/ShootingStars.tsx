@@ -38,8 +38,8 @@ export default function ShootingStars({ userName }: ShootingStarsProps) {
       const newStar: ShootingStar = {
         id: Date.now(),
         startX: Math.random() * 100,
-        startY: Math.random() * 30, // Top portion of screen
-        angle: 30 + Math.random() * 30, // Diagonal angle
+        startY: Math.random() * 40, // Top portion of screen
+        angle: 35 + Math.random() * 25, // Diagonal angle
       };
       
       setShootingStars((prev) => [...prev, newStar]);
@@ -48,8 +48,8 @@ export default function ShootingStars({ userName }: ShootingStarsProps) {
       // Remove after animation
       setTimeout(() => {
         setShootingStars((prev) => prev.filter((s) => s.id !== newStar.id));
-      }, 2000);
-    }, 8000); // New star every 8 seconds
+      }, 3000);
+    }, 5000); // New star every 5 seconds (more frequent)
 
     return () => clearInterval(interval);
   }, []);
