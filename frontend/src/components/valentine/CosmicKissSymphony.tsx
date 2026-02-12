@@ -377,6 +377,24 @@ export default function CosmicKissSymphony({ userName }: CosmicKissSymphonyProps
 
         {/* Current constellation being created */}
         <svg className="absolute inset-0 w-full h-full pointer-events-none">
+          {/* SVG Filters for glow effects */}
+          <defs>
+            <filter id="starGlow" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+              <feMerge>
+                <feMergeNode in="coloredBlur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+            <filter id="starSparkle" x="-100%" y="-100%" width="300%" height="300%">
+              <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+              <feMerge>
+                <feMergeNode in="coloredBlur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
+          
           {/* Draw lines between stars */}
           {currentConstellation.map((star, index) => {
             if (index === 0) return null;
@@ -388,36 +406,100 @@ export default function CosmicKissSymphony({ userName }: CosmicKissSymphonyProps
                 y1={`${prevStar.y}%`}
                 x2={`${star.x}%`}
                 y2={`${star.y}%`}
-                stroke="rgba(255, 255, 255, 0.6)"
+                stroke="rgba(255, 255, 255, 0.5)"
                 strokeWidth="2"
                 strokeDasharray="5,5"
+                opacity="0.7"
               />
             );
           })}
 
-          {/* Draw stars */}
-          {currentConstellation.map((star, index) => (
-            <g key={star.id}>
-              <circle
-                cx={`${star.x}%`}
-                cy={`${star.y}%`}
-                r="8"
-                fill={star.instrument === 'violin' ? '#ff6b9d' : star.instrument === 'piano' ? '#4facfe' : '#f093fb'}
-                className="drop-shadow-lg"
-              />
-              <text
-                x={`${star.x}%`}
-                y={`${star.y}%`}
-                dy="-15"
-                textAnchor="middle"
-                fill="white"
-                fontSize="12"
-                className="font-bold"
-              >
-                {index + 1}
-              </text>
-            </g>
-          ))}
+          {/* Draw stars as star shapes with glow */}
+          {currentConstellation.map((star, index) => {
+            const color = star.instrument === 'violin' ? '#ff6b9d' : star.instrument === 'piano' ? '#4facfe' : '#f093fb';
+            const x = parseFloat(star.x.toFixed(2));
+            const y = parseFloat(star.y.toFixed(2));
+            
+            return (
+              <g key={star.id}>
+                {/* Outer glow circle */}
+                <circle
+                  cx={`${x}%`}
+                  cy={`${y}%`}
+                  r="14"
+                  fill={color}
+                  opacity="0.2"
+                  filter="url(#starGlow)"
+                />
+                
+                {/* Star shape */}
+                <g transform={`translate(0, 0)`}>
+                  <animateTransform
+                    attributeName="transform"
+                    type="rotate"
+                    from={`0 ${x} ${y}`}
+                    to={`360 ${x} ${y}`}
+                    dur="8s"
+                    repeatCount="indefinite"
+                  />
+                  <path
+                    d={generateStarPath(x, y, 10, 4.5)}
+                    fill={color}
+                    filter="url(#starSparkle)"
+                    className="drop-shadow-lg"
+                  />
+                </g>
+                
+                {/* Inner bright core */}
+                <circle
+                  cx={`${x}%`}
+                  cy={`${y}%`}
+                  r="3"
+                  fill="white"
+                  opacity="0.9"
+                />
+                
+                {/* Sparkle animation */}
+                <circle
+                  cx={`${x}%`}
+                  cy={`${y}%`}
+                  r="8"
+                  fill="none"
+                  stroke={color}
+                  strokeWidth="2"
+                  opacity="0"
+                >
+                  <animate
+                    attributeName="r"
+                    values="8;16;8"
+                    dur="2s"
+                    repeatCount="indefinite"
+                  />
+                  <animate
+                    attributeName="opacity"
+                    values="0.8;0;0.8"
+                    dur="2s"
+                    repeatCount="indefinite"
+                  />
+                </circle>
+                
+                {/* Number label */}
+                <text
+                  x={`${x}%`}
+                  y={`${y}%`}
+                  dy="-20"
+                  textAnchor="middle"
+                  fill="white"
+                  fontSize="13"
+                  fontWeight="bold"
+                  className="drop-shadow-lg"
+                  style={{ textShadow: `0 0 8px ${color}` }}
+                >
+                  {index + 1}
+                </text>
+              </g>
+            );
+          })}
         </svg>
 
         {/* Saved constellations */}
@@ -433,21 +515,43 @@ export default function CosmicKissSymphony({ userName }: CosmicKissSymphonyProps
                   y1={`${prevStar.y}%`}
                   x2={`${star.x}%`}
                   y2={`${star.y}%`}
-                  stroke="rgba(255, 215, 0, 0.5)"
+                  stroke="rgba(255, 215, 0, 0.4)"
                   strokeWidth="1.5"
                 />
               );
             })}
-            {constellation.stars.map((star) => (
-              <circle
-                key={star.id}
-                cx={`${star.x}%`}
-                cy={`${star.y}%`}
-                r="5"
-                fill="#FFD700"
-                className="drop-shadow-md"
-              />
-            ))}
+            {constellation.stars.map((star) => {
+              const x = parseFloat(star.x.toFixed(2));
+              const y = parseFloat(star.y.toFixed(2));
+              
+              return (
+                <g key={star.id}>
+                  {/* Glow */}
+                  <circle
+                    cx={`${x}%`}
+                    cy={`${y}%`}
+                    r="10"
+                    fill="#FFD700"
+                    opacity="0.15"
+                  />
+                  
+                  {/* Star shape */}
+                  <path
+                    d={generateStarPath(x, y, 7, 3)}
+                    fill="#FFD700"
+                    className="drop-shadow-md"
+                  />
+                  
+                  {/* Core */}
+                  <circle
+                    cx={`${x}%`}
+                    cy={`${y}%`}
+                    r="2"
+                    fill="#FFFACD"
+                  />
+                </g>
+              );
+            })}
           </svg>
         ))}
       </div>
