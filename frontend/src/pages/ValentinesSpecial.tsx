@@ -535,10 +535,10 @@ const ValentinesSpecial = () => {
                 </div>
               );
 
-            case 7: // Kiss Day - Kiss Ripples
+            case 7: // Kiss Day - Cosmic Kiss Symphony
               return (
-                <div>
-                  <KissRipples dayNumber={day.dayNumber} />
+                <div className="h-screen relative">
+                  <CosmicKissSymphony userName="Senorita" />
                   {renderAnswerSection(day)}
                   <SaveToAlbum dayNumber={day.dayNumber} dayName={day.name} contentRef={dayContentRef} />
                 </div>
