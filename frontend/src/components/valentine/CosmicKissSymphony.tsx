@@ -34,6 +34,27 @@ interface CosmicKissSymphonyProps {
   userName: 'Cookie' | 'Senorita';
 }
 
+// Helper function to generate star shape path
+const generateStarPath = (cx: number, cy: number, outerRadius: number, innerRadius: number, points: number = 5): string => {
+  const angle = Math.PI / points;
+  let path = '';
+  
+  for (let i = 0; i < 2 * points; i++) {
+    const radius = i % 2 === 0 ? outerRadius : innerRadius;
+    const x = cx + radius * Math.sin(i * angle);
+    const y = cy - radius * Math.cos(i * angle);
+    
+    if (i === 0) {
+      path += `M ${x} ${y}`;
+    } else {
+      path += ` L ${x} ${y}`;
+    }
+  }
+  
+  path += ' Z';
+  return path;
+};
+
 export default function CosmicKissSymphony({ userName }: CosmicKissSymphonyProps) {
   const canvasRef = useRef<HTMLDivElement>(null);
   const [currentConstellation, setCurrentConstellation] = useState<Star[]>([]);
