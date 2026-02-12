@@ -158,28 +158,77 @@ export default function ShootingStars({ userName }: ShootingStarsProps) {
                 opacity: 0,
               }}
               animate={{
-                x: `${star.startX + 50}%`,
-                y: `${star.startY + 50}%`,
-                opacity: [0, 1, 1, 0],
+                x: `${star.startX + 60}%`,
+                y: `${star.startY + 60}%`,
+                opacity: [0, 1, 1, 0.8, 0],
               }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 2, ease: 'easeOut' }}
-              className="absolute pointer-events-auto cursor-pointer"
+              transition={{ duration: 3, ease: 'easeOut' }}
+              className="absolute pointer-events-auto cursor-pointer group"
               onClick={() => handleStarClick(star)}
             >
+              {/* Main star body */}
               <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ duration: 2, ease: 'linear' }}
+                animate={{ rotate: 360, scale: [1, 1.3, 1] }}
+                transition={{ duration: 3, ease: 'linear' }}
+                className="relative"
               >
-                <Sparkles className="w-8 h-8 text-yellow-200" fill="currentColor" />
+                {/* Bright core */}
+                <div className="w-3 h-3 rounded-full bg-white absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+                  style={{ 
+                    boxShadow: '0 0 20px #fff, 0 0 30px #ffeb3b, 0 0 40px #ffeb3b',
+                  }}
+                />
+                
+                {/* Star icon */}
+                <Sparkles 
+                  className="w-10 h-10 text-yellow-100 relative z-10 group-hover:scale-125 transition-transform" 
+                  fill="currentColor"
+                  style={{
+                    filter: 'drop-shadow(0 0 8px #ffeb3b)',
+                  }}
+                />
               </motion.div>
-              {/* Trail */}
+              
+              {/* Cosmic trail - multiple layers */}
               <motion.div
-                initial={{ width: 0, opacity: 0.8 }}
+                initial={{ width: 0, opacity: 0.9 }}
+                animate={{ width: 180, opacity: 0 }}
+                transition={{ duration: 2, ease: 'easeOut' }}
+                className="absolute top-1/2 left-1/2 h-1 -translate-y-1/2"
+                style={{ 
+                  transformOrigin: 'left',
+                  transform: `rotate(${star.angle}deg)`,
+                  background: 'linear-gradient(to right, rgba(255, 235, 59, 0.9), rgba(255, 193, 7, 0.6), transparent)',
+                  boxShadow: '0 0 12px rgba(255, 235, 59, 0.8)',
+                }}
+              />
+              
+              {/* Secondary trail */}
+              <motion.div
+                initial={{ width: 0, opacity: 0.7 }}
+                animate={{ width: 140, opacity: 0 }}
+                transition={{ duration: 1.8, ease: 'easeOut' }}
+                className="absolute top-1/2 left-1/2 h-2 -translate-y-1/2"
+                style={{ 
+                  transformOrigin: 'left',
+                  transform: `rotate(${star.angle}deg)`,
+                  background: 'linear-gradient(to right, rgba(255, 255, 255, 0.7), rgba(255, 235, 59, 0.4), transparent)',
+                  filter: 'blur(2px)',
+                }}
+              />
+              
+              {/* Particle trail */}
+              <motion.div
+                initial={{ width: 0, opacity: 0.5 }}
                 animate={{ width: 100, opacity: 0 }}
-                transition={{ duration: 1 }}
-                className="absolute top-1/2 left-0 h-0.5 bg-gradient-to-r from-yellow-200 to-transparent"
-                style={{ transformOrigin: 'left', transform: `rotate(${star.angle}deg)` }}
+                transition={{ duration: 1.5, ease: 'easeOut' }}
+                className="absolute top-1/2 left-1/2 h-0.5 -translate-y-1/2"
+                style={{ 
+                  transformOrigin: 'left',
+                  transform: `rotate(${star.angle}deg)`,
+                  background: 'linear-gradient(to right, rgba(255, 255, 255, 0.9), transparent)',
+                }}
               />
             </motion.div>
           ))}
