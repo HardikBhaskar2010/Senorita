@@ -228,27 +228,52 @@
   animation: fade-in-up 0.6s ease-out;
 }
 
-/* Custom Scrollbar */
+/* Custom Scrollbar - Default (Pink to Purple) */
 ::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
+  width: 12px;
+  height: 12px;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(0, 0, 0, 0.1);
   border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%);
+  background: linear-gradient(180deg, #ec4899 0%, #8b5cf6 100%);
   border-radius: 10px;
   border: 2px solid transparent;
   background-clip: padding-box;
+  box-shadow: 0 0 10px rgba(236, 72, 153, 0.3);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(135deg, #f472b6 0%, #a78bfa 100%);
+  background: linear-gradient(180deg, #f472b6 0%, #a78bfa 100%);
   background-clip: padding-box;
+  box-shadow: 0 0 15px rgba(236, 72, 153, 0.5);
+}
+
+/* Custom Scrollbar - Cookie's Blue Theme */
+.cookie-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #3b82f6 0%, #06b6d4 100%);
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
+}
+
+.cookie-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #60a5fa 0%, #22d3ee 100%);
+  box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+}
+
+/* Custom Scrollbar - Senorita's Pink Theme */
+.senorita-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #ec4899 0%, #a855f7 100%);
+  box-shadow: 0 0 10px rgba(236, 72, 153, 0.3);
+}
+
+.senorita-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #f472b6 0%, #c084fc 100%);
+  box-shadow: 0 0 15px rgba(236, 72, 153, 0.5);
 }
 
 /* Loading States */
