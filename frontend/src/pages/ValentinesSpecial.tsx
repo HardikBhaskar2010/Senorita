@@ -16,7 +16,7 @@ import TeddyStoryMode from '@/components/valentine/TeddyStoryMode';
 import PromiseVault from '@/components/valentine/PromiseVault';
 import PromiseTreeContainer from '@/components/valentine/PromiseTreeContainer';
 import HoldToHug from '@/components/valentine/HoldToHug';
-import KissRipples from '@/components/valentine/KissRipples';
+import CosmicKissSymphony from '@/components/valentine/CosmicKissSymphony';
 import StorybookPDF from '@/components/valentine/StorybookPDF';
 import EasterEggHunt from '@/components/valentine/EasterEggHunt';
 import SaveToAlbum from '@/components/valentine/SaveToAlbum';
