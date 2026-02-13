@@ -56,6 +56,7 @@ const App = () => (
                   <Route path="/valentines-special" element={<ValentinesSpecial />} />
                   <Route path="/valentines-viewer" element={<ValentinesViewer />} />
                   <Route path="/secret-vault" element={<SecretVaultPage />} />
+                  <Route path="/calendar" element={<Calendar />} />
                   <Route path="/settings" element={<Settings />} />
                   {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                   <Route path="*" element={<NotFound />} />
