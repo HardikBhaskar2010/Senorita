@@ -450,11 +450,11 @@ const ValentinesSpecial = () => {
               onChange={(e) => setCurrentAnswer(e.target.value)}
               placeholder="Write your answer here..."
               rows={4}
-              className="w-full text-base py-3 px-4 bg-white/20 border border-white/30 text-white placeholder:text-white/50 rounded-xl resize-none focus:outline-none focus:ring-2 focus:ring-white/50"
+              className="w-full text-base py-3 px-4 bg-white/20 border border-white/30 text-white placeholder:text-white/50 rounded-xl resize-none focus-ring-pink transition-smooth"
             />
             <Button
               onClick={saveAnswer}
-              className="w-full py-3 text-base bg-white/20 hover:bg-white/30 text-white btn-hover-lift"
+              className="w-full py-3 text-base bg-white/20 hover:bg-white/30 text-white ripple-button magnetic-button focus-ring-pink"
             >
               💝 Save My Answer
             </Button>
