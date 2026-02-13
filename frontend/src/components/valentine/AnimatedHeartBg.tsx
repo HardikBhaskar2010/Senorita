@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { animate, createScope, svg } from 'animejs';
+import { animate, createScope, createMotionPath } from 'animejs';
 
 const AnimatedHeartBg = () => {
   const rootRef = useRef<HTMLDivElement>(null);
@@ -21,7 +21,7 @@ const AnimatedHeartBg = () => {
             scale: [1, 1.2, 1, 1.1, 1],
             opacity: [0.15, 0.3, 0.15, 0.25, 0.15],
             duration: 2000,
-            easing: 'inOut(3)',
+            ease: 'inOut(3)',
             loop: true,
           });
         } catch (err) {
@@ -39,7 +39,7 @@ const AnimatedHeartBg = () => {
               
               animate(path, {
                 strokeDashoffset: [pathLength, 0],
-                easing: 'inOutSine',
+                ease: 'inOutSine',
                 duration: 3000,
                 delay: index * 200,
                 alternate: true,
@@ -63,14 +63,14 @@ const AnimatedHeartBg = () => {
               const smallHeart = smallHearts?.[index];
               if (!smallHeart || !path) return;
 
-              // Create motion path animation for each heart
-              const motionPathValues = svg.createMotionPath(path as SVGPathElement);
+              // Create motion path animation for each heart using correct v4 API
+              const motionPathValues = createMotionPath(path as SVGPathElement);
               
               if (motionPathValues) {
                 animate(smallHeart, {
                   ...motionPathValues,
                   duration: 8000 + (index * 1000), // Vary duration for each heart
-                  easing: 'linear',
+                  ease: 'linear',
                   loop: true,
                   delay: index * 500, // Stagger the start
                 });
@@ -80,7 +80,7 @@ const AnimatedHeartBg = () => {
                   scale: [1, 1.3, 1],
                   opacity: [0.6, 1, 0.6],
                   duration: 2000,
-                  easing: 'inOut(2)',
+                  ease: 'inOut(2)',
                   loop: true,
                   delay: index * 300,
                 });
@@ -234,7 +234,7 @@ const AnimatedHeartBg = () => {
           >
             <svg width="30" height="30" viewBox="0 0 24 24" fill="none">
               <path
-                d="M12,21 C8,17 4,14 4,10 C4,7 6,5 8,5 C10,5 11,6 12,8 C13,6 14,5 16,5 C18,5 20,7 20,10 C20,14 16,17 12,21 Z"
+                d="M12,21 C8,17 4,14 4,10 C4,7 6,5 8,5 C10,5 11,6 12,8 C 13,6 14,5 16,5 C18,5 20,7 20,10 C20,14 16,17 12,21 Z"
                 fill="#ec4899"
                 fillOpacity="0.2"
               />
