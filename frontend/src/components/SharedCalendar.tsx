@@ -113,7 +113,12 @@ const SharedCalendar = () => {
         )}
         
         <Button variant="outline" className="w-full" size="sm" asChild>
-          <Link to="/calendar">View Full Calendar</Link>
+          <Link to="/calendar">
+            <span className="flex items-center gap-2">
+              <CalendarDays className="w-4 h-4" />
+              View Full Calendar
+            </span>
+          </Link>
         </Button>
       </CardContent>
     </Card>
