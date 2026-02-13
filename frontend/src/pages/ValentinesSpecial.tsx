@@ -864,7 +864,7 @@ const ValentinesSpecial = () => {
                 <Button
                   onClick={() => setSelectedDay(null)}
                   variant="ghost"
-                  className="absolute top-4 right-4 text-white hover:bg-white/20"
+                  className="absolute top-4 right-4 text-white hover:bg-white/20 magnetic-button focus-ring-pink"
                 >
                   ✕
                 </Button>
@@ -872,10 +872,10 @@ const ValentinesSpecial = () => {
 
               {/* Header */}
               <div className="text-center mb-8">
-                <h2 className="text-4xl md:text-5xl font-bold mb-4 text-white">
+                <h2 className="text-4xl md:text-5xl font-bold mb-4 text-white text-display">
                   {selectedDay.name}
                 </h2>
-                <p className="text-xl text-white/90">{selectedDay.theme}</p>
+                <p className="text-xl text-white/90 text-body-large">{selectedDay.theme}</p>
               </div>
 
               {/* Content or Unlock Input */}
