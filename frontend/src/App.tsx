@@ -21,6 +21,7 @@ import Milestones from "./pages/Milestones";
 import ValentinesSpecial from "./pages/ValentinesSpecial";
 import ValentinesViewer from "./pages/ValentinesViewer";
 import SecretVaultPage from "./pages/SecretVaultPage";
+import Calendar from "./pages/Calendar";
 
 const queryClient = new QueryClient({
   defaultOptions: {
