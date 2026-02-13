@@ -837,7 +837,8 @@ const ValentinesSpecial = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 modal-backdrop-enhanced z-50 flex items-center justify-center p-4"
             onClick={() => {
               if (unlockedDays.has(selectedDay.dayNumber)) {
                 setSelectedDay(null);
@@ -845,15 +846,17 @@ const ValentinesSpecial = () => {
             }}
           >
             <motion.div
-              initial={{ scale: 0.8, y: 50 }}
-              animate={{ scale: 1, y: 0 }}
-              exit={{ scale: 0.8, y: 50 }}
+              initial={{ scale: 0.5, opacity: 0, y: 50 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.8, opacity: 0, y: 50 }}
+              transition={{ type: "spring", stiffness: 300, damping: 25 }}
               onClick={(e) => e.stopPropagation()}
               className={`
                 bg-gradient-to-br ${selectedDay.gradient}
                 rounded-3xl p-8 md:p-12 max-w-2xl w-full
-                shadow-2xl border border-white/20
+                shadow-2xl border-2 border-white/30
                 max-h-[90vh] overflow-y-auto
+                bounce-in
               `}
             >
               {/* Close Button */}
