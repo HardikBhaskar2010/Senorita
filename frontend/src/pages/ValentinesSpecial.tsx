@@ -795,13 +795,13 @@ const ValentinesSpecial = () => {
                   {/* Status Badge */}
                   <div className="mt-4 flex flex-col gap-2">
                     {isUnlocked ? (
-                      <span className="inline-flex items-center gap-2 bg-green-500/20 text-green-300 px-4 py-2 rounded-full text-sm font-medium">
+                      <span className="inline-flex items-center gap-2 bg-green-500/20 text-green-300 px-4 py-2 rounded-full text-sm font-medium pulse-ring">
                         <Check className="w-4 h-4" />
                         Unlocked
                       </span>
                     ) : isAvailable ? (
-                      <span className="inline-flex items-center gap-2 bg-yellow-500/20 text-yellow-300 px-4 py-2 rounded-full text-sm font-medium sparkle">
-                        <Sparkles className="w-4 h-4" />
+                      <span className="inline-flex items-center gap-2 bg-yellow-500/20 text-yellow-300 px-4 py-2 rounded-full text-sm font-medium sparkle pulse-ring">
+                        <Sparkles className="w-4 h-4 rotate-scale" />
                         Available Now
                       </span>
                     ) : (
