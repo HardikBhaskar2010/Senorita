@@ -13,8 +13,12 @@ import ChocolateGame from '@/components/valentine/ChocolateGame';
 import TeddyStoryMode from '@/components/valentine/TeddyStoryMode';
 import PromiseTreeContainer from '@/components/valentine/PromiseTreeContainer';
 import HoldToHug from '@/components/valentine/HoldToHug';
-import KissRipples from '@/components/valentine/KissRipples';
+import CosmicKissSymphony from '@/components/valentine/CosmicKissSymphony';
 import StorybookPDF from '@/components/valentine/StorybookPDF';
+import EasterEggHunt from '@/components/valentine/EasterEggHunt';
+import SaveToAlbum from '@/components/valentine/SaveToAlbum';
+import ConfettiSystem from '@/components/valentine/ConfettiSystem';
+import AnimatedHeartBg from '@/components/valentine/AnimatedHeartBg';
 
 interface ValentineDay {
   dayNumber: number;
@@ -112,12 +116,15 @@ const valentineDays: ValentineDay[] = [
 
 const ValentinesViewer = () => {
   const navigate = useNavigate();
-  const { dashboardBackgroundCookie } = useTheme();
+  const { dashboardBackgroundCookie, enable3DEffects } = useTheme();
   const [unlockedDays, setUnlockedDays] = useState<Set<number>>(new Set());
   const [selectedDay, setSelectedDay] = useState<ValentineDay | null>(null);
   const [customMessages, setCustomMessages] = useState<Record<number, string>>({});
   const [answers, setAnswers] = useState<Record<number, string>>({});
   const [readDays, setReadDays] = useState<Set<number>>(new Set());
+  const [easterEggsFound, setEasterEggsFound] = useState<Record<number, number>>({});
+  const [triggerConfetti, setTriggerConfetti] = useState(false);
+  const dayContentRef = useRef<HTMLDivElement>(null);
 
   // Fetch Senorita's progress
   useEffect(() => {
@@ -260,24 +267,68 @@ const ValentinesViewer = () => {
     };
 
     return (
-      <div>
+      <div ref={dayContentRef}>
+        {/* Easter Egg Hunt */}
+        <EasterEggHunt
+          dayNumber={day.dayNumber}
+          onEggFound={(eggId) => {
+            const count = (easterEggsFound[day.dayNumber] || 0) + 1;
+            setEasterEggsFound(prev => ({ ...prev, [day.dayNumber]: count }));
+          }}
+        />
+
         {/* Interactive Component (read-only view) */}
         {(() => {
           switch (day.dayNumber) {
             case 1:
-              return <AnimatedRose />;
+              return (
+                <div>
+                  <AnimatedRose />
+                  <SaveToAlbum dayNumber={day.dayNumber} dayName={day.name} contentRef={dayContentRef} />
+                </div>
+              );
             case 2:
-              return <ProposalSlideshow dayNumber={day.dayNumber} />;
+              return (
+                <div>
+                  <ProposalSlideshow dayNumber={day.dayNumber} />
+                  <SaveToAlbum dayNumber={day.dayNumber} dayName={day.name} contentRef={dayContentRef} />
+                </div>
+              );
             case 3:
-              return <ChocolateGame dayNumber={day.dayNumber} />;
+              return (
+                <div>
+                  <ChocolateGame dayNumber={day.dayNumber} />
+                  <SaveToAlbum dayNumber={day.dayNumber} dayName={day.name} contentRef={dayContentRef} />
+                </div>
+              );
             case 4:
-              return <TeddyStoryMode />;
+              return (
+                <div>
+                  <TeddyStoryMode />
+                  <SaveToAlbum dayNumber={day.dayNumber} dayName={day.name} contentRef={dayContentRef} />
+                </div>
+              );
             case 5:
-              return <PromiseTreeContainer dayNumber={day.dayNumber} />;
+              return (
+                <div>
+                  <PromiseTreeContainer dayNumber={day.dayNumber} />
+                  <SaveToAlbum dayNumber={day.dayNumber} dayName={day.name} contentRef={dayContentRef} />
+                </div>
+              );
             case 6:
-              return <HoldToHug />;
+              return (
+                <div>
+                  <HoldToHug />
+                  <SaveToAlbum dayNumber={day.dayNumber} dayName={day.name} contentRef={dayContentRef} />
+                </div>
+              );
             case 7:
-              return <KissRipples dayNumber={day.dayNumber} />;
+              return (
+                <div className="h-screen relative">
+                  <CosmicKissSymphony userName="Cookie" />
+                  <SaveToAlbum dayNumber={day.dayNumber} dayName={day.name} contentRef={dayContentRef} />
+                </div>
+              );
             case 8:
               return (
                 <div>
@@ -286,6 +337,7 @@ const ValentinesViewer = () => {
                   </motion.div>
                   <h2 className="text-4xl font-bold mb-4">Happy Valentine's Day! 💝</h2>
                   <StorybookPDF />
+                  <SaveToAlbum dayNumber={day.dayNumber} dayName={day.name} contentRef={dayContentRef} />
                 </div>
               );
             default:
@@ -337,11 +389,32 @@ const ValentinesViewer = () => {
     <div 
       className="min-h-screen relative overflow-x-hidden"
       style={{
-        background: dashboardBackgroundCookie 
-          ? `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(${dashboardBackgroundCookie}) center/cover fixed`
-          : 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
+        backgroundImage: dashboardBackgroundCookie 
+          ? `url(${dashboardBackgroundCookie})`
+          : 'none',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundAttachment: 'fixed'
       }}
     >
+      {/* Anime.js Animated Heart Background - Only if 3D effects enabled */}
+      {enable3DEffects && !dashboardBackgroundCookie && <AnimatedHeartBg />}
+      
+      {/* Fallback Animated Heart Background - CSS only */}
+      {!enable3DEffects && !dashboardBackgroundCookie && (
+        <div className="valentine-heart-bg">
+          <div className="heart-bg-layer heart-1"></div>
+          <div className="heart-bg-layer heart-2"></div>
+          <div className="heart-bg-layer heart-3"></div>
+          <div className="heart-bg-layer heart-4"></div>
+          <div className="heart-bg-layer heart-5"></div>
+          <div className="heart-bg-layer heart-6"></div>
+        </div>
+      )}
+      
+      {/* Global Confetti System */}
+      <ConfettiSystem active={triggerConfetti} duration={3000} particleCount={50} />
+      
       {/* Audio Player */}
       <AudioPlayer />
       
