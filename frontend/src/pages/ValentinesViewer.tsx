@@ -476,15 +476,15 @@ const ValentinesViewer = () => {
                 key={day.dayNumber}
                 initial={{ opacity: 0, y: 50 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-                whileHover={isUnlocked ? { scale: 1.05, y: -5 } : {}}
+                transition={{ delay: index * 0.1, type: "spring", stiffness: 100 }}
+                whileHover={isUnlocked ? { scale: 1.08, y: -8, rotateY: 2 } : {}}
                 onClick={() => handleViewDay(day)}
                 className={`
                   relative group cursor-pointer
                   bg-white/10 dark:bg-black/20 backdrop-blur-xl
-                  rounded-3xl p-8 border border-white/20
-                  transition-all duration-300
-                  ${isUnlocked ? 'hover:shadow-2xl hover:border-blue-300/40' : 'opacity-40'}
+                  rounded-3xl p-8 border-2 border-white/20
+                  transition-bounce day-card-enhanced gradient-border-animate
+                  ${isUnlocked ? 'hover-glow-blue hover:shadow-2xl hover:border-blue-300/40' : 'opacity-40'}
                   ${!isUnlocked ? 'blur-sm' : ''}
                 `}
               >
