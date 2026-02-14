@@ -20,6 +20,7 @@ import Chat from "./pages/Chat";
 import Milestones from "./pages/Milestones";
 import ValentinesSpecial from "./pages/ValentinesSpecial";
 import ValentinesViewer from "./pages/ValentinesViewer";
+import ValentineFuturePage from "./pages/ValentineFuturePage";
 import SecretVaultPage from "./pages/SecretVaultPage";
 import Calendar from "./pages/Calendar";
 
