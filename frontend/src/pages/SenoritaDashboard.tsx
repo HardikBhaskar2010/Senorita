@@ -52,6 +52,18 @@ const SenoritaDashboard = () => {
     setShowVaultPassword(true);
   };
 
+  // Handle "Message from 2030" button click - trigger warp animation
+  const handleFutureMessageClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setShowWarpOverlay(true);
+  };
+
+  // Close warp overlay
+  const handleCloseWarp = () => {
+    setShowWarpOverlay(false);
+  };
+
   // Day names mapping for notifications
   const dayNames: Record<number, string> = {
     1: "Rose Day",
