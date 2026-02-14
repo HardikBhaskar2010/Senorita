@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import anime from "animejs";
+import { animate, createMotionPath, remove } from "animejs";
 import { supabase } from "@/lib/supabase";
 
 type Memory = {
@@ -75,55 +75,53 @@ export default function MemoryTraveler({ onMemoryClick, visitedMemories }: Memor
     // Initial scatter animate in along segments
     nodesRef.current.forEach((el, idx) => {
       if (!el) return;
-      const path = anime.path("#memoryPath");
       // Use a staggered offset across path length
       const offset = idx / memories.length;
-      anime({
-        targets: el,
-        translateX: path("x")(offset),
-        translateY: path("y")(offset),
-        rotate: path("angle")(offset),
+      const path = createMotionPath("#memoryPath", offset);
+      animate(el, {
+        translateX: path.translateX,
+        translateY: path.translateY,
+        rotate: path.rotate,
         opacity: [0, 1],
         scale: [0.5, 1],
         duration: 1200,
-        easing: "easeOutElastic(1, .6)",
+        ease: "outElastic(1, .6)",
         delay: idx * 120,
       });
     });
 
     return () => {
-      anime.remove(nodesRef.current);
+      remove(nodesRef.current);
     };
   }, [memories]);
 
   function flyToMemory(index: number, memory: Memory) {
     const targetEl = nodesRef.current[index];
     if (!targetEl) return;
-    const path = anime.path("#memoryPath");
+    const centerPath = createMotionPath("#memoryPath", 0.5);
 
     // Timeline: node moves along path to the center with easing
-    anime({
-      targets: targetEl,
-      translateX: path("x")(0.5), // mid-point on path
-      translateY: path("y")(0.5),
-      rotate: path("angle")(0.5),
+    animate(targetEl, {
+      translateX: centerPath.translateX,
+      translateY: centerPath.translateY,
+      rotate: centerPath.rotate,
       scale: [1, 1.08],
       duration: 1100,
-      easing: "cubicBezier(.2,.8,.2,1)",
-      complete: () => {
+      ease: "cubicBezier(.2,.8,.2,1)",
+      onComplete: () => {
         // Open modal
         onMemoryClick(memory);
         // Reset position after modal opens
         setTimeout(() => {
           const originalOffset = index / memories.length;
-          anime({
-            targets: targetEl,
-            translateX: path("x")(originalOffset),
-            translateY: path("y")(originalOffset),
-            rotate: path("angle")(originalOffset),
+          const originalPath = createMotionPath("#memoryPath", originalOffset);
+          animate(targetEl, {
+            translateX: originalPath.translateX,
+            translateY: originalPath.translateY,
+            rotate: originalPath.rotate,
             scale: 1,
             duration: 800,
-            easing: "easeOutQuad",
+            ease: "outQuad",
           });
         }, 300);
       },
