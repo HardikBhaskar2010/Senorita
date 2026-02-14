@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { animate, createMotionPath, remove } from "animejs";
 import { supabase } from "@/lib/supabase";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 type Memory = {
   id: string;
@@ -22,33 +24,7 @@ export default function MemoryTraveler({ onMemoryClick, visitedMemories }: Memor
   const nodesRef = useRef<(HTMLDivElement | null)[]>([]);
   const [memories, setMemories] = useState<Memory[]>([]);
   const [loading, setLoading] = useState(true);
-  const [cameraOffset, setCameraOffset] = useState(0);
-  const [viewportWidth, setViewportWidth] = useState(() => window.innerWidth);
-
-  const focusNode = (index: number) => {
-    const container = containerRef.current;
-    const targetNode = nodesRef.current[index];
-    if (!container || !targetNode) return;
-
-    const containerRect = container.getBoundingClientRect();
-    const containerCenterX = containerRect.left + containerRect.width / 2;
-
-    const candidateOffsets = nodesRef.current
-      .filter((node): node is HTMLDivElement => Boolean(node))
-      .map((node) => {
-        const nodeCenterX = node.getBoundingClientRect().left + node.getBoundingClientRect().width / 2;
-        return cameraOffset + (containerCenterX - nodeCenterX);
-      });
-
-    if (candidateOffsets.length === 0) return;
-
-    const minAllowed = Math.min(...candidateOffsets);
-    const maxAllowed = Math.max(...candidateOffsets);
-    const targetCenterX = targetNode.getBoundingClientRect().left + targetNode.getBoundingClientRect().width / 2;
-    const targetOffset = cameraOffset + (containerCenterX - targetCenterX);
-
-    setCameraOffset(Math.max(minAllowed, Math.min(maxAllowed, targetOffset)));
-  };
+  const [focusedIndex, setFocusedIndex] = useState(0);
 
   // Fetch memories from Supabase
   useEffect(() => {
@@ -73,126 +49,104 @@ export default function MemoryTraveler({ onMemoryClick, visitedMemories }: Memor
     fetchMemories();
   }, []);
 
-  // Keep path sizing responsive
-  useEffect(() => {
-    const onResize = () => setViewportWidth(window.innerWidth);
-    window.addEventListener("resize", onResize);
-    return () => window.removeEventListener("resize", onResize);
-  }, []);
+  // Focus on a specific card with smooth camera movement
+  const focusOnCard = (index: number) => {
+    if (index < 0 || index >= memories.length) return;
+    
+    setFocusedIndex(index);
+    
+    const targetNode = nodesRef.current[index];
+    if (!targetNode) return;
 
+    // Animate all cards
+    nodesRef.current.forEach((node, i) => {
+      if (!node) return;
+      
+      const distance = i - index;
+      const isFocused = i === index;
+      
+      animate(node, {
+        translateX: distance * 350, // Spread cards 350px apart
+        translateY: 0,
+        scale: isFocused ? 1.2 : 0.85, // Focused card is larger
+        opacity: isFocused ? 1 : 0.6, // Focused card is brighter
+        duration: 800,
+        ease: "outCubic",
+      });
+    });
+  };
+
+  // Initial layout and animation
   useEffect(() => {
     if (memories.length === 0) return;
 
-    const containerWidth = containerRef.current?.clientWidth ?? viewportWidth;
-    const margin = Math.max(80, containerWidth * 0.08);
-    const pathY = 300;
-    const pathD = `
-      M ${margin} ${pathY}
-      C ${containerWidth * 0.22} 70, ${containerWidth * 0.45} 70, ${containerWidth * 0.56} ${pathY}
-      C ${containerWidth * 0.72} 530, ${containerWidth * 0.86} 530, ${containerWidth - margin} ${pathY}
-    `;
-
-    // Create an SVG path programmatically
-    const svgNS = "http://www.w3.org/2000/svg";
-    let svg = document.getElementById("motion-svg") as SVGSVGElement | null;
-    if (!svg) {
-      svg = document.createElementNS(svgNS, "svg");
-      svg.setAttribute("id", "motion-svg");
-      svg.setAttribute("width", "0");
-      svg.setAttribute("height", "0");
-      svg.style.position = "absolute";
-      svg.style.left = "0";
-      svg.style.top = "0";
-      svg.innerHTML = `<path id="memoryPath" d="${pathD}" />`;
-      document.body.appendChild(svg);
-    } else {
-      const pathEl = svg.querySelector("#memoryPath");
-      if (pathEl) {
-        pathEl.setAttribute("d", pathD);
-      } else {
-        svg.innerHTML = `<path id="memoryPath" d="${pathD}" />`;
-      }
-    }
-
-    // Initial scatter animate in along segments
+    // Initial scatter animation
     nodesRef.current.forEach((el, idx) => {
       if (!el) return;
-      // Use a staggered offset across path length
-      const offset = idx / memories.length;
-      const path = createMotionPath("#memoryPath", offset);
+      
+      const distance = idx - focusedIndex;
+      
       animate(el, {
-        translateX: path.translateX,
-        translateY: path.translateY,
-        rotate: path.rotate,
-        opacity: [0, 1],
-        scale: [0.5, 1],
+        translateX: distance * 350,
+        translateY: 0,
+        opacity: [0, idx === focusedIndex ? 1 : 0.6],
+        scale: [0.5, idx === focusedIndex ? 1.2 : 0.85],
         duration: 1200,
         ease: "outElastic(1, .6)",
-        delay: idx * 120,
+        delay: idx * 100,
       });
     });
 
     return () => {
       remove(nodesRef.current);
     };
-  }, [memories, viewportWidth]);
+  }, [memories, focusedIndex]);
 
-  // Focus camera on latest visited/opened memory card
+  // Keyboard navigation
   useEffect(() => {
-    if (memories.length === 0 || visitedMemories.size === 0) return;
+    const handleKeyPress = (e: KeyboardEvent) => {
+      if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        handlePrevious();
+      } else if (e.key === "ArrowRight") {
+        e.preventDefault();
+        handleNext();
+      }
+    };
 
-    const latestVisitedIndex = [...memories]
-      .reverse()
-      .findIndex((memory) => visitedMemories.has(memory.id));
+    window.addEventListener("keydown", handleKeyPress);
+    return () => window.removeEventListener("keydown", handleKeyPress);
+  }, [focusedIndex, memories.length]);
 
-    if (latestVisitedIndex === -1) return;
+  const handlePrevious = () => {
+    if (focusedIndex > 0) {
+      focusOnCard(focusedIndex - 1);
+    }
+  };
 
-    const index = memories.length - 1 - latestVisitedIndex;
-    const timer = window.setTimeout(() => focusNode(index), 450);
-    return () => window.clearTimeout(timer);
-  }, [memories, visitedMemories]);
+  const handleNext = () => {
+    if (focusedIndex < memories.length - 1) {
+      focusOnCard(focusedIndex + 1);
+    }
+  };
 
-  function flyToMemory(index: number, memory: Memory) {
-    const targetEl = nodesRef.current[index];
-    if (!targetEl) return;
-    const centerPath = createMotionPath("#memoryPath", 0.5);
-
-    // Timeline: node moves along path to the center with easing
-    animate(targetEl, {
-      translateX: centerPath.translateX,
-      translateY: centerPath.translateY,
-      rotate: centerPath.rotate,
-      scale: [1, 1.08],
-      duration: 1100,
-      ease: "cubicBezier(.2,.8,.2,1)",
-      onComplete: () => {
-        // Open modal
-        onMemoryClick(memory);
-        // Reset position after modal opens
-        setTimeout(() => {
-          const originalOffset = index / memories.length;
-          const originalPath = createMotionPath("#memoryPath", originalOffset);
-          animate(targetEl, {
-            translateX: originalPath.translateX,
-            translateY: originalPath.translateY,
-            rotate: originalPath.rotate,
-            scale: 1,
-            duration: 800,
-            ease: "outQuad",
-          });
-        }, 300);
-      },
-    });
-
-    // Play chime sound
-    const chime = new Audio("/audio/memory-chime.mp3");
-    chime.volume = 0.6;
-    chime.play().catch(() => { /* ignore */ });
-  }
+  const handleCardClick = (index: number, memory: Memory) => {
+    focusOnCard(index);
+    
+    // Delay modal opening to show card focus animation
+    setTimeout(() => {
+      onMemoryClick(memory);
+      
+      // Play chime sound
+      const chime = new Audio("/audio/memory-chime.mp3");
+      chime.volume = 0.6;
+      chime.play().catch(() => { /* ignore */ });
+    }, 400);
+  };
 
   if (loading) {
     return (
-      <div className="memory-traveler-root flex items-center justify-center" style={{ height: 520 }}>
+      <div className="memory-traveler-root flex items-center justify-center" style={{ minHeight: 600 }}>
         <div className="text-white/70 text-lg">Loading memories...</div>
       </div>
     );
@@ -200,67 +154,126 @@ export default function MemoryTraveler({ onMemoryClick, visitedMemories }: Memor
 
   if (memories.length === 0) {
     return (
-      <div className="memory-traveler-root flex items-center justify-center" style={{ height: 520 }}>
+      <div className="memory-traveler-root flex items-center justify-center" style={{ minHeight: 600 }}>
         <div className="text-white/70 text-lg">No memories found. Add some in the database!</div>
       </div>
     );
   }
 
   return (
-    <div ref={containerRef} className="memory-traveler-root relative overflow-hidden" style={{ height: 520 }}>
-      <div
-        className="memory-track relative"
-        style={{
-          height: "100%",
-          transform: `translateX(${cameraOffset}px)`,
-          transition: "transform 600ms cubic-bezier(0.2, 0.8, 0.2, 1)",
-          willChange: "transform",
-        }}
-      >
-        {memories.map((m, i) => {
-          const isVisited = visitedMemories.has(m.id);
+    <div className="relative w-full" style={{ minHeight: 600 }}>
+      {/* Navigation Buttons */}
+      <div className="absolute top-1/2 left-4 z-20 -translate-y-1/2">
+        <Button
+          onClick={handlePrevious}
+          disabled={focusedIndex === 0}
+          size="icon"
+          className="w-14 h-14 rounded-full bg-gradient-to-r from-cyan-500/80 to-blue-500/80 hover:from-cyan-600 hover:to-blue-600 border-2 border-white/20 shadow-2xl shadow-cyan-500/30 backdrop-blur-xl disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+          data-testid="previous-memory-btn"
+        >
+          <ChevronLeft className="w-7 h-7" />
+        </Button>
+      </div>
 
-          return (
-            <div
-              key={m.id}
-              ref={(el) => (nodesRef.current[i] = el)}
-              className={`memory-node absolute cursor-pointer transition-all ${
-                isVisited ? 'ring-2 ring-green-400' : ''
-              }`}
-              onClick={() => flyToMemory(i, m)}
-              style={{
-                width: 120,
-                height: 120,
-                borderRadius: 16,
-                background: isVisited
-                  ? "linear-gradient(135deg, rgba(34,197,94,0.2), rgba(34,197,94,0.1))"
-                  : "linear-gradient(135deg, rgba(0,217,255,0.15), rgba(255,0,136,0.15))",
-                boxShadow: isVisited
-                  ? "0 6px 30px rgba(34,197,94,0.3)"
-                  : "0 6px 30px rgba(0,217,255,0.3)",
-                border: isVisited ? '2px solid rgba(34,197,94,0.5)' : '2px solid rgba(0,217,255,0.3)',
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                color: "white",
-                fontFamily: "monospace",
-                textAlign: "center",
-                padding: 12,
-                opacity: 0,
-              }}
-              role="button"
-              aria-label={`Open memory ${m.title}`}
-            >
-              <div className="flex flex-col items-center gap-1">
-                {isVisited && (
-                  <div className="text-green-400 text-xs mb-1">✓</div>
-                )}
-                <div style={{ fontSize: 14, fontWeight: 600 }}>{m.title}</div>
-                <div style={{ fontSize: 11, opacity: 0.8 }}>{m.snippet}</div>
+      <div className="absolute top-1/2 right-4 z-20 -translate-y-1/2">
+        <Button
+          onClick={handleNext}
+          disabled={focusedIndex === memories.length - 1}
+          size="icon"
+          className="w-14 h-14 rounded-full bg-gradient-to-r from-pink-500/80 to-purple-500/80 hover:from-pink-600 hover:to-purple-600 border-2 border-white/20 shadow-2xl shadow-pink-500/30 backdrop-blur-xl disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+          data-testid="next-memory-btn"
+        >
+          <ChevronRight className="w-7 h-7" />
+        </Button>
+      </div>
+
+      {/* Progress Indicator */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 z-10">
+        <div className="bg-white/10 backdrop-blur-xl rounded-full px-6 py-3 border border-white/20 shadow-xl">
+          <span className="text-white font-medium text-sm">
+            {focusedIndex + 1} / {memories.length}
+          </span>
+        </div>
+      </div>
+
+      {/* Memory Cards Container */}
+      <div 
+        ref={containerRef} 
+        className="memory-traveler-root relative overflow-hidden flex items-center justify-center"
+        style={{ minHeight: 600 }}
+      >
+        <div className="relative" style={{ width: 200, height: 400 }}>
+          {memories.map((m, i) => {
+            const isVisited = visitedMemories.has(m.id);
+            const isFocused = i === focusedIndex;
+
+            return (
+              <div
+                key={m.id}
+                ref={(el) => (nodesRef.current[i] = el)}
+                className={`memory-node absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer transition-all ${
+                  isVisited ? 'ring-4 ring-green-400/50' : ''
+                }`}
+                onClick={() => handleCardClick(i, m)}
+                style={{
+                  width: 220,
+                  height: 280,
+                  borderRadius: 24,
+                  background: isVisited
+                    ? "linear-gradient(135deg, rgba(34,197,94,0.3), rgba(34,197,94,0.15))"
+                    : "linear-gradient(135deg, rgba(0,217,255,0.2), rgba(255,0,136,0.2))",
+                  boxShadow: isFocused
+                    ? "0 20px 60px rgba(0,217,255,0.5), 0 0 80px rgba(255,0,136,0.3)"
+                    : isVisited
+                    ? "0 10px 40px rgba(34,197,94,0.4)"
+                    : "0 10px 40px rgba(0,217,255,0.3)",
+                  border: isVisited ? '3px solid rgba(34,197,94,0.6)' : '3px solid rgba(0,217,255,0.4)',
+                  backdropFilter: 'blur(20px)',
+                  display: "flex",
+                  flexDirection: 'column',
+                  alignItems: "center",
+                  justifyContent: "center",
+                  color: "white",
+                  textAlign: "center",
+                  padding: 20,
+                  opacity: 0,
+                }}
+                role="button"
+                aria-label={`Open memory ${m.title}`}
+                data-testid={`memory-card-${i}`}
+              >
+                <div className="flex flex-col items-center gap-3 w-full">
+                  {isVisited && (
+                    <div className="text-green-400 text-2xl mb-1 animate-bounce">✓</div>
+                  )}
+                  
+                  {/* Memory Icon */}
+                  <div className="w-16 h-16 rounded-full bg-gradient-to-br from-cyan-400 to-pink-400 flex items-center justify-center text-3xl mb-2 shadow-lg">
+                    {['☕', '🚂', '💻', '🌟', '💃', '🎬', '🌅', '📖', '🏠', '✨'][i]}
+                  </div>
+                  
+                  <div className="text-xl font-bold tracking-tight">{m.title}</div>
+                  <div className="text-sm opacity-90 font-light line-clamp-2">{m.snippet}</div>
+                  
+                  {isFocused && (
+                    <div className="mt-3 text-xs text-cyan-300 animate-pulse">
+                      Click to explore →
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Keyboard Hint */}
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 z-10">
+        <div className="bg-white/5 backdrop-blur-xl rounded-full px-6 py-2 border border-white/10">
+          <span className="text-white/60 text-xs font-light">
+            ← → Arrow keys to navigate • Click card to open
+          </span>
+        </div>
       </div>
     </div>
   );

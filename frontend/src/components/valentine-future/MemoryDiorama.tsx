@@ -21,7 +21,6 @@ function SceneObjects({ config }: { config: any }) {
   // Parse scene type from config
   const scene = config?.scene || 'default';
   const lighting = config?.lighting || 'neutral';
-  const objects = config?.objects || [];
 
   // Generate scene-specific objects
   const sceneElements = useMemo(() => {
@@ -41,20 +40,68 @@ function SceneObjects({ config }: { config: any }) {
       </mesh>
     );
 
-    // Grid helper for tech feel
-    if (scene === 'tech_haven') {
-      elements.push(
-        <gridHelper key="grid" args={[10, 20, "#00d9ff", "#002233"]} position={[0, -0.79, 0]} />
-      );
-    }
-
-    // Map configuration to specific 3D models
+    // Map configuration scene names to 3D models
+    // Based on database scene configurations
     switch (scene) {
+      // Memory 1: First Meet (cafe) → CozyCorner
+      case 'cafe':
+        elements.push(<Models.CozyCornerModel key="model-cafe" />);
+        break;
+      
+      // Memory 2: First Trip (train) → TravelDreams
+      case 'train':
+        elements.push(<Models.TravelDreamsModel key="model-train" />);
+        break;
+      
+      // Memory 3: Late Night Code (desk) → TechHaven
+      case 'desk':
+        elements.push(<Models.TechHavenModel key="model-desk" />);
+        break;
+      
+      // Memory 4: Stargazing (night_field) → StarryNight
+      case 'night_field':
+        elements.push(<Models.StarryNightModel key="model-night" />);
+        break;
+      
+      // Memory 5: Kitchen Dance (kitchen) → CozyCorner
+      case 'kitchen':
+        elements.push(<Models.CozyCornerModel key="model-kitchen" />);
+        break;
+      
+      // Memory 6: Movie Marathon (living_room) → CozyCorner
+      case 'living_room':
+        elements.push(<Models.CozyCornerModel key="model-living" />);
+        break;
+      
+      // Memory 7: Sunrise (hilltop) → RomanticGarden
+      case 'hilltop':
+        elements.push(<Models.RomanticGardenModel key="model-hilltop" />);
+        break;
+      
+      // Memory 8: Bookmark (reading_nook) → ArtisticSoul
+      case 'reading_nook':
+        elements.push(<Models.ArtisticSoulModel key="model-reading" />);
+        break;
+      
+      // Memory 9: Future Plans (night_balcony) → ArtisticSoul
+      case 'night_balcony':
+        elements.push(<Models.ArtisticSoulModel key="model-balcony" />);
+        break;
+      
+      // Memory 10: This Moment (infinity_space) → StarryNight
+      case 'infinity_space':
+        elements.push(<Models.StarryNightModel key="model-infinity" />);
+        break;
+
+      // Legacy scene types (backward compatibility)
       case 'cozy_corner':
         elements.push(<Models.CozyCornerModel key="model-cozy" />);
         break;
       case 'tech_haven':
         elements.push(<Models.TechHavenModel key="model-tech" />);
+        elements.push(
+          <gridHelper key="grid" args={[10, 20, "#00d9ff", "#002233"]} position={[0, -0.79, 0]} />
+        );
         break;
       case 'romantic_garden':
         elements.push(<Models.RomanticGardenModel key="model-garden" />);
@@ -68,8 +115,9 @@ function SceneObjects({ config }: { config: any }) {
       case 'artistic_soul':
         elements.push(<Models.ArtisticSoulModel key="model-art" />);
         break;
+      
       default:
-        // Default decorations if nothing else is there
+        // Default decorations - floating sparkles
         for (let i = 0; i < 20; i++) {
           const angle = (i / 20) * Math.PI * 2;
           const radius = 2.5 + Math.random();
@@ -93,7 +141,7 @@ function SceneObjects({ config }: { config: any }) {
     }
 
     return elements;
-  }, [scene, objects]);
+  }, [scene]);
 
   // Lighting based on config
   const lights = useMemo(() => {
@@ -101,8 +149,9 @@ function SceneObjects({ config }: { config: any }) {
 
     switch (lighting) {
       case 'warm':
+      case 'warm_evening':
         lightElements.push(
-          <pointLight key="warm" position={[2, 3, 2]} intensity={1} color="#ffa500" />
+          <pointLight key="warm" position={[2, 3, 2]} intensity={1.2} color="#ffa500" />
         );
         break;
       case 'blue_monitor':
@@ -119,6 +168,32 @@ function SceneObjects({ config }: { config: any }) {
         lightElements.push(
           <pointLight key="ethereal1" position={[2, 2, 2]} intensity={1} color="#ff0088" />,
           <pointLight key="ethereal2" position={[-2, 2, -2]} intensity={1} color="#00d9ff" />
+        );
+        break;
+      case 'sunset':
+        lightElements.push(
+          <pointLight key="sunset" position={[3, 2, 1]} intensity={1.2} color="#ff6b35" />
+        );
+        break;
+      case 'golden_hour':
+        lightElements.push(
+          <pointLight key="golden" position={[3, 4, 2]} intensity={1.3} color="#ffd700" />
+        );
+        break;
+      case 'tv_glow':
+        lightElements.push(
+          <pointLight key="tv" position={[0, 1, 2]} intensity={1} color="#4169e1" />
+        );
+        break;
+      case 'afternoon_sun':
+        lightElements.push(
+          <pointLight key="afternoon" position={[2, 4, 2]} intensity={1.1} color="#ffeb3b" />
+        );
+        break;
+      case 'city_lights':
+        lightElements.push(
+          <pointLight key="city1" position={[2, 2, 2]} intensity={0.8} color="#00bcd4" />,
+          <pointLight key="city2" position={[-2, 2, -2]} intensity={0.8} color="#ff9800" />
         );
         break;
       default:
@@ -140,7 +215,7 @@ function SceneObjects({ config }: { config: any }) {
 
 export default function MemoryDiorama({ config }: MemoryDioramaProps) {
   return (
-    <div className="w-full h-[400px] rounded-xl overflow-hidden bg-gradient-to-br from-slate-950 to-slate-900 border border-white/5">
+    <div className="w-full h-[500px] rounded-2xl overflow-hidden bg-gradient-to-br from-slate-950 to-slate-900 border-2 border-cyan-500/20 shadow-2xl shadow-cyan-500/10">
       <Canvas shadows dpr={[1, 2]}>
         <PerspectiveCamera makeDefault position={[0, 4, 8]} fov={50} />
         <ambientLight intensity={0.4} />
