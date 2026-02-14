@@ -56,6 +56,7 @@ const App = () => (
                   <Route path="/milestones" element={<Milestones />} />
                   <Route path="/valentines-special" element={<ValentinesSpecial />} />
                   <Route path="/valentines-viewer" element={<ValentinesViewer />} />
+                  <Route path="/valentine/future" element={<ValentineFuturePage />} />
                   <Route path="/secret-vault" element={<SecretVaultPage />} />
                   <Route path="/calendar" element={<Calendar />} />
                   <Route path="/settings" element={<Settings />} />
