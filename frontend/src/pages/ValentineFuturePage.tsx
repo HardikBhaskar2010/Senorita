@@ -170,10 +170,10 @@ export default function ValentineFuturePage() {
       // Check if all memories visited
       const newVisited = new Set([...visitedMemories, memory.id]);
       if (newVisited.size === totalMemories && totalMemories > 0 && !secretUnlocked) {
-        // Unlock secret message
+        // Unlock secret message using upsert to avoid duplicates
         await supabase
           .from('secret_message_unlocks')
-          .insert({ user_name: 'Senorita' });
+          .upsert({ user_name: 'Senorita' }, { onConflict: 'user_name' });
 
         setSecretUnlocked(true);
 

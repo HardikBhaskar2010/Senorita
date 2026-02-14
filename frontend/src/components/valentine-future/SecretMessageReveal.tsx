@@ -28,11 +28,11 @@ export default function SecretMessageReveal({ isUnlocked }: SecretMessageRevealP
     setIsSubmitting(true);
     try {
       const { error } = await supabase
-        .from('future_responses')
-        .insert({
-          user_name: 'Senorita',
-          response: response.trim()
-        });
+        .from('secret_message_unlocks')
+        .update({
+          message_content: response.trim()
+        })
+        .eq('user_name', 'Senorita');
 
       if (error) throw error;
 
