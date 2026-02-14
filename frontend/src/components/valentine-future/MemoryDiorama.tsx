@@ -30,9 +30,38 @@ function SceneObjects({ config }: { config: any }) {
     elements.push(
       <mesh key="platform" position={[0, -1, 0]} receiveShadow>
         <cylinderGeometry args={[3, 3, 0.2, 32]} />
-        <meshStandardMaterial color="#1a1f3a" metalness={0.6} roughness={0.4} />
+        <meshStandardMaterial 
+          color="#1a1f3a" 
+          metalness={0.8} 
+          roughness={0.2} 
+          emissive="#111827"
+          emissiveIntensity={0.5}
+        />
       </mesh>
     );
+
+    // Default decorations if nothing else is there
+    if (elements.length === 1) {
+      // Add some floating crystals or particles by default
+      for (let i = 0; i < 15; i++) {
+        const angle = (i / 15) * Math.PI * 2;
+        const radius = 2 + Math.random();
+        const x = Math.cos(angle) * radius;
+        const z = Math.sin(angle) * radius;
+        const y = Math.random() * 2 - 0.5;
+        
+        elements.push(
+          <mesh key={`default-sparkle-${i}`} position={[x, y, z]}>
+            <octahedronGeometry args={[0.1, 0]} />
+            <meshStandardMaterial 
+              color={i % 2 === 0 ? "#00d9ff" : "#ff0088"} 
+              emissive={i % 2 === 0 ? "#00d9ff" : "#ff0088"} 
+              emissiveIntensity={1}
+            />
+          </mesh>
+        );
+      }
+    }
 
     // Scene-specific objects
     if (objects.includes('coffee_cup')) {
