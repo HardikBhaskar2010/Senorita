@@ -5,7 +5,7 @@
 ![HeartByte](https://img.shields.io/badge/HeartByte-v7.4.2-ff69b4?style=for-the-badge&logo=heart&logoColor=white)
 ![Status](https://img.shields.io/badge/Status-Production%20Ready-success?style=for-the-badge)
 ![License](https://img.shields.io/badge/License-Personal-blue?style=for-the-badge)
-![Last Updated](https://img.shields.io/badge/Updated-Feb%202025-orange?style=for-the-badge) 
+![Last Updated](https://img.shields.io/badge/Updated-Feb%202025-orange?style=for-the-badge)
 
 **A personalized digital sanctuary for couples to share love, memories, and daily moments**
 
