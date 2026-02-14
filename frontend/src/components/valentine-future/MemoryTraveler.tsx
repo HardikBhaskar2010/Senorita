@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import anime from "animejs";
+import { animate, createMotionPath, remove } from "animejs";
 import { supabase } from "@/lib/supabase";
 
 type Memory = {
@@ -22,6 +22,33 @@ export default function MemoryTraveler({ onMemoryClick, visitedMemories }: Memor
   const nodesRef = useRef<(HTMLDivElement | null)[]>([]);
   const [memories, setMemories] = useState<Memory[]>([]);
   const [loading, setLoading] = useState(true);
+  const [cameraOffset, setCameraOffset] = useState(0);
+  const [viewportWidth, setViewportWidth] = useState(() => window.innerWidth);
+
+  const focusNode = (index: number) => {
+    const container = containerRef.current;
+    const targetNode = nodesRef.current[index];
+    if (!container || !targetNode) return;
+
+    const containerRect = container.getBoundingClientRect();
+    const containerCenterX = containerRect.left + containerRect.width / 2;
+
+    const candidateOffsets = nodesRef.current
+      .filter((node): node is HTMLDivElement => Boolean(node))
+      .map((node) => {
+        const nodeCenterX = node.getBoundingClientRect().left + node.getBoundingClientRect().width / 2;
+        return cameraOffset + (containerCenterX - nodeCenterX);
+      });
+
+    if (candidateOffsets.length === 0) return;
+
+    const minAllowed = Math.min(...candidateOffsets);
+    const maxAllowed = Math.max(...candidateOffsets);
+    const targetCenterX = targetNode.getBoundingClientRect().left + targetNode.getBoundingClientRect().width / 2;
+    const targetOffset = cameraOffset + (containerCenterX - targetCenterX);
+
+    setCameraOffset(Math.max(minAllowed, Math.min(maxAllowed, targetOffset)));
+  };
 
   // Fetch memories from Supabase
   useEffect(() => {
@@ -46,8 +73,24 @@ export default function MemoryTraveler({ onMemoryClick, visitedMemories }: Memor
     fetchMemories();
   }, []);
 
+  // Keep path sizing responsive
+  useEffect(() => {
+    const onResize = () => setViewportWidth(window.innerWidth);
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+
   useEffect(() => {
     if (memories.length === 0) return;
+
+    const containerWidth = containerRef.current?.clientWidth ?? viewportWidth;
+    const margin = Math.max(80, containerWidth * 0.08);
+    const pathY = 300;
+    const pathD = `
+      M ${margin} ${pathY}
+      C ${containerWidth * 0.22} 70, ${containerWidth * 0.45} 70, ${containerWidth * 0.56} ${pathY}
+      C ${containerWidth * 0.72} 530, ${containerWidth * 0.86} 530, ${containerWidth - margin} ${pathY}
+    `;
 
     // Create an SVG path programmatically
     const svgNS = "http://www.w3.org/2000/svg";
@@ -60,72 +103,68 @@ export default function MemoryTraveler({ onMemoryClick, visitedMemories }: Memor
       svg.style.position = "absolute";
       svg.style.left = "0";
       svg.style.top = "0";
-      
-      // Complex path with multiple curves for interesting memory placement
-      svg.innerHTML = `
-        <path id="memoryPath" d="
-          M 100 300
-          C 300 50, 900 50, 1100 300
-          C 1300 550, 1700 550, 1900 300
-        " />
-      `;
+      svg.innerHTML = `<path id="memoryPath" d="${pathD}" />`;
       document.body.appendChild(svg);
+    } else {
+      const pathEl = svg.querySelector("#memoryPath");
+      if (pathEl) {
+        pathEl.setAttribute("d", pathD);
+      } else {
+        svg.innerHTML = `<path id="memoryPath" d="${pathD}" />`;
+      }
     }
 
     // Initial scatter animate in along segments
     nodesRef.current.forEach((el, idx) => {
       if (!el) return;
-      const path = anime.path("#memoryPath");
-      // Use a staggered offset across path length
-      const offset = idx / memories.length;
-      anime({
-        targets: el,
-        translateX: path("x")(offset),
-        translateY: path("y")(offset),
-        rotate: path("angle")(offset),
+      const offset = memories.length > 1 ? idx / (memories.length - 1) : 0.5;
+      const path = createMotionPath("#memoryPath", offset);
+      animate(el, {
+        translateX: path.translateX,
+        translateY: path.translateY,
+        rotate: path.rotate,
         opacity: [0, 1],
         scale: [0.5, 1],
         duration: 1200,
-        easing: "easeOutElastic(1, .6)",
+        ease: "outElastic(1, .6)",
         delay: idx * 120,
       });
     });
 
     return () => {
-      anime.remove(nodesRef.current);
+      remove(nodesRef.current);
     };
-  }, [memories]);
+  }, [memories, viewportWidth]);
+
+  // Focus camera on latest visited/opened memory card
+  useEffect(() => {
+    if (memories.length === 0 || visitedMemories.size === 0) return;
+
+    const latestVisitedIndex = [...memories]
+      .reverse()
+      .findIndex((memory) => visitedMemories.has(memory.id));
+
+    if (latestVisitedIndex === -1) return;
+
+    const index = memories.length - 1 - latestVisitedIndex;
+    const timer = window.setTimeout(() => focusNode(index), 450);
+    return () => window.clearTimeout(timer);
+  }, [memories, visitedMemories]);
 
   function flyToMemory(index: number, memory: Memory) {
     const targetEl = nodesRef.current[index];
     if (!targetEl) return;
-    const path = anime.path("#memoryPath");
 
-    // Timeline: node moves along path to the center with easing
-    anime({
-      targets: targetEl,
-      translateX: path("x")(0.5), // mid-point on path
-      translateY: path("y")(0.5),
-      rotate: path("angle")(0.5),
-      scale: [1, 1.08],
-      duration: 1100,
-      easing: "cubicBezier(.2,.8,.2,1)",
-      complete: () => {
-        // Open modal
+    // Move the whole constellation so selected card is centered and others stay in sync.
+    focusNode(index);
+
+    // Gentle focus pulse without breaking the path pattern.
+    animate(targetEl, {
+      scale: [1, 1.1, 1],
+      duration: 700,
+      ease: "outQuad",
+      onComplete: () => {
         onMemoryClick(memory);
-        // Reset position after modal opens
-        setTimeout(() => {
-          const originalOffset = index / memories.length;
-          anime({
-            targets: targetEl,
-            translateX: path("x")(originalOffset),
-            translateY: path("y")(originalOffset),
-            rotate: path("angle")(originalOffset),
-            scale: 1,
-            duration: 800,
-            easing: "easeOutQuad",
-          });
-        }, 300);
       },
     });
 
@@ -152,11 +191,19 @@ export default function MemoryTraveler({ onMemoryClick, visitedMemories }: Memor
   }
 
   return (
-    <div ref={containerRef} className="memory-traveler-root relative" style={{ height: 520 }}>
-      <div className="memory-track relative">
+    <div ref={containerRef} className="memory-traveler-root relative overflow-hidden" style={{ height: 520 }}>
+      <div
+        className="memory-track relative"
+        style={{
+          height: "100%",
+          transform: `translateX(${cameraOffset}px)`,
+          transition: "transform 600ms cubic-bezier(0.2, 0.8, 0.2, 1)",
+          willChange: "transform",
+        }}
+      >
         {memories.map((m, i) => {
           const isVisited = visitedMemories.has(m.id);
-          
+
           return (
             <div
               key={m.id}
