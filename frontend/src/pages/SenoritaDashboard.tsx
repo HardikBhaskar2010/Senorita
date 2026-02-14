@@ -25,10 +25,11 @@ import SecretVaultPassword from "@/components/SecretVaultPassword";
 import TimeWeatherWidget from "@/components/TimeWeatherWidget";
 import LoveQuoteOfDay from "@/components/LoveQuoteOfDay";
 import ActivitySuggestions from "@/components/ActivitySuggestions";
-import { Heart, Sparkles, LogOut, Settings, Gift, Lock, Shield } from "lucide-react";
+import { Heart, Sparkles, LogOut, Settings, Gift, Lock, Shield, Rocket } from "lucide-react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/lib/supabase";
+import WarpOverlay from "@/components/valentine-future/WarpOverlay";
 
 const SenoritaDashboard = () => {
   const navigate = useNavigate();
