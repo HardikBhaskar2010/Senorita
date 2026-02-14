@@ -39,6 +39,7 @@ const SenoritaDashboard = () => {
   const [unlockedDaysCount, setUnlockedDaysCount] = useState(0);
   const [hasNewUnlock, setHasNewUnlock] = useState(false);
   const [showVaultPassword, setShowVaultPassword] = useState(false);
+  const [showWarpOverlay, setShowWarpOverlay] = useState(false);
   
   // Handle vault password success
   const handleVaultPasswordSuccess = () => {
