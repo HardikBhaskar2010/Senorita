@@ -174,16 +174,14 @@ export function TravelDreamsModel() {
         </group>
       </Float>
       {/* Globe Base */}
-      <group position={[0, 0.5, 0]}>
-        <mesh castShadow>
+        <mesh position={[0, 0.5, 0]}>
           <sphereGeometry args={[0.8, 32, 32]} />
           <meshStandardMaterial color="#4299e1" />
         </mesh>
-        <mesh>
+        <mesh position={[0, 0.5, 0]}>
           <cylinderGeometry args={[0.1, 0.1, 1.8, 16]} />
           <meshStandardMaterial color="#a0aec0" metalness={1} />
         </mesh>
-      </group>
     </group>
   );
 }
