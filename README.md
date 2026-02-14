@@ -312,6 +312,47 @@ All issues fixed and working perfectly:
 
 ## 🎯 Features
 
+### 🌌 **NEW: Valentine's Future - 3D Memory Experience** (v7.5.0)
+- **🎥 Camera Movement System** - Smooth focus on individual memory cards
+  - Dynamic spacing with 350px between cards
+  - Focused card scales to 1.2x with 100% opacity
+  - Non-focused cards at 0.85x scale with 60% opacity
+  - 800ms cubic easing for buttery smooth transitions
+- **🎮 Advanced Navigation**
+  - Arrow keys (← →) for keyboard navigation
+  - Beautiful gradient Prev/Next buttons
+  - Progress indicator showing X/10 position
+  - Click any card to focus and open
+  - Keyboard hints at bottom
+- **🎨 3D Dioramas for All 10 Memories**
+  - Built with React Three Fiber & @react-three/drei
+  - 6 unique 3D models: CozyCorner, TechHaven, RomanticGarden, StarryNight, TravelDreams, ArtisticSoul
+  - Auto-rotating 3D scenes with orbital controls
+  - Drag to rotate, scroll to zoom
+  - 5000 stars with atmospheric fog effects
+  - Dynamic lighting per scene (warm, blue_monitor, starlight, ethereal, sunset, golden_hour, etc.)
+- **💫 Enhanced UX**
+  - Unique emoji icons for each memory (☕, 🚂, 💻, 🌟, 💃, 🎬, 🌅, 📖, 🏠, ✨)
+  - Green checkmark badges on visited memories
+  - Focus hints: "Click to explore →"
+  - Memory chime sound effects
+  - Glow effects, shadows, gradients
+  - Secret message unlocks after visiting all 10
+- **📋 10 Future Memories Included:**
+  1. First Meet - Coffee on rainy sidewalk
+  2. First Trip Together - Train window kisses
+  3. Late Night Code Session - Bug fixes at 2am
+  4. Stargazing Night - Counting stars together
+  5. Dance in the Kitchen - No music needed
+  6. Rainy Movie Marathon - Blankets and thunder
+  7. Sunrise Surprise - Waking up at 5am
+  8. The Bookmark Moment - Favorite chapter note
+  9. Building Future Plans - Someday home dreams
+  10. This Moment Right Now - Across time, connected
+
+**📖 Full Documentation:** `/app/VALENTINE_FUTURE_3D_ENHANCEMENT.md`  
+**📋 Migration Required:** Run `/app/valentine-future-migration.sql` in Supabase SQL Editor
+
 ### 🆕 **NEW: Valentine's Special 2025** (v7.4.0)
 - **Mystery Week** - Daily time-gated surprises from Feb 7-14, 2025
 - **🎨 Anime.js Motion Path Animations** - 6 hearts following unique SVG paths
