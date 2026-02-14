@@ -726,6 +726,9 @@ const SenoritaDashboard = () => {
           />
         )}
 
+        {/* Warp Overlay for Valentine Future */}
+        <WarpOverlay open={showWarpOverlay} onClose={handleCloseWarp} />
+
         {/* Footer */}
         <motion.footer 
           className="text-center py-12 mt-12"
