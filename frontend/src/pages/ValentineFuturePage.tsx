@@ -224,15 +224,15 @@ export default function ValentineFuturePage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1 }}
             >
-              <h1 className="text-5xl md:text-7xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-400 to-pink-400">
+              <h1 className="text-6xl md:text-8xl font-black mb-6 text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-pink-500 drop-shadow-[0_0_20px_rgba(6,182,212,0.5)]">
                 Message from 2030 ✨
               </h1>
               
               <motion.p
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.5, duration: 1 }}
-                className="text-xl md:text-2xl text-white/80 mb-12 font-light"
+                className="text-2xl md:text-3xl text-white/90 mb-12 font-extralight tracking-widest uppercase"
               >
                 A future we build, memory by memory.
               </motion.p>
@@ -242,11 +242,14 @@ export default function ValentineFuturePage() {
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 transition={{ delay: 0.8, type: "spring" }}
-                className="inline-block bg-white/10 backdrop-blur-md rounded-full px-6 py-3 border border-white/20 mb-8"
+                className="inline-block bg-gradient-to-r from-white/10 to-white/5 backdrop-blur-xl rounded-2xl px-8 py-4 border border-white/20 mb-12 shadow-[0_0_30px_rgba(255,255,255,0.1)]"
               >
-                <span className="text-cyan-400 font-semibold">
-                  {visitedMemories.size} / {totalMemories} Memories Discovered
-                </span>
+                <div className="flex items-center gap-3">
+                  <div className="w-3 h-3 rounded-full bg-cyan-400 animate-pulse" />
+                  <span className="text-white font-medium tracking-wide">
+                    {visitedMemories.size} / {totalMemories} Memories Discovered
+                  </span>
+                </div>
               </motion.div>
 
               {showStartButton && (
@@ -278,8 +281,8 @@ export default function ValentineFuturePage() {
             id="memory-traveler"
             className="container mx-auto px-4 py-16"
           >
-            <h2 className="text-3xl font-bold text-center text-white mb-8">
-              Our Memory Constellation
+            <h2 className="text-4xl font-black text-center text-white mb-12 tracking-tight">
+              Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-cyan-500">Memory Constellation</span>
             </h2>
             <MemoryTraveler 
               onMemoryClick={handleMemoryClick}
