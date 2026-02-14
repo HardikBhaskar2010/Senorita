@@ -51,7 +51,7 @@ function RotatingGalaxy() {
 
 export default function GalaxyBackground() {
   return (
-    <div className="fixed inset-0 -z-10">
+    <div className="fixed inset-0 z-0 pointer-events-none">
       <Canvas 
         camera={{ position: [0, 0, 12], fov: 60 }}
         style={{ background: 'radial-gradient(circle at 50% 50%, #0a0e27 0%, #000 100%)' }}

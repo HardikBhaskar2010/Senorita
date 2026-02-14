@@ -75,12 +75,12 @@ export default function MemoryModal({ memory, isOpen, onClose }: MemoryModalProp
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: 0.3 }}
-                  className="rounded-2xl overflow-hidden border-2 border-cyan-500/20"
+                  className="rounded-2xl overflow-hidden border-2 border-cyan-500/20 bg-black/20"
                 >
                   <img
                     src={memory.image_url}
                     alt={memory.title}
-                    className="w-full h-[300px] object-cover"
+                    className="block w-full h-auto max-h-[60vh] object-contain mx-auto"
                     onError={(e) => {
                       // Fallback to placeholder if image fails to load
                       e.currentTarget.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="100" height="100"%3E%3Crect fill="%23334155" width="100" height="100"/%3E%3Ctext fill="%2394a3b8" font-family="monospace" font-size="14" x="50%25" y="50%25" text-anchor="middle" dy=".3em"%3EMemory%3C/text%3E%3C/svg%3E';

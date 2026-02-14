@@ -193,13 +193,13 @@ export default function ValentineFuturePage() {
   };
 
   return (
-    <div className="min-h-screen relative overflow-hidden bg-black">
+    <div className="min-h-screen relative isolate overflow-hidden">
       {/* Galaxy Background */}
       {enable3DEffects && !isMobile && <GalaxyBackground />}
 
       {/* Fallback gradient background */}
       {(!enable3DEffects || isMobile) && (
-        <div className="fixed inset-0 -z-10 bg-gradient-to-br from-slate-950 via-blue-950 to-purple-950" />
+        <div className="fixed inset-0 z-0 bg-gradient-to-br from-slate-950 via-blue-950 to-purple-950" />
       )}
 
       {/* Content */}

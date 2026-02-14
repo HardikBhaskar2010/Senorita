@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import anime from "animejs";
+import { createTimeline } from "animejs";
 import { useNavigate } from "react-router-dom";
 
 type Props = { open: boolean; onClose?: () => void };
@@ -63,10 +63,10 @@ export default function WarpOverlay({ open, onClose }: Props) {
     }
 
     // Anime timeline: scale, blur, speed ramp, then navigate
-    const tl = anime.timeline({
-      easing: "easeInOutQuad",
+    const tl = createTimeline({
+      ease: "inOutQuad",
       duration: 1400,
-      complete: () => {
+      onComplete: () => {
         // Route to future page
         navigate("/valentine/future");
         // Small delay to let route mount
@@ -75,7 +75,7 @@ export default function WarpOverlay({ open, onClose }: Props) {
           onClose?.();
         }, 250);
       },
-      update: anim => {
+      onUpdate: anim => {
         const p = anim.progress / 100;
         draw(p);
         // Optional: scale/blur overlay via CSS var
