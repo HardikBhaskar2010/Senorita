@@ -117,7 +117,8 @@ export default function MemoryTraveler({ onMemoryClick, visitedMemories }: Memor
     // Initial scatter animate in along segments
     nodesRef.current.forEach((el, idx) => {
       if (!el) return;
-      const offset = memories.length > 1 ? idx / (memories.length - 1) : 0.5;
+      // Use a staggered offset across path length
+      const offset = idx / memories.length;
       const path = createMotionPath("#memoryPath", offset);
       animate(el, {
         translateX: path.translateX,
@@ -154,17 +155,32 @@ export default function MemoryTraveler({ onMemoryClick, visitedMemories }: Memor
   function flyToMemory(index: number, memory: Memory) {
     const targetEl = nodesRef.current[index];
     if (!targetEl) return;
+    const centerPath = createMotionPath("#memoryPath", 0.5);
 
-    // Move the whole constellation so selected card is centered and others stay in sync.
-    focusNode(index);
-
-    // Gentle focus pulse without breaking the path pattern.
+    // Timeline: node moves along path to the center with easing
     animate(targetEl, {
-      scale: [1, 1.1, 1],
-      duration: 700,
-      ease: "outQuad",
+      translateX: centerPath.translateX,
+      translateY: centerPath.translateY,
+      rotate: centerPath.rotate,
+      scale: [1, 1.08],
+      duration: 1100,
+      ease: "cubicBezier(.2,.8,.2,1)",
       onComplete: () => {
+        // Open modal
         onMemoryClick(memory);
+        // Reset position after modal opens
+        setTimeout(() => {
+          const originalOffset = index / memories.length;
+          const originalPath = createMotionPath("#memoryPath", originalOffset);
+          animate(targetEl, {
+            translateX: originalPath.translateX,
+            translateY: originalPath.translateY,
+            rotate: originalPath.rotate,
+            scale: 1,
+            duration: 800,
+            ease: "outQuad",
+          });
+        }, 300);
       },
     });
 
