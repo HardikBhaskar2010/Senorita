@@ -382,6 +382,80 @@ const SenoritaDashboard = () => {
                   </div>
                 </div>
 
+                {/* Message from 2030 Button - INSIDE Card */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3 }}
+                  className="relative z-10 mt-8 pt-6 border-t border-white/20"
+                >
+                  <div className="text-center">
+                    <p className="text-white/70 text-sm mb-4 font-medium">
+                      ✨ Special Message Waiting ✨
+                    </p>
+                    <motion.button
+                      onClick={handleFutureMessageClick}
+                      whileHover={{ scale: 1.05, y: -2 }}
+                      whileTap={{ scale: 0.98 }}
+                      className="group relative px-8 py-4 bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 hover:from-cyan-600 hover:via-blue-600 hover:to-purple-600 rounded-2xl border-2 border-white/40 shadow-2xl shadow-cyan-500/30 overflow-hidden transition-all duration-300"
+                    >
+                      {/* Animated shimmer effect */}
+                      <motion.div
+                        className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent"
+                        animate={{
+                          x: ['-100%', '200%']
+                        }}
+                        transition={{
+                          duration: 2,
+                          repeat: Infinity,
+                          repeatDelay: 1
+                        }}
+                      />
+                      
+                      <div className="relative z-10 flex items-center gap-3">
+                        <motion.div
+                          animate={{
+                            rotate: [0, 10, -10, 0],
+                            scale: [1, 1.1, 1]
+                          }}
+                          transition={{
+                            duration: 2,
+                            repeat: Infinity,
+                            repeatDelay: 1
+                          }}
+                        >
+                          <Rocket className="w-5 h-5 text-white" />
+                        </motion.div>
+                        <span className="text-white font-bold text-lg">
+                          Message from 2030
+                        </span>
+                        <motion.div
+                          animate={{
+                            rotate: [0, -10, 10, 0],
+                            scale: [1, 1.1, 1]
+                          }}
+                          transition={{
+                            duration: 2,
+                            repeat: Infinity,
+                            repeatDelay: 1
+                          }}
+                        >
+                          <Sparkles className="w-5 h-5 text-white" fill="currentColor" />
+                        </motion.div>
+                      </div>
+                    </motion.button>
+                    
+                    <motion.p
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.5 }}
+                      className="text-white/60 text-xs mt-3 italic"
+                    >
+                      Click to travel through time...
+                    </motion.p>
+                  </div>
+                </motion.div>
+
                 {/* Corner decoration */}
                 <div className="absolute top-4 right-4 opacity-50">
                   <motion.div
