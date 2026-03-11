@@ -25,6 +25,30 @@ interface LoveLetter {
   created_at: string;
 }
 
+const TypewriterText = ({ text }: { text: string }) => {
+  const [displayedText, setDisplayedText] = useState("");
+
+  useEffect(() => {
+    setDisplayedText("");
+    const tokens = text.split(/(\s+)/);
+    let index = 0;
+    // Faster speed for longer texts to avoid taking too long
+    const speed = Math.max(15, 70 - Math.floor(text.length / 50));
+
+    const interval = setInterval(() => {
+      setDisplayedText((prev) => prev + (tokens[index] || ""));
+      index++;
+      if (index >= tokens.length) {
+        clearInterval(interval);
+      }
+    }, speed);
+
+    return () => clearInterval(interval);
+  }, [text]);
+
+  return <>{displayedText}</>;
+};
+
 const LettersEnhanced = () => {
   const navigate = useNavigate();
   const { currentSpace, displayName, partnerName } = useSpace();
@@ -346,14 +370,16 @@ const LettersEnhanced = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-foreground/60 backdrop-blur-md z-50 flex items-center justify-center p-4"
+            className="fixed inset-0 bg-foreground/60 backdrop-blur-md z-[60] flex items-center justify-center p-4 perspective-1000"
             onClick={() => setSelectedLetter(null)}
           >
             <motion.div
-              initial={{ scale: 0.9, opacity: 0, y: 40 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.9, opacity: 0, y: 40 }}
-              className="bg-card rounded-3xl p-8 max-w-2xl w-full shadow-2xl border border-primary/20 relative"
+              style={{ transformStyle: 'preserve-3d' }}
+              initial={{ rotateX: 90, opacity: 0, y: 50, scale: 0.8 }}
+              animate={{ rotateX: 0, opacity: 1, y: 0, scale: 1 }}
+              exit={{ rotateX: -90, opacity: 0, y: 50, scale: 0.8 }}
+              transition={{ type: "spring", damping: 20, stiffness: 100 }}
+              className="bg-card/95 backdrop-blur-xl rounded-3xl p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-premium-lg border border-primary/30 relative origin-bottom"
               onClick={(e) => e.stopPropagation()}
             >
               <Button
@@ -376,9 +402,10 @@ const LettersEnhanced = () => {
                 </p>
               </div>
               
-              <div className="bg-accent/10 rounded-2xl p-8 mb-8 border border-primary/5 shadow-inner">
-                <p className="text-xl text-foreground leading-relaxed whitespace-pre-wrap font-serif italic text-center">
-                  "{selectedLetter.content}"
+              <div className="bg-accent/10 rounded-2xl p-6 mb-8 border border-primary/10 shadow-inner relative overflow-hidden max-h-[50vh] overflow-y-auto">
+                <div className="absolute inset-0 bg-grid-white/5 opacity-20 pointer-events-none" />
+                <p className="text-xl text-foreground leading-relaxed whitespace-pre-wrap font-serif italic text-center relative z-10">
+                  "<TypewriterText text={selectedLetter.content} />"
                 </p>
               </div>
               

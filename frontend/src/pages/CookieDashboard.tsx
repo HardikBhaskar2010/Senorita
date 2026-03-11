@@ -160,7 +160,7 @@ const CookieDashboard = () => {
   // Fallback dates if not set in profile
   const displayAnniversary = anniversaryDate || new Date(2025, 4, 14); // May 14th, 2025 (official commitment)
   const displayRelationshipStart = relationshipStart || new Date(2024, 7, 12); // Aug 12th, 2024 (first meeting)
-  const partnerNames = ['Cookie', 'Senorita'];
+  const partnerNames: [string, string] = ['Cookie', 'Senorita'];
 
   // Animation variants for stagger effect
   const containerVariants = {
@@ -181,7 +181,7 @@ const CookieDashboard = () => {
       y: 0,
       scale: 1,
       transition: {
-        type: "spring",
+        type: "spring" as const,
         stiffness: 100,
         damping: 15
       }
@@ -209,16 +209,13 @@ const CookieDashboard = () => {
       
       <main className="relative z-10 px-4 py-8 max-w-7xl mx-auto -mt-16">
         <motion.div 
-          className="grid gap-6 md:gap-8 md:grid-cols-2 lg:grid-cols-3"
+          className="space-y-6"
           variants={containerVariants}
           initial="hidden"
           animate="visible"
         >
           {/* Days Counter - Full Width */}
-          <motion.div 
-            className="md:col-span-2 lg:col-span-3"
-            variants={itemVariants}
-          >
+          <motion.div variants={itemVariants}>
             <DaysCounter 
               anniversaryDate={displayAnniversary} 
               partnerNames={partnerNames}
@@ -227,10 +224,7 @@ const CookieDashboard = () => {
           </motion.div>
 
           {/* Cookie's Dashboard Header - Full Width */}
-          <motion.div 
-            className="md:col-span-2 lg:col-span-3"
-            variants={itemVariants}
-          >
+          <motion.div variants={itemVariants}>
             <div className="p-8 md:p-10 bg-gradient-to-br from-blue-500/15 via-blue-400/10 to-transparent rounded-3xl border border-blue-500/30 shadow-2xl shadow-blue-500/10 relative group overflow-hidden backdrop-blur-sm">
               {/* Animated background orbs */}
               <div className="absolute -right-20 -top-20 w-64 h-64 bg-blue-500/20 rounded-full blur-3xl animate-pulse-slow" />
@@ -286,190 +280,150 @@ const CookieDashboard = () => {
             </div>
           </motion.div>
 
-          {/* Time & Weather Widget - Featured (2 columns on desktop) */}
-          <motion.div 
-            className="md:col-span-2"
-            variants={itemVariants}
-          >
-            <TimeWeatherWidget />
-          </motion.div>
-
-          {/* Activity Suggestions */}
-          <motion.div variants={itemVariants}>
-            <ActivitySuggestions />
-          </motion.div>
-
-          {/* Calendar Day - Featured (2 columns on desktop) */}
-          <motion.div 
-            className="md:col-span-2"
-            variants={itemVariants}
-          >
-            <CalendarDay />
-          </motion.div>
-
-          {/* Virtual Hug Kiss */}
-          <motion.div variants={itemVariants}>
-            <VirtualHugKiss />
-          </motion.div>
-
-          {/* Valentine's Viewer - NEW! */}
-          <motion.div variants={itemVariants}>
-            <ValentineViewerCard />
-          </motion.div>
-
-          {/* Love Quote of the Day */}
-          <motion.div variants={itemVariants}>
-            <LoveQuoteOfDay />
-          </motion.div>
-
-          {/* Countdown Timer */}
-          <motion.div variants={itemVariants}>
-            <div className="h-full">
-              <CountdownTimer />
-            </div>
-          </motion.div>
-          
-          {/* Daily Affirmation */}
-          <motion.div variants={itemVariants}>
-            <div className="h-full">
-              <DailyAffirmation />
-            </div>
-          </motion.div>
-
-          {/* Love Letters */}
-          <motion.div variants={itemVariants}>
-            <Link to="/letters" className="block h-full group">
-              <div className="h-full transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-primary/20">
-                <LoveLetters />
-              </div>
-            </Link>
-          </motion.div>
-          
-          {/* Photo Gallery */}
-          <motion.div variants={itemVariants}>
-            <Link to="/gallery" className="block h-full group">
-              <div className="h-full transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-primary/20">
-                <PhotoGallery />
-              </div>
-            </Link>
-          </motion.div>
-
-          {/* Mood Sharing */}
-          <motion.div variants={itemVariants}>
-            <Link to="/mood" className="block h-full group">
-              <div className="h-full transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-primary/20">
-                <MoodSharing />
-              </div>
-            </Link>
-          </motion.div>
-          
-          {/* Daily Question */}
-          <motion.div variants={itemVariants}>
-            <Link to="/questions" className="block h-full group">
-              <div className="h-full transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-primary/20">
-                <DailyQuestion />
-              </div>
-            </Link>
-          </motion.div>
-
-          {/* Memory Timeline */}
-          <motion.div variants={itemVariants}>
-            <Link to="/milestones" className="block h-full group">
-              <div className="h-full transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-primary/20">
-                <MemoryTimeline />
-              </div>
-            </Link>
-          </motion.div>
-          
-          {/* Shared Calendar */}
-          <motion.div variants={itemVariants}>
-            <div className="h-full">
-              <SharedCalendar />
-            </div>
-          </motion.div>
-
-          {/* Secret Vault - Enhanced! */}
-          <motion.div variants={itemVariants}>
-            <motion.div
-              onClick={handleVaultAccessClick}
-              className="relative p-6 rounded-3xl border-2 border-cyan-500/30 bg-gradient-to-br from-gray-900/90 via-black/70 to-gray-900/90 backdrop-blur-xl cursor-pointer group overflow-hidden h-full shadow-lg shadow-cyan-500/10"
-              whileHover={{ scale: 1.05, y: -8, borderColor: 'rgba(6, 182, 212, 0.6)' }}
-              whileTap={{ scale: 0.98 }}
-              transition={{ type: "spring", stiffness: 400, damping: 20 }}
-            >
-              {/* Animated background effects */}
-              <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-blue-500/10 to-pink-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              <div className="absolute -right-10 -top-10 w-40 h-40 bg-cyan-500/20 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-500" />
-              <div className="absolute -left-10 -bottom-10 w-32 h-32 bg-blue-500/15 rounded-full blur-2xl group-hover:scale-125 transition-transform duration-500" />
-              
-              {/* Matrix rain effect - more particles on hover */}
-              <div className="absolute inset-0 overflow-hidden opacity-10 group-hover:opacity-20 transition-opacity">
-                {[...Array(5)].map((_, i) => (
-                  <motion.div
-                    key={i}
-                    initial={{ y: -20 }}
-                    animate={{ y: 100 }}
-                    transition={{
-                      duration: 2 + Math.random(),
-                      repeat: Infinity,
-                      delay: i * 0.2
-                    }}
-                    className="absolute text-cyan-500 text-xs font-mono"
-                    style={{ left: `${i * 20}%` }}
-                  >
-                    {Math.random().toString(2).substring(2, 8)}
-                  </motion.div>
-                ))}
-              </div>
-
-              <div className="relative z-10">
+          {/* ── True Masonry: 3 independent flex columns ── */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
+            
+            {/* LEFT column */}
+            <div className="flex flex-col gap-6">
+              <motion.div variants={itemVariants}><TimeWeatherWidget /></motion.div>
+              <motion.div variants={itemVariants}>
+                <Link to="/letters" className="block group">
+                  <div className="transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-primary/20">
+                    <LoveLetters />
+                  </div>
+                </Link>
+              </motion.div>
+              <motion.div variants={itemVariants}>
+                <Link to="/questions" className="block group">
+                  <div className="transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-primary/20">
+                    <DailyQuestion />
+                  </div>
+                </Link>
+              </motion.div>
+              <motion.div variants={itemVariants}>
+                <div className="h-full">
+                  <SharedCalendar />
+                </div>
+              </motion.div>
+              <motion.div variants={itemVariants}>
                 <motion.div
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                  className="w-14 h-14 rounded-full bg-gradient-to-br from-cyan-500 via-blue-500 to-cyan-400 p-0.5 mb-4 shadow-lg shadow-cyan-500/50 group-hover:shadow-cyan-500/70 transition-shadow"
-                  whileHover={{ scale: 1.1 }}
+                  onClick={handleVaultAccessClick}
+                  className="relative p-6 rounded-3xl border-2 border-cyan-500/30 bg-gradient-to-br from-gray-900/90 via-black/70 to-gray-900/90 backdrop-blur-xl cursor-pointer group overflow-hidden shadow-lg shadow-cyan-500/10"
+                  whileHover={{ scale: 1.05, y: -8, borderColor: 'rgba(6, 182, 212, 0.6)' }}
+                  whileTap={{ scale: 0.98 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 20 }}
                 >
-                  <div className="w-full h-full rounded-full bg-gray-900 flex items-center justify-center">
-                    <Shield className="w-7 h-7 text-cyan-400 group-hover:text-cyan-300 transition-colors" />
+                  <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-blue-500/10 to-pink-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <div className="absolute -right-10 -top-10 w-40 h-40 bg-cyan-500/20 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-500" />
+                  <div className="absolute -left-10 -bottom-10 w-32 h-32 bg-blue-500/15 rounded-full blur-2xl group-hover:scale-125 transition-transform duration-500" />
+                  
+                  <div className="absolute inset-0 overflow-hidden opacity-10 group-hover:opacity-20 transition-opacity">
+                    {[...Array(5)].map((_, i) => (
+                      <motion.div
+                        key={i}
+                        initial={{ y: -20 }}
+                        animate={{ y: 100 }}
+                        transition={{ duration: 2 + Math.random(), repeat: Infinity, delay: i * 0.2 }}
+                        className="absolute text-cyan-500 text-xs font-mono"
+                        style={{ left: `${i * 20}%` }}
+                      >
+                        {Math.random().toString(2).substring(2, 8)}
+                      </motion.div>
+                    ))}
+                  </div>
+
+                  <div className="relative z-10">
+                    <motion.div
+                      animate={{ rotate: 360 }}
+                      transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                      className="w-14 h-14 rounded-full bg-gradient-to-br from-cyan-500 via-blue-500 to-cyan-400 p-0.5 mb-4 shadow-lg shadow-cyan-500/50 group-hover:shadow-cyan-500/70 transition-shadow"
+                      whileHover={{ scale: 1.1 }}
+                    >
+                      <div className="w-full h-full rounded-full bg-gray-900 flex items-center justify-center">
+                        <Shield className="w-7 h-7 text-cyan-400 group-hover:text-cyan-300 transition-colors" />
+                      </div>
+                    </motion.div>
+
+                    <h3 className="text-xl font-bold mb-2 bg-gradient-to-r from-cyan-400 via-blue-400 to-cyan-300 bg-clip-text text-transparent font-mono group-hover:from-cyan-300 group-hover:to-blue-300 transition-all">
+                      {'>'} SECRET VAULT
+                    </h3>
+                    <p className="text-gray-400 text-sm font-mono mb-5 group-hover:text-gray-300 transition-colors">
+                      Your private digital sanctuary
+                    </p>
+                    
+                    <div className="flex items-center justify-between pt-2 border-t border-cyan-500/20">
+                      <span className="text-xs text-cyan-500/70 font-mono group-hover:text-cyan-400/90 transition-colors flex items-center gap-1.5">
+                        <span className="w-1.5 h-1.5 bg-cyan-500 rounded-full animate-pulse"></span>
+                        Protected
+                      </span>
+                      <motion.div
+                        className="text-cyan-400 font-bold text-lg group-hover:text-cyan-300"
+                        animate={{ x: [0, 5, 0] }}
+                        transition={{ duration: 1.5, repeat: Infinity }}
+                      >
+                        →
+                      </motion.div>
+                    </div>
+                  </div>
+
+                  <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <span className="text-[10px] text-cyan-400/80 font-mono bg-cyan-500/10 px-2 py-1 rounded-full border border-cyan-500/30">
+                      CLICK
+                    </span>
                   </div>
                 </motion.div>
+              </motion.div>
+            </div>
 
-                <h3 className="text-xl font-bold mb-2 bg-gradient-to-r from-cyan-400 via-blue-400 to-cyan-300 bg-clip-text text-transparent font-mono group-hover:from-cyan-300 group-hover:to-blue-300 transition-all">
-                  {'>'} SECRET VAULT
-                </h3>
-                <p className="text-gray-400 text-sm font-mono mb-5 group-hover:text-gray-300 transition-colors">
-                  Your private digital sanctuary
-                </p>
-                
-                <div className="flex items-center justify-between pt-2 border-t border-cyan-500/20">
-                  <span className="text-xs text-cyan-500/70 font-mono group-hover:text-cyan-400/90 transition-colors flex items-center gap-1.5">
-                    <span className="w-1.5 h-1.5 bg-cyan-500 rounded-full animate-pulse"></span>
-                    Protected
-                  </span>
-                  <motion.div
-                    className="text-cyan-400 font-bold text-lg group-hover:text-cyan-300"
-                    animate={{ x: [0, 5, 0] }}
-                    transition={{ duration: 1.5, repeat: Infinity }}
-                  >
-                    →
-                  </motion.div>
+            {/* MIDDLE column */}
+            <div className="flex flex-col gap-6">
+              <motion.div variants={itemVariants}><CalendarDay /></motion.div>
+              <motion.div variants={itemVariants}>
+                <Link to="/gallery" className="block group">
+                  <div className="transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-primary/20">
+                    <PhotoGallery />
+                  </div>
+                </Link>
+              </motion.div>
+              <motion.div variants={itemVariants}>
+                <Link to="/milestones" className="block group">
+                  <div className="transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-primary/20">
+                    <MemoryTimeline />
+                  </div>
+                </Link>
+              </motion.div>
+              <motion.div variants={itemVariants}>
+                <ValentineViewerCard />
+              </motion.div>
+            </div>
+
+            {/* RIGHT column */}
+            <div className="flex flex-col gap-6">
+              <motion.div variants={itemVariants}><ActivitySuggestions /></motion.div>
+              <motion.div variants={itemVariants}><VirtualHugKiss /></motion.div>
+              <motion.div variants={itemVariants}><LoveQuoteOfDay /></motion.div>
+              <motion.div variants={itemVariants}>
+                <div className="h-full">
+                  <CountdownTimer />
                 </div>
-              </div>
-
-              {/* Click hint */}
-              <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                <span className="text-[10px] text-cyan-400/80 font-mono bg-cyan-500/10 px-2 py-1 rounded-full border border-cyan-500/30">
-                  CLICK
-                </span>
-              </div>
-            </motion.div>
-          </motion.div>
+              </motion.div>
+              <motion.div variants={itemVariants}>
+                <div className="h-full">
+                  <DailyAffirmation />
+                </div>
+              </motion.div>
+              <motion.div variants={itemVariants}>
+                <Link to="/mood" className="block group">
+                  <div className="transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-primary/20">
+                    <MoodSharing />
+                  </div>
+                </Link>
+              </motion.div>
+            </div>
+          </div>
 
           {/* Love Language Results - Full Width */}
-          <motion.div 
-            className="md:col-span-2 lg:col-span-3"
-            variants={itemVariants}
-          >
+          <motion.div variants={itemVariants}>
             <LoveLanguageResults />
           </motion.div>
         </motion.div>

@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import FloatingHearts from '@/components/FloatingHearts';
+import FuturisticMotionPaths from '@/components/FuturisticMotionPaths';
 import { login } from '@/lib/auth';
 import { useToast } from '@/hooks/use-toast';
 
@@ -55,6 +56,7 @@ const Login = () => {
   return (
     <div className="min-h-screen bg-background relative overflow-hidden flex items-center justify-center p-4">
       <FloatingHearts />
+      <FuturisticMotionPaths shape="infinity" theme="purple" pathCount={6} />
       
       <div className="relative z-10 w-full max-w-md">
         <motion.div

@@ -1,12 +1,13 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Heart, Lock, Sparkles, Gift, ArrowLeft, Check } from 'lucide-react';
+import { Heart, Lock, Sparkles, Gift, ArrowLeft, Check, Archive } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/lib/supabase';
 import { useTheme } from '@/contexts/ThemeContext';
 import { toast } from '@/hooks/use-toast';
+import { currentSeason } from '@/lib/seasonConfig';
 import AudioPlayer from '@/components/valentine/AudioPlayer';
 import RosePetals from '@/components/valentine/RosePetals';
 import AnimatedRose from '@/components/valentine/AnimatedRose';
@@ -123,6 +124,7 @@ const valentineDays: ValentineDay[] = [
 const ValentinesSpecial = () => {
   const navigate = useNavigate();
   const { dashboardBackgroundSenorita, enable3DEffects } = useTheme();
+  const season = currentSeason();
   const [unlockedDays, setUnlockedDays] = useState<Set<number>>(new Set());
   const [selectedDay, setSelectedDay] = useState<ValentineDay | null>(null);
   const [unlockInput, setUnlockInput] = useState('');
@@ -402,7 +404,7 @@ const ValentinesSpecial = () => {
     }
   };
 
-  // Render interactive answer section for each day
+  // Render answer section — read-only in archive mode
   const renderAnswerSection = (day: ValentineDay) => {
     const dayQuestions: Record<number, string> = {
       1: "What does love mean to you?",
@@ -425,25 +427,27 @@ const ValentinesSpecial = () => {
         className="mt-8 bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20"
       >
         <p className="text-lg font-medium mb-4">{question}</p>
-        
+
+        {/* Always show saved answer in archive mode */}
         {answers[day.dayNumber] ? (
           <div className="space-y-4">
             <div className="bg-white/10 rounded-xl p-4 border border-white/20 text-left">
               <p className="text-sm opacity-70 mb-2">Your Answer:</p>
               <p className="text-base italic">"{answers[day.dayNumber]}"</p>
             </div>
-            <Button
-              onClick={() => {
-                setCurrentAnswer(answers[day.dayNumber]);
-              }}
-              variant="ghost"
-              size="sm"
-              className="text-white/80 hover:bg-white/10 w-full"
-            >
-              ✏️ Edit Answer
-            </Button>
+            {/* Edit button hidden in archive mode */}
+            {season.allowInteraction && (
+              <Button
+                onClick={() => setCurrentAnswer(answers[day.dayNumber])}
+                variant="ghost"
+                size="sm"
+                className="text-white/80 hover:bg-white/10 w-full"
+              >
+                ✏️ Edit Answer
+              </Button>
+            )}
           </div>
-        ) : (
+        ) : season.allowInteraction ? (
           <div className="space-y-3">
             <textarea
               value={currentAnswer}
@@ -459,6 +463,8 @@ const ValentinesSpecial = () => {
               💝 Save My Answer
             </Button>
           </div>
+        ) : (
+          <p className="text-white/50 text-sm italic text-center py-2">No answer recorded for this day.</p>
         )}
       </motion.div>
     );
@@ -647,8 +653,8 @@ const ValentinesSpecial = () => {
         backgroundAttachment: 'fixed'
       }}
     >
-      {/* Anime.js Animated Heart Background - Only if 3D effects enabled */}
-      {enable3DEffects && !dashboardBackgroundSenorita && <AnimatedHeartBg />}
+      {/* Anime.js Animated Heart Background - disabled in archive mode (avoids 60fps canvas loop) */}
+      {enable3DEffects && !season.archived && !dashboardBackgroundSenorita && <AnimatedHeartBg />}
       
       {/* Fallback Animated Heart Background - CSS only */}
       {!enable3DEffects && !dashboardBackgroundSenorita && (
@@ -710,17 +716,31 @@ const ValentinesSpecial = () => {
             Back to Dashboard
           </Button>
 
+          {/* Archive Banner */}
+          {season.archived && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl px-5 py-2.5 mb-6"
+            >
+              <Archive className="w-4 h-4 text-rose-300" />
+              <span className="text-rose-300 font-semibold text-sm">{season.label} {season.year}</span>
+              <span className="text-white/50 text-sm">· A memory preserved forever</span>
+              <Heart className="w-3.5 h-3.5 text-rose-400 fill-current" />
+            </motion.div>
+          )}
+
           <motion.div
             animate={{ scale: [1, 1.05, 1] }}
             transition={{ duration: 2, repeat: Infinity }}
           >
             <h1 className="text-5xl md:text-7xl font-bold mb-4 bg-gradient-to-r from-pink-300 via-rose-300 to-red-300 bg-clip-text text-transparent handwritten">
-              Valentine's Week Mystery {new Date().getFullYear()}
+              Valentine's Week Mystery {season.year || new Date().getFullYear()}
             </h1>
           </motion.div>
           
           <p className="text-xl md:text-2xl mb-8 text-white/90 handwritten-playful">
-            Unlock Love Day by Day ❤️
+            {season.archived ? 'Relive Every Moment ❤️' : 'Unlock Love Day by Day ❤️'}
           </p>
 
           {/* Status Banner */}

@@ -1,21 +1,28 @@
 import { useEffect, useRef } from 'react';
 import { animate, createScope } from 'animejs';
+import { useSpace } from '@/contexts/SpaceContext';
 
 interface FuturisticMotionPathsProps {
   theme?: 'cyan' | 'pink' | 'purple';
   pathCount?: number;
+  shape?: 'heart' | 'infinity';
 }
 
-const FuturisticMotionPaths = ({ theme = 'cyan', pathCount = 8 }: FuturisticMotionPathsProps) => {
+const FuturisticMotionPaths = ({ theme = 'cyan', pathCount = 8, shape = 'heart' }: FuturisticMotionPathsProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const scopeRef = useRef<any>(null);
+  const { partnerName, displayName } = useSpace();
 
   useEffect(() => {
     if (!containerRef.current) return;
 
     const container = containerRef.current;
+    container.innerHTML = ''; // clear old stuff
     const width = window.innerWidth;
     const height = window.innerHeight;
+    const centerX = width / 2;
+    // Shift the heart slightly up because the math heart sits a bit low
+    const centerY = height / 2 - Math.min(width, height) * 0.05; 
 
     // Theme colors
     const themeColors = {
@@ -24,175 +31,182 @@ const FuturisticMotionPaths = ({ theme = 'cyan', pathCount = 8 }: FuturisticMoti
       purple: ['#a855f7', '#9333ea', '#c084fc', '#d8b4fe']
     };
 
-    const colors = themeColors[theme];
+    // Use partner's theme if possible, otherwise fallback to prop.
+    // E.g., if you're Cookie, the partner is Senorita (pink). 
+    // If you're Senorita, partner is Cookie (cyan).
+    let activeTheme = theme;
+    if (partnerName.toLowerCase() === 'senorita') activeTheme = 'pink';
+    else if (partnerName.toLowerCase() === 'cookie') activeTheme = 'cyan';
+    
+    const colors = themeColors[activeTheme as keyof typeof themeColors] || themeColors.cyan;
 
-    // Create scope for all animations
+    // The name we display glowing in the center
+    const nameToDisplay = partnerName || 'Senorita';
+
     scopeRef.current = createScope({ root: containerRef }).add(() => {
       
-      // Create random SVG paths
+      const svgEl = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      svgEl.setAttribute('width', '100%');
+      svgEl.setAttribute('height', '100%');
+      svgEl.style.position = 'absolute';
+      svgEl.style.top = '0';
+      svgEl.style.left = '0';
+      svgEl.style.pointerEvents = 'none';
+      svgEl.style.zIndex = '1';
+      container.appendChild(svgEl);
+
+      // Generate Concentric Wavy Paths
       for (let i = 0; i < pathCount; i++) {
-        // Create SVG element
-        const svgEl = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-        svgEl.setAttribute('width', '100%');
-        svgEl.setAttribute('height', '100%');
-        svgEl.style.position = 'absolute';
-        svgEl.style.top = '0';
-        svgEl.style.left = '0';
-        svgEl.style.pointerEvents = 'none';
-        svgEl.style.zIndex = '1';
+        // Parametric scaling
+        const baseScale = shape === 'heart' ? Math.min(width, height) / 38 : Math.min(width, height) / 3.5; 
+        const scale = baseScale * (0.8 + (i * 0.15)); // Different sizes for nested loops
+        
+        let pathData = '';
+        const pointsCount = 150; // Increased resolution for smoother loops
+        
+        for (let j = 0; j <= pointsCount; j++) {
+          const t = (j / pointsCount) * Math.PI * 2;
+          let x, y;
+          
+          if (shape === 'heart') {
+            // Heart curve
+            x = 16 * Math.pow(Math.sin(t), 3);
+            y = 13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t);
+            
+            // Add a varying wave to the edges so lines look active and ethereal
+            const waveAmp = (i % 2 === 0 ? 0.3 : -0.3) * i;
+            x += waveAmp * Math.sin(t * 10);
+            y += waveAmp * Math.cos(t * 10);
+          } else {
+            // Infinity curve (Lemniscate of Bernoulli)
+            const denominator = 1 + Math.sin(t) * Math.sin(t);
+            // X spans roughly -1.4 to +1.4, Y spans roughly -0.7 to +0.7
+            x = (Math.sqrt(2) * Math.cos(t)) / denominator;
+            y = (Math.sqrt(2) * Math.cos(t) * Math.sin(t)) / denominator;
+            
+            // Stretch horizontally slightly
+            x *= 1.3;
+            
+            // Add a delicate varying wave to infinity
+            const waveAmp = (i % 2 === 0 ? 0.02 : -0.02) * i;
+            x += waveAmp * Math.sin(t * 16);
+            y += waveAmp * Math.cos(t * 16);
+          }
 
-        // Generate random control points for complex curved path
-        const startX = Math.random() * width;
-        const startY = Math.random() * height;
-        
-        const cp1X = Math.random() * width;
-        const cp1Y = Math.random() * height;
-        
-        const cp2X = Math.random() * width;
-        const cp2Y = Math.random() * height;
-        
-        const cp3X = Math.random() * width;
-        const cp3Y = Math.random() * height;
-        
-        const endX = Math.random() * width;
-        const endY = Math.random() * height;
-
-        // Create path with cubic bezier curves for smooth, flowing lines
-        const pathData = `
-          M ${startX} ${startY}
-          C ${cp1X} ${cp1Y}, ${cp2X} ${cp2Y}, ${(cp2X + cp3X) / 2} ${(cp2Y + cp3Y) / 2}
-          S ${cp3X} ${cp3Y}, ${endX} ${endY}
-        `;
+          const px = centerX + x * scale;
+          const py = shape === 'heart' ? centerY - y * scale : centerY + y * scale; // Invert Y only for Heart
+          
+          if (j === 0) pathData += `M ${px} ${py} `;
+          else pathData += `L ${px} ${py} `;
+        }
+        // Close the shape
+        pathData += 'Z';
 
         const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
         path.setAttribute('d', pathData);
         path.setAttribute('fill', 'none');
         path.setAttribute('stroke', colors[i % colors.length]);
-        path.setAttribute('stroke-width', '2');
-        path.setAttribute('opacity', '0.3');
-        path.setAttribute('class', `motion-path-${i}`);
-        path.style.filter = 'blur(1px)';
+        path.setAttribute('stroke-width', i % 2 === 0 ? '2' : '1');
+        path.setAttribute('opacity', '0.4');
+        path.setAttribute('class', `motion-path motion-path-${i}`);
+        path.style.filter = `drop-shadow(0 0 ${4 + i}px ${colors[i % colors.length]})`;
 
         svgEl.appendChild(path);
-        container.appendChild(svgEl);
 
-        // Create glowing particle that follows the path
+        // Particle tracing the heart bounds
         const particle = document.createElement('div');
         particle.setAttribute('class', `particle-${i}`);
         particle.style.position = 'absolute';
-        particle.style.width = '8px';
-        particle.style.height = '8px';
+        particle.style.width = i % 2 === 0 ? '6px' : '4px';
+        particle.style.height = i % 2 === 0 ? '6px' : '4px';
         particle.style.borderRadius = '50%';
-        particle.style.backgroundColor = colors[i % colors.length];
+        particle.style.backgroundColor = '#ffffff';
         particle.style.boxShadow = `0 0 20px ${colors[i % colors.length]}, 0 0 40px ${colors[i % colors.length]}`;
         particle.style.pointerEvents = 'none';
         particle.style.zIndex = '2';
         container.appendChild(particle);
 
-        // Get path points for animation
         const pathLength = path.getTotalLength();
-        const duration = 8000 + Math.random() * 6000;
+        const duration = 12000 + (i * 2000); // Slow graceful tracing
         
-        // Create array of points along the path
+        // Extract exact coordinates for animejs to follow
         const points: { x: number; y: number }[] = [];
-        const numPoints = 100;
-        for (let j = 0; j <= numPoints; j++) {
-          const point = path.getPointAtLength((j / numPoints) * pathLength);
+        for (let j = 0; j <= pointsCount; j++) {
+          const point = path.getPointAtLength((j / pointsCount) * pathLength);
           points.push({ x: point.x, y: point.y });
         }
 
-        // Animate particle along the path points
+        // 1. Move the glowing particle along the heart
         animate(`.particle-${i}`, {
           translateX: points.map(p => p.x),
           translateY: points.map(p => p.y),
           duration: duration,
           ease: 'linear',
           loop: true,
-          delay: i * 400
+          // Reverse direction for half the particles for a mesmerizing weave effect
+          direction: i % 2 === 0 ? 'normal' : 'reverse',
         });
 
-        // Animate path opacity for pulsing effect
+        // 2. Pulse the entire path's opacity softly
         animate(`.motion-path-${i}`, {
-          opacity: [0.1, 0.5, 0.1],
-          duration: 3000 + Math.random() * 2000,
+          opacity: [0.1, 0.6, 0.1],
+          duration: 4000 + i * 1000,
           ease: 'inOut(2)',
           loop: true,
-          delay: i * 200
         });
 
-        // Animate stroke-dashoffset for drawing effect
+        // 3. Draw the lines smoothly in and out
         path.style.strokeDasharray = `${pathLength}`;
         path.style.strokeDashoffset = `${pathLength}`;
 
         animate(`.motion-path-${i}`, {
           strokeDashoffset: [pathLength, 0],
+          duration: duration * 0.8,
+          ease: 'inOut(3)',
+          direction: 'alternate',
+          loop: true,
+          delay: i * 300,
+        });
+      }
+
+      // Add the Glowing Name Text right in the middle
+      if (nameToDisplay && shape === 'heart') {
+        const textGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+        // ... (rest of text drawing identical because we conditionally wrap it)
+        const nameText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        nameText.textContent = nameToDisplay;
+        nameText.setAttribute('x', '50%');
+        nameText.setAttribute('y', '15%'); // Moved up so it's not hidden behind the central modal
+        nameText.setAttribute('text-anchor', 'middle');
+        nameText.setAttribute('dominant-baseline', 'middle');
+        nameText.setAttribute('class', 'vault-glowing-name');
+        
+        // Inline styling to perfectly capture the romantic script 
+        nameText.style.fontFamily = "'Dancing Script', cursive";
+        nameText.style.fontSize = `${Math.max(70, Math.min(width, height) / 7)}px`;
+        nameText.style.fill = 'rgba(255, 255, 255, 0.1)'; // Slight fill to make it pop
+        nameText.style.stroke = colors[0];
+        nameText.style.strokeWidth = '3px'; // Thicker stroke
+        nameText.style.filter = `drop-shadow(0 0 20px ${colors[1]})`;
+        
+        textGroup.appendChild(nameText);
+        svgEl.appendChild(textGroup);
+
+        // Simple animation for the name stroke
+        animate('.vault-glowing-name', {
+          opacity: [0.3, 1, 0.3],
           duration: 4000,
           ease: 'inOut(2)',
-          delay: i * 300,
-          onComplete: () => {
-            // After drawing, animate in reverse for continuous flow
-            animate(`.motion-path-${i}`, {
-              strokeDashoffset: [0, -pathLength],
-              duration: 10000 + Math.random() * 5000,
-              ease: 'linear',
-              loop: true
-            });
-          }
+          loop: true,
         });
       }
 
-      // Create floating nodes at intersections
-      const nodeCount = pathCount * 2;
-      for (let i = 0; i < nodeCount; i++) {
-        const node = document.createElement('div');
-        node.setAttribute('class', `node-${i}`);
-        node.style.position = 'absolute';
-        node.style.width = '4px';
-        node.style.height = '4px';
-        node.style.borderRadius = '50%';
-        node.style.backgroundColor = colors[i % colors.length];
-        node.style.boxShadow = `0 0 10px ${colors[i % colors.length]}`;
-        node.style.left = `${Math.random() * width}px`;
-        node.style.top = `${Math.random() * height}px`;
-        node.style.pointerEvents = 'none';
-        node.style.zIndex = '3';
-        container.appendChild(node);
-
-        // Pulse animation for nodes
-        animate(`.node-${i}`, {
-          scale: [1, 2, 1],
-          opacity: [0.3, 0.8, 0.3],
-          duration: 2000 + Math.random() * 1000,
-          ease: 'inOut(2)',
-          loop: true,
-          delay: i * 150
-        });
-
-        // Floating animation
-        animate(`.node-${i}`, {
-          translateX: [
-            { to: (Math.random() - 0.5) * 100, duration: 3000 },
-            { to: 0, duration: 3000 }
-          ],
-          translateY: [
-            { to: (Math.random() - 0.5) * 100, duration: 3000 },
-            { to: 0, duration: 3000 }
-          ],
-          ease: 'inOut(2)',
-          loop: true,
-          delay: i * 200
-        });
-      }
     });
 
-    // Cleanup function
     return () => {
-      // Properly cleanup all anime.js instances declared inside the scope
-      if (scopeRef.current) {
-        scopeRef.current.revert();
-      }
+      if (scopeRef.current) scopeRef.current.revert();
     };
-  }, [theme, pathCount]);
+  }, [theme, pathCount, partnerName]);
 
   return (
     <div 
